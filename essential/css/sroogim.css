@@ -44,11 +44,6 @@
 
 /*#region Main Screen*/
 
-#mainScreen, #mainScreen [role="main"]
-{
-    overflow-y:hidden !important;
-}
-
 /*#region BG and Logo*/
 
 #mainScreen
@@ -122,13 +117,13 @@
         border: none;
         color: #fff;
         text-shadow: none;
-        margin-top: 7%;
+        margin-top: 6%;
         font-weight: normal;
     }
 
 #registerBtns
 {
-    margin-top: 8%;
+    margin-top: 6%;
 }
 
     #registerBtns .ui-btn
