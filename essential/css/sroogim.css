@@ -1,0 +1,185 @@
+﻿/*
+    Sroogim Css File
+    V 1.0
+    (C) 2014 Picsize - Be Exlusive
+*/
+
+/*#region General*/
+
+*
+{
+    direction: rtl;
+    text-align: right;
+}
+
+.advertisement
+{
+    width:100%;
+    height:45px;
+    background:#00F;
+}
+
+/*#endregion*/
+
+/*#region jQuery*/
+
+.ui-block-a, .ui-block-b, .ui-block-c, .ui-block-d, .ui-block-e
+{
+    float: right;
+}
+
+[data-role="footer"]
+{
+    background-color:transparent !important;
+    border:none;
+}
+
+/*#endregion*/
+
+/*#region Main Screen*/
+
+#mainScreen
+{
+    background: url(../images/Main_Screen/BG.png) no-repeat;
+    background-size: 100%;
+}
+
+#logo
+{
+    width: 80%;
+    margin: 6% auto;
+}
+
+    #logo img
+    {
+        width: 100%;
+    }
+
+#loginForm
+{
+    width: 80%;
+    margin: 0 auto;
+}
+
+    #loginForm form div.ui-input-text
+    {
+        background-color: transparent;
+        border: none;
+    }
+
+        #loginForm form div.ui-input-text input
+        {
+            text-align: right;
+            border: 1px solid #e7e7e7;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -moz-background-clip: padding;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            background-color: #fff;
+            -moz-box-shadow: inset 0 0 0 1px #dcdcdc;
+            -webkit-box-shadow: inset 0 0 0 1px #dcdcdc;
+            box-shadow: inset 0 0 0 1px #dcdcdc;
+            margin: 4% 0;
+        }
+
+            #loginForm form div.ui-input-text input:not([type="submit"])
+            {
+                font-size: 93%;
+                padding: 3%;
+            }
+
+    #loginForm form div.ui-btn
+    {
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        background-color: #ff9561;
+        -moz-box-shadow: 0 3px 0 #e9763d;
+        -webkit-box-shadow: 0 3px 0 #e9763d;
+        box-shadow: 0 3px 0 #e9763d;
+        border: none;
+        color: #fff;
+        text-shadow: none;
+        margin-top: 7%;
+        font-weight: normal;
+    }
+
+    #loginForm #registerBtns
+    {
+        margin-top: 5%;
+    }
+
+#registerFromApp, #registerFromFacebook
+{
+    max-width:98%;
+}
+
+#registerFromFacebook
+{
+    float:left;
+}
+
+#loginForm #registerBtns .ui-grid-solo label
+{
+    color:#fff;
+    text-shadow:none;
+    font-size:80%;
+    float:left;
+    margin-top:2%;
+    text-decoration:underline;
+}
+
+#promoteImage
+{
+    text-align: center;
+}
+
+    #promoteImage img
+    {
+        width: 50%;
+    }
+
+#credits label
+{
+    color: #fff;
+    text-shadow: none;
+    text-align: center;
+    font-size: 80%;
+}
+
+/*#endregion*/
+
+/*#region Media Queries*/
+
+/*galaxy 3*/
+@media screen and (device-aspect-ratio: 9/16)
+{
+}
+
+/*iPhone 3g/3gs*/
+@media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)
+{
+}
+
+/*iPhone 4/4s --- screen and (device-height: 480px), */
+@media screen and (device-aspect-ratio: 2/3), screen and (width: 960px) and (height: 640px), screen and (aspect-ratio: 320/568) and (device-aspect-ratio: 320/568)
+{
+}
+
+/*iPhone 5 retina display --- , screen and (device-height: 568px)*/
+@media screen and (device-aspect-ratio: 40/71)
+{
+}
+
+/*samsung galaxy s1 + s2*/
+@media screen and (device-aspect-ratio: 3/5)
+{
+}
+
+/*#endregion*/
+
