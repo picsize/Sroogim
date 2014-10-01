@@ -44,9 +44,9 @@
 
 /*#region Main Screen*/
 
-#mainScreen [role="main"]
+#mainScreen, #mainScreen [role="main"]
 {
-    overflow-y:hidden;
+    overflow-y:hidden !important;
 }
 
 /*#region BG and Logo*/
@@ -179,7 +179,6 @@
 #promoteImage
 {
     text-align: center;
-    padding-top: 1%;
 }
 
     #promoteImage img
