@@ -10,13 +10,14 @@
 {
     direction: rtl;
     text-align: right;
+    font-family: 'sroogim' !important;
 }
 
 .advertisement
 {
-    width:100%;
-    height:45px;
-    background:#00F;
+    width: 100%;
+    height: 45px;
+    background: #ad5860;
 }
 
 /*#endregion*/
@@ -30,13 +31,20 @@
 
 [data-role="footer"]
 {
-    background-color:transparent !important;
-    border:none;
+    background-color: transparent !important;
+    border: none;
+}
+
+.ui-content
+{
+    padding: 0;
 }
 
 /*#endregion*/
 
 /*#region Main Screen*/
+
+/*#region BG and Logo*/
 
 #mainScreen
 {
@@ -47,7 +55,7 @@
 #logo
 {
     width: 80%;
-    margin: 6% auto;
+    margin: 8% auto;
 }
 
     #logo img
@@ -55,9 +63,13 @@
         width: 100%;
     }
 
+/*#endregion*/
+
+/*#region Login Form*/
+
 #loginForm
 {
-    width: 80%;
+    width: 84%;
     margin: 0 auto;
 }
 
@@ -71,9 +83,9 @@
         {
             text-align: right;
             border: 1px solid #e7e7e7;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
-            border-radius: 3px;
+            -moz-border-radius: 1px;
+            -webkit-border-radius: 1px;
+            border-radius: 1px;
             -moz-background-clip: padding;
             -webkit-background-clip: padding-box;
             background-clip: padding-box;
@@ -86,15 +98,15 @@
 
             #loginForm form div.ui-input-text input:not([type="submit"])
             {
-                font-size: 93%;
+                font-size: 84%;
                 padding: 3%;
             }
 
     #loginForm form div.ui-btn
     {
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        border-radius: 5px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
         -moz-background-clip: padding;
         -webkit-background-clip: padding-box;
         background-clip: padding-box;
@@ -109,39 +121,65 @@
         font-weight: normal;
     }
 
-    #loginForm #registerBtns
+#registerBtns
+{
+    margin-top: 8%;
+}
+
+    #registerBtns .ui-btn
     {
-        margin-top: 5%;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        background: #3b5999 url(../images/Main_Screen/F.png) no-repeat;
+        background-size: contain;
+        background-position: 100% 100%;
+        -moz-box-shadow: 0 3px 0 #163881;
+        -webkit-box-shadow: 0 3px 0 #163881;
+        box-shadow: 0 3px 0 #163881;
+        border: none;
+        color: #fff;
+        text-shadow: none;
+        font-weight: normal;
     }
 
-#registerFromApp, #registerFromFacebook
-{
-    max-width:98%;
-}
-
-#registerFromFacebook
-{
-    float:left;
-}
 
 #loginForm #registerBtns .ui-grid-solo label
 {
-    color:#fff;
-    text-shadow:none;
-    font-size:80%;
-    float:left;
-    margin-top:2%;
-    text-decoration:underline;
+    color: #fff;
+    text-shadow: none;
+    font-size: 80%;
+    margin-top: 2%;
+    text-align:center;
 }
+
+    #loginForm #registerBtns .ui-grid-solo label#registerFromApp span
+    {
+        text-decoration: underline;
+    }
+
+#loginForm #registerBtns .ui-grid-solo label:not(#registerFromApp)
+{
+    float: left;
+    text-decoration: underline;
+}
+
+/*#endregion*/
+
+/*#region Promote and Footer*/
 
 #promoteImage
 {
     text-align: center;
+    padding-top: 5%;
 }
 
     #promoteImage img
     {
-        width: 50%;
+        width: 55%;
     }
 
 #credits label
@@ -151,6 +189,8 @@
     text-align: center;
     font-size: 80%;
 }
+
+/*#endregion*/
 
 /*#endregion*/
 

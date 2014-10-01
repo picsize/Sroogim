@@ -9,6 +9,7 @@
     <link href="essential/jQuery/sroogim.min.css" rel="stylesheet" />
     <link href="essential/jQuery/jquery.mobile.icons.min.css" rel="stylesheet" />
     <link href="essential/jQuery/jquery.mobile.structure-1.4.3.min.css" rel="stylesheet" />
+    <link href="essential/css/font.css" rel="stylesheet" />
     <link href="essential/css/sroogim.css" rel="stylesheet" />
     <!-- Phonegap -->
     <!-- Javascript -->
@@ -25,15 +26,13 @@
                 <form>
                     <input type="email" placeholder="דואר אלקטרוני" />
                     <input type="password" placeholder="סיסמה" />
-                    <input type="submit" value="כניסה" />
+                    <input type="submit" data-mini="true" value="כניסה" />
                 </form>
                 <div id="registerBtns">
-                    <div class="ui-grid-a">
+                    <input type="button" id="facebookLogin" data-role="button" data-mini="true" value="התחברות באמצעות פייסבוק" />
+                    <div class="ui-grid-solo">
                         <div class="ui-block-a">
-                            <img id="registerFromApp" src="essential/images/Main_Screen/Register.png"/>
-                        </div>
-                        <div class="ui-block-b">
-                            <img id="registerFromFacebook" src="essential/images/Main_Screen/facebook.png"/>
+                            <label id="registerFromApp">עדיין לא נרשמת? <span>הרשם</span></label>
                         </div>
                     </div>
                     <div class="ui-grid-solo">

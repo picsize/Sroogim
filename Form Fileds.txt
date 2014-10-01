@@ -1,1 +1,0 @@
-width: 250px;height: 55px;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;-moz-background-clip: padding;-webkit-background-clip: padding-box;background-clip: padding-box;background-color: #3b5997;-moz-box-shadow: 0 3px 0 #163881;-webkit-box-shadow: 0 3px 0 #163881;box-shadow: 0 3px 0 #163881;
