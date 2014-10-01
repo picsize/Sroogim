@@ -40,7 +40,7 @@
     }, false);
 
     //
-    $(document).on('touch', '#facebookLogin', function () {
+    $(document).on('click', '#facebookLogin', function () {
         alert('enter to facebookLogin event');
         loginFromFacebook();
     });
