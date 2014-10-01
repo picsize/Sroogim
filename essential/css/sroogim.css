@@ -44,6 +44,11 @@
 
 /*#region Main Screen*/
 
+#mainScreen [role="main"]
+{
+    overflow-y:hidden;
+}
+
 /*#region BG and Logo*/
 
 #mainScreen
