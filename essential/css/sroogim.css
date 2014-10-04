@@ -1,7 +1,7 @@
 ﻿/*
     Sroogim Css File
     V 1.0
-    (C) 2014 Picsize - Be Exlusive
+    (C) 2014 Picsize - Be Exclusive
 */
 
 /*#region General*/
@@ -11,6 +11,14 @@
     direction: rtl;
     text-align: right;
     font-family: 'sroogim' !important;
+}
+
+footer
+{
+    width:100%;
+    position:fixed;
+    bottom:0;
+    right:0;
 }
 
 .advertisement
@@ -27,12 +35,6 @@
 .ui-block-a, .ui-block-b, .ui-block-c, .ui-block-d, .ui-block-e
 {
     float: right;
-}
-
-[data-role="footer"]
-{
-    background-color: transparent !important;
-    border: none;
 }
 
 .ui-content
