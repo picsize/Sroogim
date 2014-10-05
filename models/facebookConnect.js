@@ -25,7 +25,7 @@
                     count--;
 
                     $.mobile.loading('show', {
-                        text: 'טוען...' + count,
+                        text: 'טוען... ' + count,
                         textVisible: true,
                         theme: 'a',
                         textonly: false
@@ -82,9 +82,10 @@ function getLoginStatus() {
     });
 }
 
-//login to chuz via facebook
+//login to sroogim via facebook
 function loginToSroogim(response) {
-    navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
+    //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
+    alert('hello' + response.first_name + ' ' + response.last_name);
 }
 
 //trigger to facebookLogin()
@@ -111,7 +112,7 @@ function facebookLogin() {
             FB.api('/me', function (response) {
                 //console.log('Good to see you, ' + response.name + '.');
                 if (response && !response.error) {
-                    loginToChuz(response);
+                    loginToSroogim(response);
                 }
             });
         } else {
@@ -120,4 +121,13 @@ function facebookLogin() {
     }, //{ scope: 'email, user_birthday, user_location' });
     { scope: 'user_location' });
 }
+
+//if user alredy log in
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            loginToSroogim(a_response);
+        }
+    });
+});
 
