@@ -19,9 +19,12 @@
     <!-- Javascript -->
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
-    <script src="models/facebookConnect.js"></script>
+    <script src="models/navigation.js"></script>
+    <script src="models/loginAndRegister.js"></script>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <div id="loadImages"></div>
     <!-- Main Screen -->
     <div id="mainScreen" data-role="page" data-theme="a">
         <div role="main" class="ui-content">
@@ -59,5 +62,24 @@
             <div class="advertisement"></div>
         </footer>
     </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" data-role="page" data-theme="b">
+        <header>
+            <div class="backBtn">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </div>
+            <div>
+                <h1>sroogim</h1>
+            </div>
+            <div></div>
+        </header>
+        <div role="main" class="ui-content">
+        </div>
+        <footer>
+            <div class="advertisement"></div>
+        </footer>
+    </div>
+
 </body>
 </html>

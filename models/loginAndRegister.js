@@ -1,4 +1,10 @@
-﻿$(function () {
+﻿/*
+    Sroogim login and register js File
+    V 1.0
+    (C) 2014 Picsize - Be Exclusive
+*/
+
+$(function () {
     checkFacebookPhonegap();
 
     //set device ready event
@@ -39,10 +45,15 @@
 
     }, false);
 
-    //
+    //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {
-        alert('enter to facebookLogin event');
+        //alert('enter to facebookLogin event');
         loginFromFacebook();
+    });
+
+    $(document).on('click', '#registerFromApp span', function () {
+        backBtn = 'index.html';
+        $.mobile.changePage('#registerForm', {transition: 'flip'});
     });
 });
 
@@ -85,7 +96,7 @@ function getLoginStatus() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
-    alert('hello' + response.first_name + ' ' + response.last_name);
+    //alert('hello ' + response.first_name + ' ' + response.last_name);
 }
 
 //trigger to facebookLogin()

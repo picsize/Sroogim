@@ -3,3 +3,8 @@
 	font-family: sroogim;
 	src: url('../Font/segoeui_2.ttf') format('truetype');
 }
+
+@font-face {
+	font-family: sroogimHeader;
+	src: url('../Font/seguibl_0.ttf') format('truetype');
+}
