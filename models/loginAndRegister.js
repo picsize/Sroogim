@@ -51,11 +51,28 @@ $(function () {
         loginFromFacebook();
     });
 
-    $(document).on('click', '#registerFromApp span', function () {
-        backBtn = 'index.html';
-        $.mobile.changePage('#registerForm', {transition: 'flip'});
+    //upload cover img
+    $(document).on('click', '#uploadCoverImg', function () {
+        $('#coverImgFile').click();
+    })
+
+    //upload profile img
+    $(document).on('click', '#uploadProfileImg', function () {
+        $('#profileImgFile').click();
+    })
+
+    //display cover image
+    $('#coverImgFile').change(function () {
+        showImgPreview(this, 'cover');
+    });
+
+    //display profile image
+    $('#profileImgFile').change(function () {
+        showImgPreview(this, 'profile');
     });
 });
+
+//#region Facebook Login
 
 function checkFacebookPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
@@ -134,11 +151,38 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
+//FB.Event.subscribe('auth.login', function (response) {
+//    FB.api('/me', function (a_response) {
+//        if (a_response && !a_response.error) {
+//            loginToSroogim(a_response);
+//        }
+//    });
+//});
+
+//#endregion
+
+//#region Register Form
+
+function showImgPreview(input, type) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            if (type === 'cover') {
+                $('#uploadCoverImg').attr('src', e.target.result)
+            }
+            else {
+                $('#uploadProfileImg').css('background-image', 'url(' + e.target.result + ')');
+            }
+            
         }
-    });
-});
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+//#endregion
+
+
+
 

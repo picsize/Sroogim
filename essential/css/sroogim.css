@@ -33,32 +33,32 @@ header
 
         header div:first-child, header div:last-child
         {
-            width:10%;
-            text-align:center;
-            margin-top:3.5%;
+            width: 10%;
+            text-align: center;
+            margin-top: 3.5%;
         }
 
-        header div:first-child img, header div:last-child img
-        {
-            width: 33%;
-        }
+            header div:first-child img, header div:last-child img
+            {
+                width: 33%;
+            }
 
         header div:nth-child(2)
         {
-            width:80%;
+            width: 80%;
         }
 
-        header div:nth-child(2) h1
-        {
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: none;
-            font-family: 'sroogimHeader' !important;
-            font-weight: normal;
-            letter-spacing: 3px;
-            text-align:center;
-            font-size:140%;
-        }
+            header div:nth-child(2) h1
+            {
+                text-transform: uppercase;
+                color: #fff;
+                text-shadow: none;
+                font-family: 'sroogimHeader' !important;
+                font-weight: normal;
+                letter-spacing: 3px;
+                text-align: center;
+                font-size: 140%;
+            }
 
 footer
 {
@@ -261,6 +261,45 @@ h1, h2, h3, h4, h5, h6
 }
 
 /*#endregion*/
+
+/*#endregion*/
+
+/*#region Register*/
+
+#registerForm [role="main"] div:nth-child(2)
+{
+    width: 34%;
+    margin: 0 auto;
+    position: relative;
+    bottom: 4em;
+}
+
+#uploadCoverImg
+{
+    width: 100%;
+    margin-top: 50px;
+    outline: none;
+    height: 150px;
+    max-height: 169px;
+}
+
+#uploadProfileImg
+{
+    width: 100px;
+    height: 100px;
+    outline: none;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 7px solid #fff;
+    background-image: url('../images/Register/Profile.jpg');
+    background-size: cover;
+}
+
+#coverImgFile, #profileImgFile
+{
+    display: none;
+}
 
 /*#endregion*/
 
