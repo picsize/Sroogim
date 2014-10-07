@@ -21,7 +21,7 @@ header
     right: 0;
     height: 50px;
     width: 100%;
-    z-index:9;
+    z-index: 9;
 }
 
     header div
@@ -85,6 +85,11 @@ h1, h2, h3, h4, h5, h6
 #loadImages
 {
     display: none;
+}
+
+.clear
+{
+    height: 5em;
 }
 
 /*#endregion*/
@@ -355,8 +360,8 @@ h1, h2, h3, h4, h5, h6
 
 #registerForm [role="main"] form .ui-btn
 {
-width: 100px;
-height: 20px;
+    width: 100px;
+    height: 20px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -372,8 +377,8 @@ height: 20px;
     text-shadow: none;
     margin-top: 6%;
     font-weight: normal;
-    float:left;
-    margin-left:6%;
+    float: left;
+    margin-left: 6%;
 }
 
     #registerForm [role="main"] form .ui-btn:active
@@ -394,19 +399,11 @@ height: 20px;
 /*iPhone 3g/3gs*/
 @media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)
 {
-    .clear
-    {
-        height:3em;
-    }
 }
 
 /*iPhone 4/4s --- screen and (device-height: 480px), */
 @media screen and (device-aspect-ratio: 2/3), screen and (width: 960px) and (height: 640px), screen and (aspect-ratio: 320/568) and (device-aspect-ratio: 320/568)
 {
-    .clear
-    {
-        height:5em;
-    }
 }
 
 /*iPhone 5 retina display --- , screen and (device-height: 568px)*/
