@@ -394,6 +394,10 @@ height: 20px;
 /*iPhone 3g/3gs*/
 @media screen and (device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)
 {
+    .clear
+    {
+        height:3em;
+    }
 }
 
 /*iPhone 4/4s --- screen and (device-height: 480px), */
