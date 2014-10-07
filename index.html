@@ -33,8 +33,8 @@
             </div>
             <div id="loginForm">
                 <form>
-                    <input type="email" placeholder="דואר אלקטרוני" required />
-                    <input type="password" placeholder="סיסמה" required />
+                    <input id="loginEmail" type="email" placeholder="דואר אלקטרוני" required />
+                    <input id="loginPassword" type="password" placeholder="סיסמה" required />
                     <input type="submit" data-mini="true" value="כניסה" />
                 </form>
                 <div id="registerBtns">
@@ -75,16 +75,40 @@
             <div></div>
         </header>
         <div role="main" class="ui-content">
-            <div>
-                <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
-                <input id="coverImgFile" type="file" data-role="none" />
-            </div>
-            <div>
-                <div id="uploadProfileImg" class="circular">
+            <form>
+                <div>
+                    <!-- Cover Image -->
+                    <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
+                    <input id="coverImgFile" type="file" data-role="none" />
                 </div>
-                <input id="profileImgFile" type="file" data-role="none" />
-            </div>
+                <div>
+                    <!-- Profile Image -->
+                    <div id="uploadProfileImg" class="circular">
+                    </div>
+                    <input id="profileImgFile" type="file" data-role="none" />
+                </div>
+                <div id="userDetails">
+                    <!-- Full Name -->
+                    <div class="inputContainer">
+                        <label for="userFullName">שם מלא</label>
+                        <input id="userFullName" name="userFullName" type="text" data-role="none" />
+                    </div>
+                    <!-- Email -->
+                    <div class="inputContainer">
+                        <label for="userEmail">דואר אלקטרוני</label>
+                        <input id="userEmail" name="userEmail" type="email" data-role="none" />
+                    </div>
+                    <!-- Password -->
+                    <div class="inputContainer">
+                        <label for="userPassword">סיסמה</label>
+                        <input id="userPassword" name="userPassword" type="password" data-role="none" />
+                    </div>
+                    <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
+                </div>
+                <input type="submit" value="הרשמה" />
+            </form>
         </div>
+        <div class="clear"></div>
         <footer>
             <div class="advertisement"></div>
         </footer>
