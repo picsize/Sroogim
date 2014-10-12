@@ -165,23 +165,23 @@ function facebookLogin() {
 
 //#region Register Form
 
-function showImgPreview(input, type) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+//function showImgPreview(input, type) {
+//    if (input.files && input.files[0]) {
+//        var reader = new FileReader();
 
-        reader.onload = function (e) {
-            if (type === 'cover') {
-                $('#uploadCoverImg').attr('src', e.target.result)
-            }
-            else {
-                $('#uploadProfileImg').css('background-image', 'url(' + e.target.result + ')');
-            }
+//        reader.onload = function (e) {
+//            if (type === 'cover') {
+//                $('#uploadCoverImg').attr('src', e.target.result)
+//            }
+//            else {
+//                $('#uploadProfileImg').css('background-image', 'url(' + e.target.result + ')');
+//            }
 
-        }
+//        }
 
-        reader.readAsDataURL(input.files[0]);
-    }
-}
+//        reader.readAsDataURL(input.files[0]);
+//    }
+//}
 
 function showImgPreview(type) {
     if (type === 'cover') {
