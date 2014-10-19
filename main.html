@@ -20,8 +20,13 @@
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
     <script src="essential/jQuery/jquery.marquee.js"></script>
-    <script src="models/settings.js"></script>
     <script src="models/uploadImages.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-role=panel]').panel().enhanceWithin();
+            $('#newsContainer p').marquee();
+        });
+    </script>
 </head>
 <body>
     <div id="fb-root"></div>
