@@ -79,38 +79,40 @@
         </div>
         <!-- main -->
         <div role="main" class="ui-content">
-            <form>
-                <div>
-                    <!-- Cover Image -->
-                    <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
-                    <input id="coverImgFile" type="file" data-role="none" />
-                </div>
-                <div>
-                    <!-- Profile Image -->
-                    <div id="uploadProfileImg" class="circular">
+            <div class="wrapper">
+                <form>
+                    <div>
+                        <!-- Cover Image -->
+                        <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
+                        <input id="coverImgFile" type="file" data-role="none" />
                     </div>
-                    <input id="profileImgFile" type="file" data-role="none" />
-                </div>
-                <div id="userDetails">
-                    <!-- Full Name -->
-                    <div class="inputContainer">
-                        <label for="userFullName">שם מלא</label>
-                        <input id="userFullName" name="userFullName" type="text" data-role="none" />
+                    <div>
+                        <!-- Profile Image -->
+                        <div id="uploadProfileImg" class="circular">
+                        </div>
+                        <input id="profileImgFile" type="file" data-role="none" />
                     </div>
-                    <!-- Email -->
-                    <div class="inputContainer">
-                        <label for="userEmail">דואר אלקטרוני</label>
-                        <input id="userEmail" name="userEmail" type="email" data-role="none" />
+                    <div id="userDetails">
+                        <!-- Full Name -->
+                        <div class="inputContainer">
+                            <label for="userFullName">שם מלא</label>
+                            <input id="userFullName" name="userFullName" type="text" data-role="none" />
+                        </div>
+                        <!-- Email -->
+                        <div class="inputContainer">
+                            <label for="userEmail">דואר אלקטרוני</label>
+                            <input id="userEmail" name="userEmail" type="email" data-role="none" />
+                        </div>
+                        <!-- Password -->
+                        <div class="inputContainer">
+                            <label for="userPassword">סיסמה</label>
+                            <input id="userPassword" name="userPassword" type="password" data-role="none" />
+                        </div>
+                        <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
                     </div>
-                    <!-- Password -->
-                    <div class="inputContainer">
-                        <label for="userPassword">סיסמה</label>
-                        <input id="userPassword" name="userPassword" type="password" data-role="none" />
-                    </div>
-                    <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
-                </div>
-                <input type="submit" value="הרשמה" />
-            </form>
+                    <input type="submit" value="הרשמה" />
+                </form>
+            </div>
         </div>
         <div class="clear"></div>
         <!-- footer -->

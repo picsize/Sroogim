@@ -31,6 +31,18 @@ h1, h2, h3, h4, h5, h6
     height: 5em;
 }
 
+.wrapper
+{
+    height:80px !important;
+    max-height:80px !important;
+    min-height:80px !important;
+    width:100%;
+    max-width:100%;
+    min-width:100%;
+    overflow-y:scroll !important;
+    overflow-x:hidden !important;
+}
+
 /*#endregion*/
 
 /*#region Header*/
@@ -119,16 +131,7 @@ h1, h2, h3, h4, h5, h6
 
 [data-role="page"]
 {
-    /*height: 100% !important;
-    max-height: 100% !important;
-    min-height: 100% !important;
-    overflow: hidden !important;*/
-}
-
-[role="main"].ui-content
-{
-    height: 99% !important;
-    overflow-y: auto !important;
+    overflow:hidden !important;
 }
 
 /*#endregion*/
