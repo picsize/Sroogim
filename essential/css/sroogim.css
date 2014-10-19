@@ -119,16 +119,16 @@ h1, h2, h3, h4, h5, h6
 
 [data-role="page"]
 {
-    height: 100% !important;
+    /*height: 100% !important;
     max-height: 100% !important;
     min-height: 100% !important;
-    overflow: hidden !important;
+    overflow: hidden !important;*/
 }
 
 [role="main"].ui-content
 {
     height: 99% !important;
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
 }
 
 /*#endregion*/
