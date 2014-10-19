@@ -31,7 +31,7 @@ $(function () {
                     count--;
 
                     $.mobile.loading('show', {
-                        text: 'טוען... ' + count,
+                        text: count,
                         textVisible: true,
                         theme: 'a',
                         textonly: false
@@ -116,6 +116,7 @@ function getLoginStatus() {
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name);
+    $.mobile.changePage('main.html');
 }
 
 //trigger to facebookLogin()
@@ -153,66 +154,17 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-//FB.Event.subscribe('auth.login', function (response) {
-//    FB.api('/me', function (a_response) {
-//        if (a_response && !a_response.error) {
-//            loginToSroogim(a_response);
-//        }
-//    });
-//});
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            loginToSroogim(a_response);
+        }
+    });
+});
 
 //#endregion
 
-//#region Register Form
 
-//function showImgPreview(input, type) {
-//    if (input.files && input.files[0]) {
-//        var reader = new FileReader();
-
-//        reader.onload = function (e) {
-//            if (type === 'cover') {
-//                $('#uploadCoverImg').attr('src', e.target.result)
-//            }
-//            else {
-//                $('#uploadProfileImg').css('background-image', 'url(' + e.target.result + ')');
-//            }
-
-//        }
-
-//        reader.readAsDataURL(input.files[0]);
-//    }
-//}
-
-function showImgPreview(type) {
-    if (type === 'cover') {
-        navigator.camera.getPicture(showCover, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-    }
-    else {
-        navigator.camera.getPicture(showProfile, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-    }
-}
-
-function showCover(imageURI) {
-    $('#uploadCoverImg').attr('src', imageURI)
-}
-
-function showProfile(imageURI) {
-    $('#uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
-}
-
-function onFail(message) {
-    alert('Failed because: ' + message);
-}
-
-//#endregion
 
 
 
