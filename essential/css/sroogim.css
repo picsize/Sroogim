@@ -33,13 +33,13 @@ h1, h2, h3, h4, h5, h6
 
 .wrapper
 {
-    height:80px !important;
-    max-height:80px !important;
-    min-height:80px !important;
+    height:98% !important;
+    max-height:98% !important;
+    min-height:98% !important;
     width:100%;
     max-width:100%;
     min-width:100%;
-    overflow-y:scroll !important;
+    overflow-y:auto !important;
     overflow-x:hidden !important;
 }
 
