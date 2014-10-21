@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6
 
 body
 {
-    overflow-y:hidden !important;
+    overflow-y: hidden !important;
 }
 
 #loadImages
@@ -38,14 +38,25 @@ body
 
 .wrapper
 {
-    height:99% !important;
-    max-height:99% !important;
-    min-height:99% !important;
-    width:100%;
-    max-width:100%;
-    min-width:100%;
-    overflow-y:auto !important;
-    overflow-x:hidden !important;
+    height: 99% !important;
+    max-height: 99% !important;
+    min-height: 99% !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+.circular
+{
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border: 7px solid #fff;
+    background-image: url('../images/Register/Profile.jpg');
+    background-size: cover;
+    outline: none;
 }
 
 /*#endregion*/
@@ -57,10 +68,10 @@ body
     direction: rtl !important;
     background-color: #0d7b92 !important;
     border: none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
     [data-role="header"] .ui-btn
@@ -83,9 +94,8 @@ body
 
     [data-role="header"] .goBack img
     {
-        width: 58%;
-        max-width:58%;
-        min-width:58%;
+        width: 1em;
+        min-width: 58%;
         position: relative;
         bottom: 0.2em;
         left: 0.5em;
@@ -93,9 +103,8 @@ body
 
     [data-role="header"] .showPanel img
     {
-        width: 58%;
-        max-width:58%;
-        min-width:58%;
+        width: 2.4em;
+        min-width: 58%;
         position: relative;
         right: 1.5em;
     }
@@ -144,7 +153,7 @@ body
 
 [data-role="page"]
 {
-    overflow:hidden !important;
+    overflow: hidden !important;
 }
 
 /*#endregion*/
@@ -196,6 +205,7 @@ body
     #menuSidebar #sidebarCoverImg
     {
         height: 120px;
+        width:100%;
     }
 
     #menuSidebar #sidebarProfileImg
@@ -252,19 +262,19 @@ body
         border-bottom: 1px solid #878788;
         font-size: 82%;
         padding-right: 20%;
-        margin:0;
-        padding-top:5%;
+        margin: 0;
+        padding-top: 5%;
     }
 
-        #menuSidebar #panelLinks a.ui-btn:active
-        {
-            background-color:#0d7b92 !important;
-        }
+    #menuSidebar #panelLinks a.ui-btn:active
+    {
+        background-color: #0d7b92 !important;
+    }
 
-        #menuSidebar #panelLinks a.ui-btn-icon-right:after
-        {
-            margin-right: 5%;
-        }
+    #menuSidebar #panelLinks a.ui-btn-icon-right:after
+    {
+        margin-right: 5%;
+    }
 
     #menuSidebar section:last-child small
     {
@@ -466,13 +476,6 @@ body
 {
     width: 100px;
     height: 100px;
-    outline: none;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    border: 7px solid #fff;
-    background-image: url('../images/Register/Profile.jpg');
-    background-size: cover;
 }
 
 #coverImgFile, #profileImgFile
@@ -577,7 +580,7 @@ body
 
 #mainScreen .ui-content
 {
-    padding:23% 0 5% 0;
+    padding: 23% 0 5% 0;
 }
 
 /*#endregion*/
@@ -639,19 +642,19 @@ body
             margin: 0;
         }
 
-            #news #newsContainer div div a
-            {
-                color: #fff;
-                text-shadow: none;
-                font-size: 85%;
-                font-weight: normal;
-                text-decoration: none;
-            }
+        #news #newsContainer div div a
+        {
+            color: #fff;
+            text-shadow: none;
+            font-size: 85%;
+            font-weight: normal;
+            text-decoration: none;
+        }
 
-                #news #newsContainer div div a:after
-                {
-                    content: '... ';
-                }
+            #news #newsContainer div div a:after
+            {
+                content: '... ';
+            }
 
 
 /*#endregion*/

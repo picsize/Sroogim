@@ -5,7 +5,6 @@
 */
 
 $(function () {
-    checkFacebookPhonegap();
 
     //set device ready event
     document.addEventListener("deviceready", function () {
@@ -75,12 +74,6 @@ $(function () {
 });
 
 //#region Facebook Login
-
-function checkFacebookPhonegap() {
-    if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
-    if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-    if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-}
 
 function facebookDismissed() {
     //do nothing
@@ -154,13 +147,13 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
-        }
-    });
-});
+//FB.Event.subscribe('auth.login', function (response) {
+//    FB.api('/me', function (a_response) {
+//        if (a_response && !a_response.error) {
+//            loginToSroogim(a_response);
+//        }
+//    });
+//});
 
 //#endregion
 

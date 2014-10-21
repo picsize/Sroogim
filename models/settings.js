@@ -1,13 +1,23 @@
 ﻿$(function () {
+    checkPhonegap();
 
-    if ($('[data-role=panel]').lenght !== 0) {
-        $('[data-role=panel]').panel().enhanceWithin();
-    }
+    $('[data-role=panel]').panel().enhanceWithin();
+    $('#newsContainer p').marquee();
 
-    if ($('#newsContainer p').lenght !== 0) {
-        $('#newsContainer p').marquee();
-    }
+    //if ($('[data-role=panel]').lenght !== 0) {
+        
+    //}
+
+    //if ($('#newsContainer p').lenght !== 0) {
+       
+    //}
 });
+
+function checkPhonegap() {
+    if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
+    if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
+    if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+}
 
 
 //$(document).on('pagebeforeshow', '#registerForm', function (e, data) {
