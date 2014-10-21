@@ -4,7 +4,7 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-$(function () {
+(function () {
     checkFacebookPhonegap();
 
     //set device ready event
@@ -52,23 +52,24 @@ $(function () {
     });
 
     //upload cover img
-    $(document).on('click', '#uploadCoverImg', function () {
-        $('#coverImgFile').click();
+    $(document).on('click', '.uploadCoverImg', function () {
+        $(this).next('.coverImgFile').click();
+        //$('.coverImgFile').click();
     })
 
     //upload profile img
-    $(document).on('click', '#uploadProfileImg', function () {
-        $('#profileImgFile').click();
+    $(document).on('click', '.uploadProfileImg', function () {
+        $('.profileImgFile').click();
     })
 
     //display cover image
-    $('#coverImgFile').change(function () {
+    $('.coverImgFile').change(function () {
         //showImgPreview(this, 'cover');
         showImgPreview('cover');
     });
 
     //display profile image
-    $('#profileImgFile').change(function () {
+    $('.profileImgFile').change(function () {
         //showImgPreview(this, 'profile');
         showImgPreview('profile');
     });
