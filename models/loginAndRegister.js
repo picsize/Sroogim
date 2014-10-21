@@ -147,13 +147,13 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-//FB.Event.subscribe('auth.login', function (response) {
-//    FB.api('/me', function (a_response) {
-//        if (a_response && !a_response.error) {
-//            loginToSroogim(a_response);
-//        }
-//    });
-//});
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            loginToSroogim(a_response);
+        }
+    });
+});
 
 //#endregion
 
