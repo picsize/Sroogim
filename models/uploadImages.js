@@ -24,11 +24,11 @@ function showImgPreview(type) {
 }
 
 function showCover(imageURI) {
-    $('#uploadCoverImg').attr('src', imageURI)
+    $('.uploadCoverImg').attr('src', imageURI)
 }
 
 function showProfile(imageURI) {
-    $('#uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
+    $('.uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
 }
 
 function onFail(message) {
