@@ -19,6 +19,8 @@
     <!-- Javascript -->
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
+    <script src="essential/jQuery/jquery.marquee.js"></script>
+    <script src="models/settings.js"></script>
     <script src="models/loginAndRegister.js"></script>
     <script src="models/uploadImages.js"></script>
 </head>
@@ -26,7 +28,55 @@
     <div id="fb-root"></div>
     <div id="loadImages"></div>
 
-    <!-- Main Screen -->
+    <!-- Menu Sidebar -->
+    <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel" data-position-fixed="true">
+        <!-- Profile & Cover -->
+        <section>
+            <!-- Cover Image -->
+            <div>
+                <img class="uploadCoverImg" src="essential/images/Register/cover.png" />
+                <input class="coverImgFile" type="file" data-role="none" />
+            </div>
+            <!-- Profile Image -->
+            <div>
+                <div class="circular uploadProfileImg">
+                </div>
+                <input class="profileImgFile" type="file" data-role="none" />
+            </div>
+        </section>
+
+        <!-- Personal Info -->
+        <section>
+            <h4 id="userName">שם משתמש</h4>
+            <fieldset class="ui-grid-a">
+                <legend></legend>
+                <div class="ui-block-a">
+                    <button class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user">עדכן תמונת פרופיל</button>
+                </div>
+                <div class="ui-block-b">
+                    <button class="ui-btn ui-shadow ui-btn-icon-right ui-icon-action">עדכן תמונת נושא</button>
+                </div>
+            </fieldset>
+        </section>
+
+        <!-- Links -->
+        <section>
+            <div id="panelLinks">
+                <a href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details">פרטים אישיים</a>
+                <a href="#" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav">העדפות שלי</a>
+                <a href="#" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date">הוספת רעיון לדייט</a>
+                <a href="#" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present">הוספת רעיון למתנה</a>
+                <a href="#" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert">המומחים שלנו</a>
+            </div>
+        </section>
+
+        <!-- Version -->
+        <section>
+            <small>גרסת אלפא</small>
+        </section>
+    </div>
+
+    <!-- Intro Screen -->
     <div id="welcomeScreen" data-role="page" data-theme="a">
         <!-- main -->
         <div role="main" class="ui-content">
@@ -49,7 +99,7 @@
                     </div>
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
-                            <a href="main.html" rel="external">
+                            <a href="index.html#mainScreen">
                                 <label>דלג/י</label></a>
                         </div>
                     </div>
@@ -82,14 +132,14 @@
                 <form>
                     <div>
                         <!-- Cover Image -->
-                        <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
-                        <input id="coverImgFile" type="file" data-role="none" />
+                        <img class="uploadCoverImg" src="essential/images/Register/cover.png" />
+                        <input class="coverImgFile" type="file" data-role="none" />
                     </div>
                     <div>
                         <!-- Profile Image -->
-                        <div id="uploadProfileImg" class="circular">
+                        <div class="circular uploadProfileImg">
                         </div>
-                        <input id="profileImgFile" type="file" data-role="none" />
+                        <input class="profileImgFile" type="file" data-role="none" />
                     </div>
                     <div id="userDetails">
                         <!-- Full Name -->
@@ -109,8 +159,99 @@
                         </div>
                         <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
                     </div>
-                    <input type="submit" value="הרשמה" />
+                    <input type="submit" value="הרשמה" data-show="register"/>
+                    <input type="submit" value="שמירה" data-show="profile"/>
                 </form>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="mainScreen" data-role="page" data-theme="b">
+        <!-- header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div id="news">
+                <div id="newsContainer">
+                    <p data-direction="right" data-loop="infinite" data-scrollamount="1" data-width="100%" data-behavior="scroll">
+                        <a href="#">חדשה מס' 1</a>
+                        <a href="#">חדשה מס' 2</a>
+                        <a href="#">חדשה מס' 3</a>
+                        <a href="#">חדשה מס' 4</a>
+                        <a href="#">חדשה מס' 5</a>
+                        <a href="#">חדשה מס' 6</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- main -->
+        <div role="main" class="ui-content">
+            <div class="wrapper">
+                <!-- top 5 -->
+                <div id="top5">
+                    <img src="essential/images/Home/1.png" alt="" />
+                </div>
+                <!-- Dates -->
+                <div class="ideas" id="dates">
+                    <div class="ideasBox">
+                        <img src="essential/images/Home/dates.png" />
+                        <section>
+                            <h2>רעיונות לדייטים</h2>
+                            <p>
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            </p>
+                        </section>
+                    </div>
+                    <div class="buttons">
+                        <ul>
+                            <li>
+                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                            <li>
+                                <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
+                            <li>
+                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Presents -->
+                <div class="ideas" id="presents">
+                    <div class="ideasBox">
+                        <img src="essential/images/Home/presents.png" />
+                        <section>
+                            <h2>רעיונות למתנות</h2>
+                            <p>
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            </p>
+                        </section>
+                    </div>
+                    <div class="buttons">
+                        <ul>
+                            <li>
+                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                            <li>
+                                <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
+                            <li>
+                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="clear"></div>

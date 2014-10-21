@@ -116,7 +116,7 @@ function getLoginStatus() {
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name);
-    $.mobile.changePage('main.html');
+    $.mobile.changePage('index.html#mainScreen');
 }
 
 //trigger to facebookLogin()

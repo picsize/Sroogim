@@ -179,6 +179,102 @@ body
 
 /*#endregion*/
 
+/*#region Menu Sidebar*/
+
+#menuSidebar
+{
+    background-color: #3b393f;
+    height: 86.7% !important;
+    min-height: 86.7% !important;
+    margin-top: 11%;
+}
+
+    #menuSidebar .uploadCoverImg
+    {
+        height: 120px;
+    }
+
+    #menuSidebar .uploadProfileImg
+    {
+        width: 80px;
+        height: 80px;
+        margin: -17% auto;
+        z-index: 9;
+        position: relative;
+    }
+
+    #menuSidebar section:nth-child(2)
+    {
+        margin-top: 20%;
+    }
+
+    #menuSidebar section:nth-child(3), #menuSidebar section:last-child
+    {
+        margin-top: 5%;
+    }
+
+    #menuSidebar #userName
+    {
+        text-align: center;
+        color: #fff;
+        font-weight: normal;
+        text-shadow: none;
+        margin-bottom: 5%;
+    }
+
+    #menuSidebar .ui-block-a
+    {
+        background-color: #f13d6d;
+    }
+
+    #menuSidebar .ui-block-b
+    {
+        background-color: #b63c6b;
+    }
+
+    #menuSidebar [class*="ui-block"] button, #menuSidebar #panelLinks .ui-btn
+    {
+        background-color: transparent !important;
+        border: none;
+        color: #fff;
+        font-weight: normal;
+        font-size: 70%;
+    }
+
+    #menuSidebar #panelLinks .ui-btn
+    {
+        text-align: right;
+        text-indent: 6%;
+        border-bottom: 1px solid #878788;
+        font-size: 82%;
+        padding-right: 20%;
+        margin:0;
+        padding-top:5%;
+    }
+
+        #menuSidebar #panelLinks a.ui-btn:active
+        {
+            background-color:#0d7b92 !important;
+        }
+
+        #menuSidebar #panelLinks a.ui-btn-icon-right:after
+        {
+            margin-right: 5%;
+        }
+
+    #menuSidebar section:last-child small
+    {
+        padding: 0;
+        margin: 0;
+        color: #fff;
+        font: menu;
+        position: fixed;
+        bottom: 1%;
+        left: 1%;
+    }
+
+/*#endregion*/
+
 /*#region Welcome Screen*/
 
 /*#region BG and Logo*/
@@ -344,7 +440,7 @@ body
 
 /*#endregion*/
 
-/*#region Register*/
+/*#region Register + Profile*/
 
 #registerForm [role="main"] form div:nth-child(2):not(.inputContainer)
 {
@@ -354,7 +450,7 @@ body
     bottom: 4em;
 }
 
-#uploadCoverImg
+.uploadCoverImg
 {
     width: 100%;
     outline: none;
@@ -362,7 +458,7 @@ body
     max-height: 169px;
 }
 
-#uploadProfileImg
+.uploadProfileImg
 {
     width: 100px;
     height: 100px;
@@ -375,7 +471,7 @@ body
     background-size: cover;
 }
 
-#coverImgFile, #profileImgFile
+.coverImgFile, .profileImgFile
 {
     display: none;
 }
@@ -659,102 +755,6 @@ body
 }
 
 /*#endregion*/
-
-/*#endregion*/
-
-/*#region MenuSidebar*/
-
-#menuSidebar
-{
-    background-color: #3b393f;
-    height: 86.7% !important;
-    min-height: 86.7% !important;
-    margin-top: 11%;
-}
-
-    #menuSidebar #uploadCoverImg
-    {
-        height: 120px;
-    }
-
-    #menuSidebar #uploadProfileImg
-    {
-        width: 80px;
-        height: 80px;
-        margin: -17% auto;
-        z-index: 9;
-        position: relative;
-    }
-
-    #menuSidebar section:nth-child(2)
-    {
-        margin-top: 20%;
-    }
-
-    #menuSidebar section:nth-child(3), #menuSidebar section:last-child
-    {
-        margin-top: 5%;
-    }
-
-    #menuSidebar #userName
-    {
-        text-align: center;
-        color: #fff;
-        font-weight: normal;
-        text-shadow: none;
-        margin-bottom: 5%;
-    }
-
-    #menuSidebar .ui-block-a
-    {
-        background-color: #f13d6d;
-    }
-
-    #menuSidebar .ui-block-b
-    {
-        background-color: #b63c6b;
-    }
-
-    #menuSidebar [class*="ui-block"] button, #menuSidebar #panelLinks .ui-btn
-    {
-        background-color: transparent !important;
-        border: none;
-        color: #fff;
-        font-weight: normal;
-        font-size: 70%;
-    }
-
-    #menuSidebar #panelLinks .ui-btn
-    {
-        text-align: right;
-        text-indent: 6%;
-        border-bottom: 1px solid #878788;
-        font-size: 82%;
-        padding-right: 20%;
-        margin:0;
-        padding-top:5%;
-    }
-
-        #menuSidebar #panelLinks a.ui-btn:active
-        {
-            background-color:#0d7b92 !important;
-        }
-
-        #menuSidebar #panelLinks a.ui-btn-icon-right:after
-        {
-            margin-right: 5%;
-        }
-
-    #menuSidebar section:last-child p
-    {
-        padding: 0;
-        margin: 0;
-        color: #fff;
-        font: menu;
-        position: fixed;
-        bottom: 1%;
-        left: 1%;
-    }
 
 /*#endregion*/
 
