@@ -8,6 +8,7 @@ $(function () {
     //#region Register Form
 
     function showImgPreview(type) {
+        alert('showImgPreview function');
         if (type === 'cover') {
             navigator.camera.getPicture(showCover, onFail, {
                 quality: 50,
