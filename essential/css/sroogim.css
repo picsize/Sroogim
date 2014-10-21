@@ -84,6 +84,8 @@ body
     [data-role="header"] .goBack img
     {
         width: 58%;
+        max-width:58%;
+        min-width:58%;
         position: relative;
         bottom: 0.2em;
         left: 0.5em;
@@ -92,6 +94,8 @@ body
     [data-role="header"] .showPanel img
     {
         width: 58%;
+        max-width:58%;
+        min-width:58%;
         position: relative;
         right: 1.5em;
     }
@@ -189,12 +193,12 @@ body
     margin-top: 11%;
 }
 
-    #menuSidebar .uploadCoverImg
+    #menuSidebar #sidebarCoverImg
     {
         height: 120px;
     }
 
-    #menuSidebar .uploadProfileImg
+    #menuSidebar #sidebarProfileImg
     {
         width: 80px;
         height: 80px;
@@ -440,7 +444,7 @@ body
 
 /*#endregion*/
 
-/*#region Register + Profile*/
+/*#region Register*/
 
 #registerForm [role="main"] form div:nth-child(2):not(.inputContainer)
 {
@@ -450,7 +454,7 @@ body
     bottom: 4em;
 }
 
-.uploadCoverImg
+#uploadCoverImg
 {
     width: 100%;
     outline: none;
@@ -458,7 +462,7 @@ body
     max-height: 169px;
 }
 
-.uploadProfileImg
+#uploadProfileImg
 {
     width: 100px;
     height: 100px;
@@ -471,7 +475,7 @@ body
     background-size: cover;
 }
 
-.coverImgFile, .profileImgFile
+#coverImgFile, #profileImgFile
 {
     display: none;
 }
