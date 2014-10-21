@@ -53,13 +53,15 @@ $(function () {
     //upload cover img
     $(document).on('click', '#uploadCoverImg', function () {
         alert('click on cover image');
-        $('#coverImgFile').click();
+        //$('#coverImgFile').click();
+        showImgPreview('cover');
     })
 
     //upload profile img
     $(document).on('click', '#uploadProfileImg', function () {
         alert('click on profile image');
-        $('#profileImgFile').click();
+        //$('#profileImgFile').click();
+        showImgPreview('profile');
     })
 
     //display cover image
