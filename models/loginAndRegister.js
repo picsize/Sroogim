@@ -52,29 +52,14 @@ $(function () {
 
     //upload cover img
     $(document).on('click', '#uploadCoverImg', function () {
-        alert('click on cover image');
-        //$('#coverImgFile').click();
         showImgPreview('cover');
     })
 
     //upload profile img
     $(document).on('click', '#uploadProfileImg', function () {
-        alert('click on profile image');
-        //$('#profileImgFile').click();
         showImgPreview('profile');
     })
 
-    //display cover image
-    $('#coverImgFile').change(function () {
-        //showImgPreview(this, 'cover');
-        showImgPreview('cover');
-    });
-
-    //display profile image
-    $('#profileImgFile').change(function () {
-        //showImgPreview(this, 'profile');
-        showImgPreview('profile');
-    });
 });
 
 //#region Facebook Login
@@ -161,10 +146,9 @@ FB.Event.subscribe('auth.login', function (response) {
 
 //#endregion
 
-//#region Register Form
+//#region Register Form -> Upload Images
 
 function showImgPreview(type) {
-    alert('showImgPreview function');
     if (type === 'cover') {
         navigator.camera.getPicture(showCover, onFail, {
             quality: 50,
