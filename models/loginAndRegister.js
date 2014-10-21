@@ -4,7 +4,7 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-(function () {
+$(function () {
     checkFacebookPhonegap();
 
     //set device ready event
