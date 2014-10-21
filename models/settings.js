@@ -3,14 +3,6 @@
 
     $('[data-role=panel]').panel().enhanceWithin();
     $('#newsContainer p').marquee();
-
-    //if ($('[data-role=panel]').lenght !== 0) {
-        
-    //}
-
-    //if ($('#newsContainer p').lenght !== 0) {
-       
-    //}
 });
 
 function checkPhonegap() {
