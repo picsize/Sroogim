@@ -12,6 +12,8 @@
     <link href="essential/jQuery/jquery.mobile.structure-1.4.3.min.css" rel="stylesheet" />
     <link href="essential/css/font.css" rel="stylesheet" />
     <link href="essential/css/sroogim.css" rel="stylesheet" />
+</head>
+<body>
     <!-- Phonegap -->
     <script src="phonegap.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
@@ -22,9 +24,7 @@
     <script src="essential/jQuery/jquery.marquee.js"></script>
     <script src="models/settings.js"></script>
     <script src="models/loginAndRegister.js"></script>
-    <script src="models/uploadImages.js"></script>
-</head>
-<body>
+
     <div id="fb-root"></div>
     <div id="loadImages"></div>
 
@@ -156,7 +156,7 @@
                         </div>
                         <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
                     </div>
-                    <input type="submit" value="הרשמה" data-show="register"/>
+                    <input type="submit" value="הרשמה" data-show="register" />
                 </form>
             </div>
         </div>
@@ -193,65 +193,86 @@
         </div>
         <!-- main -->
         <div role="main" class="ui-content">
-            <div class="wrapper">
-                <!-- top 5 -->
-                <div id="top5">
-                    <img src="essential/images/Home/1.png" alt="" />
+            <!-- top 5 -->
+            <div id="top5">
+                <img src="essential/images/Home/1.png" alt="" />
+            </div>
+            <!-- Dates -->
+            <div class="ideas" id="dates">
+                <div class="ideasBox">
+                    <img src="essential/images/Home/dates.png" />
+                    <section>
+                        <h2>רעיונות לדייטים</h2>
+                        <p>
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                        </p>
+                    </section>
                 </div>
-                <!-- Dates -->
-                <div class="ideas" id="dates">
-                    <div class="ideasBox">
-                        <img src="essential/images/Home/dates.png" />
-                        <section>
-                            <h2>רעיונות לדייטים</h2>
-                            <p>
-                                טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            </p>
-                        </section>
-                    </div>
-                    <div class="buttons">
-                        <ul>
-                            <li>
-                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
-                            <li>
-                                <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
-                            <li>
-                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
-                        </ul>
-                    </div>
+                <div class="buttons">
+                    <ul>
+                        <li>
+                            <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                        <li>
+                            <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
+                        <li>
+                            <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                    </ul>
                 </div>
-                <!-- Presents -->
-                <div class="ideas" id="presents">
-                    <div class="ideasBox">
-                        <img src="essential/images/Home/presents.png" />
-                        <section>
-                            <h2>רעיונות למתנות</h2>
-                            <p>
-                                טקסט טקסט טקסט טקסט טקסט טקסט
+            </div>
+            <!-- Presents -->
+            <div class="ideas" id="presents">
+                <div class="ideasBox">
+                    <img src="essential/images/Home/presents.png" />
+                    <section>
+                        <h2>רעיונות למתנות</h2>
+                        <p>
                             טקסט טקסט טקסט טקסט טקסט טקסט
                             טקסט טקסט טקסט טקסט טקסט טקסט
                             טקסט טקסט טקסט טקסט טקסט טקסט
-                            </p>
-                        </section>
-                    </div>
-                    <div class="buttons">
-                        <ul>
-                            <li>
-                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
-                            <li>
-                                <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
-                            <li>
-                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
-                        </ul>
-                    </div>
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                        </p>
+                    </section>
+                </div>
+                <div class="buttons">
+                    <ul>
+                        <li>
+                            <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                        <li>
+                            <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
+                        <li>
+                            <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="clear"></div>
         <!-- footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!--Profile Page-->
+    <div id="profilePage" data-role="page" data-theme="b">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+        <!-- Main -->
+        <div role="main" class="ui-content">
+           <h3>עמוד פרופיל משתמש</h3>
+        </div>
+        <div class="clear"></div>
+        <!-- Footer -->
         <div data-role="footer">
             <div class="advertisement"></div>
         </div>

@@ -199,7 +199,7 @@ body
     background-color: #3b393f;
     height: 86.7% !important;
     min-height: 86.7% !important;
-    margin-top: 5%;
+    margin-top: 6%;
 }
 
     #menuSidebar #sidebarCoverImg
@@ -225,6 +225,11 @@ body
     #menuSidebar section:nth-child(3), #menuSidebar section:last-child
     {
         margin-top: 5%;
+    }
+
+    #menuSidebar section:last-child
+    {
+        text-align:left;
     }
 
     #menuSidebar #userName
@@ -282,9 +287,8 @@ body
         margin: 0;
         color: #fff;
         font: menu;
-        position: fixed;
-        bottom: 1%;
-        left: 1%;
+        line-height: 5em;
+        margin-left: 4%;
     }
 
 /*#endregion*/

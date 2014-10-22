@@ -46,7 +46,6 @@ $(function () {
 
     //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {
-        //alert('enter to facebookLogin event');
         loginFromFacebook();
     });
 
