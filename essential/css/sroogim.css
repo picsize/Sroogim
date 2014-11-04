@@ -38,14 +38,14 @@ body
 
 .wrapper
 {
-    height: 99% !important;
+    /*height: 99% !important;
     max-height: 99% !important;
     min-height: 99% !important;
     width: 100%;
     max-width: 100%;
     min-width: 100%;
     overflow-y: auto !important;
-    overflow-x: hidden !important;
+    overflow-x: hidden !important;*/
 }
 
 .circular
