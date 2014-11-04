@@ -145,38 +145,7 @@ FB.Event.subscribe('auth.login', function (response) {
 
 //#endregion
 
-//#region Register Form -> Upload Images
 
-function showImgPreview(type) {
-    if (type === 'cover') {
-        navigator.camera.getPicture(showCover, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-    }
-    else {
-        navigator.camera.getPicture(showProfile, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-    }
-}
-
-function showCover(imageURI) {
-    $('#uploadCoverImg').attr('src', imageURI)
-}
-
-function showProfile(imageURI) {
-    $('#uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
-}
-
-function onFail(message) {
-    alert('Failed because: ' + message);
-}
-
-//#endregion
 
 
 

@@ -59,6 +59,21 @@ body
     outline: none;
 }
 
+.title
+{
+    width: 100%;
+    display: block;
+    background-color: #e7e7e7;
+    padding: 2%;
+}
+
+    .title h2
+    {
+        text-align: center;
+        color: #5e5e5e;
+        font-size: 95%;
+    }
+
 /*#endregion*/
 
 /*#region Header*/
@@ -132,6 +147,28 @@ body
 
 /*#endregion*/
 
+/*#region Rating*/
+
+.rating
+{
+    unicode-bidi: bidi-override;
+    padding: 2% 5%;
+}
+
+    .rating > span:hover,
+    .rating > span:hover ~ span
+    {
+        content: url('../images/General/goldenStar.png');
+    }
+
+        .rating > span:hover:before,
+        .rating > span:hover ~ span:before
+        {
+            content: url('../images/General/goldenStar.png');
+        }
+
+/*#endregion*/
+
 /*#endregion*/
 
 /*#region jQuery*/
@@ -154,6 +191,11 @@ body
 [data-role="page"]
 {
     overflow: hidden !important;
+}
+
+.ui-block-a input[type="text"], .ui-block-b input[type="text"], .ui-block-c input[type="text"], .ui-block-d input[type="text"], .ui-block-e input[type="text"]
+{
+    text-align: right;
 }
 
 /*#endregion*/
@@ -197,15 +239,15 @@ body
 #menuSidebar
 {
     background-color: #3b393f;
-    height: 86.7% !important;
+    /*height: 86.7% !important;
     min-height: 86.7% !important;
-    margin-top: 6%;
+    margin-top: 6%;*/
 }
 
     #menuSidebar #sidebarCoverImg
     {
         height: 120px;
-        width:100%;
+        width: 100%;
     }
 
     #menuSidebar #sidebarProfileImg
@@ -229,7 +271,7 @@ body
 
     #menuSidebar section:last-child
     {
-        text-align:left;
+        text-align: left;
     }
 
     #menuSidebar #userName
@@ -766,6 +808,381 @@ body
 }
 
 /*#endregion*/
+
+/*#endregion*/
+
+/*#region Profile Image*/
+
+#profile_coverImg
+{
+    width: 100%;
+    outline: none;
+    height: 150px;
+    max-height: 169px;
+}
+
+#profile_profileImg
+{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+    bottom: 4em;
+}
+
+/*#endregion*/
+
+/*#region Favorites*/
+
+.userFav
+{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+    .userFav .favItem
+    {
+        width: 90%;
+        display: block;
+        height: 5em;
+        border-bottom: 1px solid #d7d7d7;
+        margin: 3% auto;
+        /*padding: 0 0 7% 0;*/
+    }
+
+        .userFav .favItem div
+        {
+            float: right;
+            height: 100%;
+        }
+
+            .userFav .favItem div:first-child
+            {
+                width: 20%;
+            }
+
+                .userFav .favItem div:first-child img
+                {
+                    width: 4em;
+                    height: 3.7em;
+                    margin: auto;
+                }
+
+            .userFav .favItem div:nth-child(2)
+            {
+                width: 70%;
+            }
+
+                .userFav .favItem div:nth-child(2) h3
+                {
+                    font-size: 90%;
+                    padding: 0 5%;
+                    margin: 0 0 1.5% 0;
+                    color: #5e5e5e;
+                }
+
+                .userFav .favItem div:nth-child(2) article
+                {
+                    padding: 0 5%;
+                    margin: 0;
+                    color: #b7b7b7;
+                    font-size: 77%;
+                }
+
+            .userFav .favItem div:last-child
+            {
+                width: 10%;
+            }
+
+                .userFav .favItem div:last-child a
+                {
+                    float: left;
+                    width: 100%;
+                    text-align: left;
+                    height: 100%;
+                }
+
+                    .userFav .favItem div:last-child a img
+                    {
+                        width: 35%;
+                        position: relative;
+                        top: 30%;
+                    }
+
+/*#endregion*/
+
+/*#region Add Date*/
+
+#addDate [role="main"] .wrapper form img
+{
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+#addDate [role="main"] .wrapper form div.inputContainer
+{
+    width: 93%;
+    margin: 0 auto;
+}
+
+    #addDate [role="main"] .wrapper form div.inputContainer .ui-grid-a .ui-block-a, #addDate [role="main"] .wrapper form div.inputContainer .ui-grid-a .ui-block-b
+    {
+        margin-bottom: 4%;
+    }
+
+#dateHeader, #dateAddress, #dateTel
+{
+    width: 77%;
+    color: #ae263f;
+    font-size: 82%;
+    font-weight: bold;
+}
+
+#dateSite
+{
+    width: 97%;
+    color: #0152a1;
+    font-size: 82%;
+}
+
+#dateAddress, #dateTel
+{
+    color: #158798;
+    font-weight: normal;
+}
+
+#dateTel
+{
+    width: 97%;
+}
+
+#dateDesc, #dateStep
+{
+    font-size: 77%;
+    color: #a6a3aa;
+    width: 98%;
+    margin-bottom: 3%;
+    height: 6em;
+    resize: none;
+}
+
+#dateTip
+{
+    font-size: 77%;
+    color: #fff;
+    background: #ae263f url('../images/Add/lamp.png') no-repeat;
+    border: none;
+    background-position: 98% 33%;
+    padding: 2%;
+    width: 98%;
+    background-size: 5%;
+    text-indent: 8%;
+}
+
+
+#addDate [role="main"] .wrapper form div.inputContainer .ui-grid-solo .ui-block-a label
+{
+    color: #fff;
+    background-color: #187589;
+    font-size: 77%;
+    width: 44%;
+    padding: 2%;
+    margin-top: 3%;
+}
+
+.submitHolder
+{
+    text-align: center;
+    border-top: 1px solid #000;
+    padding: 2% 0;
+}
+
+#dateSend
+{
+    background-color: #0c9ea7;
+    color: #fff;
+    width: 90%;
+    margin: 0 auto;
+    border: none;
+    text-align: center;
+    padding: 2% 0;
+}
+
+/*#endregion*/
+
+/*#region Add Present*/
+
+#addPresent [role="main"] .wrapper form img
+{
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+#addPresent [role="main"] .wrapper form div.inputContainer
+{
+    width: 93%;
+    margin: 0 auto;
+}
+
+    #addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-a .ui-block-a, #addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-a .ui-block-b
+    {
+        margin-bottom: 4%;
+    }
+
+#presentHeader
+{
+    width: 77%;
+    color: #ae263f;
+    font-size: 82%;
+    font-weight: bold;
+}
+
+
+#presentDesc
+{
+    font-size: 77%;
+    color: #a6a3aa;
+    width: 98%;
+    margin-bottom: 3%;
+    height: 10em;
+    resize: none;
+}
+
+#presentTip
+{
+    font-size: 77%;
+    color: #fff;
+    background: #ae263f url('../images/Add/lamp.png') no-repeat;
+    border: none;
+    background-position: 98% 33%;
+    padding: 2%;
+    width: 98%;
+    background-size: 5%;
+    text-indent: 8%;
+}
+
+
+#addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-solo .ui-block-a label
+{
+    color: #555555;
+    text-decoration: underline;
+    font-size: 77%;
+    width: 44%;
+    padding: 2%;
+    margin-top: 3%;
+}
+
+
+#presentSend
+{
+    background-color: #0c9ea7;
+    color: #fff;
+    width: 90%;
+    margin: 0 auto;
+    border: none;
+    text-align: center;
+    padding: 2% 0;
+}
+
+#addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-c [class^="ui-block"]
+{
+    text-align: center;
+}
+
+.uploadPresentSupplier
+{
+    width: 87% !important;
+}
+
+/*#endregion*/
+
+/*#region Experts*/
+
+#experts [role="main"] .wrapper form .inputContainer
+{
+    width: 85%;
+    margin: 0 auto;
+}
+
+    #experts [role="main"] .wrapper form .inputContainer p
+    {
+        font-size: 77%;
+        color: #b9b9b9;
+        margin-bottom: 8%;
+    }
+
+    #experts [role="main"] .wrapper form .inputContainer label
+    {
+        font-size: 77%;
+        color: #bebebe;
+    }
+
+        #experts [role="main"] .wrapper form .inputContainer label[data-required="true"]:after
+        {
+            content: " *";
+            color: #f00;
+        }
+
+    #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a
+    {
+        text-align: center;
+    }
+
+        #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea
+        {
+            width: 95%;
+            border: 3px solid rgba(247,247,247,.3);
+            -moz-border-radius: 3px / 3px;
+            -webkit-border-radius: 3px / 3px;
+            border-radius: 3px / 3px;
+            -moz-background-clip: padding;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            background-color: #fcfcfc;
+            -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+            -moz-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+            box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+            text-indent: 2%;
+            margin-bottom: 4%;
+        }
+
+            #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input:focus:invalid, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea:focus:invalid
+            {
+                background-color: #fff6f6;
+                -moz-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+                -webkit-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+                box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+            }
+
+        #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea
+        {
+            height: 5em;
+        }
+
+    #experts [role="main"] .wrapper form .inputContainer .submitHolder
+    {
+        text-align: left;
+        border: none;
+    }
+
+        #experts [role="main"] .wrapper form .inputContainer .submitHolder #expertsSend
+        {
+            border: none;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            -moz-background-clip: padding;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            background-color: #ff9562;
+            -moz-box-shadow: 0 3px 0 #e9763d;
+            -webkit-box-shadow: 0 3px 0 #e9763d;
+            box-shadow: 0 3px 0 #e9763d;
+            padding: 1.5% 8%;
+            color: #fff;
+        }
 
 /*#endregion*/
 
