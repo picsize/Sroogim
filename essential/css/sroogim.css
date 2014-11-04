@@ -196,6 +196,7 @@ body
 .ui-block-a input[type="text"], .ui-block-b input[type="text"], .ui-block-c input[type="text"], .ui-block-d input[type="text"], .ui-block-e input[type="text"]
 {
     text-align: right;
+    border:1px solid #000;
 }
 
 /*#endregion*/
@@ -1094,6 +1095,8 @@ body
 .uploadPresentSupplier
 {
     width: 87% !important;
+    max-width:87% !important;
+    min-width:87% !important; 
 }
 
 /*#endregion*/
