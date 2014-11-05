@@ -12,17 +12,9 @@ function checkPhonegap() {
 }
 
 
-//$(document).on('pagebeforeshow', '#registerForm', function (e, data) {
-//    if (data.prevPage.find('a[data-link]').attr('data-link') === 'register') {
-//        $('div.ui-input-btn:last-child').hide();
-//        $('div.ui-input-btn:first-child').show();
-//        $('#userDetails span').show();
-//    }
-//    else {
-//        $('div.ui-input-btn:last-child').show();
-//        $('div.ui-input-btn:first-child').hide();
-//        $('#userDetails span').hide();
-//    }
-//});
+//$(document).on('pagebeforecreate', '#datesPage', function () {
+//    $('#datesPage .wrapper').append('<div data-role="collapsible"> <h4>דייטים באוויר הצח2 <img src="essential/images/Dates/Category/outside.jpg" /> </h4> <ul data-role="listview"> <li><a href="index.html#singleDate" data-dateId="1" class="goToDate ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">טיילות</a></li> <li><a href="index.html#singleDate" data-dateId="1" class="goToDate ui-btn ui-shadow ui-btn-icon-right ui-icon-ship">מעיינות</a></li> <li><a href="index.html#singleDate" data-dateId="1" class="goToDate ui-btn ui-shadow ui-btn-icon-right ui-icon-old">מקומות עתיקים</a></li> </ul> </div>');
+//})
+
 
 

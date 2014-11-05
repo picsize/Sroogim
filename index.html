@@ -177,7 +177,7 @@
     <div id="mainScreen" data-role="page" data-theme="b">
 
         <!-- header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header" data-position="fixed" class="bigHeader">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -223,12 +223,20 @@
                     <div class="buttons">
                         <ul>
                             <li>
-                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                                <a href="index.html#addDate">
+                                    <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" />
+                                </a>
+                            </li>
                             <li>
                                 <a href="index.html#favorites">
-                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></a></li>
+                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" />
+                                </a>
+                            </li>
                             <li>
-                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                                <a href="index.html#datesPage">
+                                    <img src="essential/images/General/next.png" alt="מעבר לדייטים" />
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -249,11 +257,20 @@
                     <div class="buttons">
                         <ul>
                             <li>
-                                <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" /></li>
+                                <a href="index.html#addPresent">
+                                    <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" />
+                                </a>
+                            </li>
                             <li>
-                                <img src="essential/images/General/fav.png" alt="דייטים מועדפים" /></li>
+                                <a href="index.html#favorites">
+                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" />
+                                </a>
+                            </li>
                             <li>
-                                <img src="essential/images/General/next.png" alt="מעבר לדייטים" /></li>
+                                <a href="index.html#">
+                                    <img src="essential/images/General/next.png" alt="מעבר לדייטים" />
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -317,8 +334,8 @@
                 <div class="title">
                     <h2>העדפות שלי</h2>
                 </div>
-                <ul class="userFav">
-                    <li class="favItem">
+                <ul class="dataList">
+                    <li class="dataItem">
                         <!--Image-->
                         <div>
                             <img src="essential/images/Favroites/imgFav.png" />
@@ -351,7 +368,7 @@
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
                     </li>
-                    <li class="favItem">
+                    <li class="dataItem">
                         <!--Image-->
                         <div>
                             <img src="essential/images/Favroites/imgFav.png" />
@@ -384,7 +401,7 @@
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
                     </li>
-                    <li class="favItem">
+                    <li class="dataItem">
                         <!--Image-->
                         <div>
                             <img src="essential/images/Favroites/imgFav.png" />
@@ -417,7 +434,7 @@
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
                     </li>
-                    <li class="favItem">
+                    <li class="dataItem">
                         <!--Image-->
                         <div>
                             <img src="essential/images/Favroites/imgFav.png" />
@@ -450,7 +467,7 @@
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
                     </li>
-                    <li class="favItem">
+                    <li class="dataItem">
                         <!--Image-->
                         <div>
                             <img src="essential/images/Favroites/imgFav.png" />
@@ -563,6 +580,7 @@
         <div data-role="footer">
             <div class="advertisement"></div>
         </div>
+
     </div>
 
     <!-- Add Present -->
@@ -698,6 +716,468 @@
                     </div>
                 </form>
 
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+
+    </div>
+
+    <!--Dates-->
+    <div data-role="page" id="datesPage" data-theme="b">
+        <!-- Header -->
+        <div data-role="header" data-position="fixed" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps active ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <!--דייטים באוויר הצח-->
+                <div data-role="collapsible">
+                    <h4>דייטים באוויר הצח
+                        <img src="essential/images/Dates/Category/outside.jpg" />
+                    </h4>
+                    <ul data-role="listview">
+                        <li><a href="index.html#datesList" data-datecategory="1" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">טיילות</a></li>
+                        <li><a href="index.html#datesList" data-datecategory="2" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-ship">מעיינות</a></li>
+                        <li><a href="index.html#datesList" data-datecategory="3" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-old">מקומות עתיקים</a></li>
+                    </ul>
+                </div>
+                <!--דייטים במקומות מפנקים-->
+                <div data-role="collapsible">
+                    <h4>דייטים במקומות מפנקים
+                        <img src="essential/images/Dates/Category/spa.jpg" />
+                    </h4>
+                </div>
+                <!--אוכל ואווירה קסומה-->
+                <div data-role="collapsible">
+                    <h4>אוכל ואווירה קסומה
+                        <img src="essential/images/Dates/Category/food.jpg" />
+                    </h4>
+                </div>
+                <!--ימי כיף-->
+                <div data-role="collapsible">
+                    <h4>ימי כיף
+                        <img src="essential/images/Dates/Category/fun.jpg" />
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Dates List -->
+    <div data-role="page" id="datesList" data-theme="c">
+
+        <!-- Header -->
+        <div data-role="header" data-position="fixed" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps active ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2>טיילות</h2>
+                </div>
+                <ul class="dataList">
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Favroites/imgFav.png" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>טיילת מספר 1</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                    <li>
+                                        <p>10 ק"מ ממקומך</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a href="index.html#singleDate" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Favroites/imgFav.png" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>טיילת מספר 1</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                    <li>
+                                        <p>10 ק"מ ממקומך</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a href="index.html#singleDate" class="goToDate" data-dateid="2">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Favroites/imgFav.png" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>טיילת מספר 1</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                    <li>
+                                        <p>10 ק"מ ממקומך</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a href="index.html#singleDate" class="goToDate" data-dateid="3">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Favroites/imgFav.png" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>טיילת מספר 1</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                    <li>
+                                        <p>10 ק"מ ממקומך</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a href="index.html#singleDate" class="goToDate" data-dateid="4">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Favroites/imgFav.png" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>טיילת מספר 1</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                    <li>
+                                        <p>10 ק"מ ממקומך</p>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a href="index.html#singleDate" class="goToDate" data-dateid="5">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Single Date -->
+    <div data-role="page" id="singleDate" data-theme="c">
+        <!-- Header -->
+        <div data-role="header" data-position="fixed">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <img src="essential/images/Dates/placeImg.png" />
+                <section class="socialHolder">
+                    <section class="social">
+                        <ul>
+                            <li>
+                                <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+
+                            </li>
+                            <li>
+                                <img src="essential/images/General/comments.png" class="addComment" alt="הוסף תגובה" />
+                            </li>
+                            <li>
+                                <span>
+                                    <p>דרג/י</p>
+                                </span>
+                                <section class="rating">
+                                    <span data-value="5" data-empty="true">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="4" data-empty="true">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="3" data-empty="true">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="2" data-empty="false">
+                                        <img src="essential/images/General/goldenStar.png" />
+                                    </span>
+                                    <span data-value="1" data-empty="false">
+                                        <img src="essential/images/General/goldenStar.png" />
+                                    </span>
+                                </section>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <div class="inputContainer">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateHeader">חוף הצוק</label>
+                            <label id="singleDate_dateLocation">חוף הצוק - תל אביב יפו</label>
+                        </div>
+                        <div class="ui-block-b dateWebsiteHolder">
+                            <label><a id="singleDate_dateWebsite" href="#">קישור לאתר המקום</a></label>
+                            <label><a href="tel:0501111111" id="singleDate_dateTel">050-1111111</a></label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <article id="singleDate_dateDesc">
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateTip">טיפ לדייט</label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateStepsHeader">שלבי הדייט / שעות פעילות</label>
+                        </div>
+                    </div>
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <article id="singleDate_dateSteps">
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                            </article>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ui-grid-b singleDate_buttons">
+                    <div class="ui-block-a">
+                        <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</button>
+                    </div>
+                    <div class="ui-block-c">
+                        <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift">מתנה</button>
+                    </div>
+                </div>
             </div>
         </div>
 

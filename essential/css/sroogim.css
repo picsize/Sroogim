@@ -4,8 +4,6 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-/*#region General*/
-
 /*#region Init*/
 
 *
@@ -13,6 +11,7 @@
     direction: rtl;
     text-align: right;
     font-family: 'sroogim' !important;
+    text-shadow: none !important;
 }
 
 h1, h2, h3, h4, h5, h6
@@ -89,6 +88,11 @@ body
     width: 100%;
 }
 
+    [data-role="header"].bigHeader
+    {
+        height: 90px;
+    }
+
     [data-role="header"] .ui-btn
     {
         background-color: transparent !important;
@@ -133,11 +137,10 @@ body
     direction: rtl !important;
     background-color: transparent !important;
     border: none;
-    /*position: fixed;
-    bottom: 0;*/
+    position: fixed;
     bottom: 0;
-    position: absolute !important;
-    top: auto !important;
+    /*position: absolute !important;
+    top: auto !important;*/
     width: 100%;
 }
 
@@ -172,6 +175,156 @@ body
 
 /*#endregion*/
 
+/*#region Social*/
+
+.social
+{
+    width: 100%;
+    display: block;
+    position: absolute;
+    right: 1.2em;
+}
+
+    .social ul
+    {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+        .social ul li
+        {
+            display: inline;
+            float: right;
+        }
+
+            .social ul li:first-child img, .social ul li:nth-child(2) img
+            {
+                width: 60%;
+            }
+
+                .social ul li:nth-child(2) img.share
+                {
+                    -webkit-filter: invert(50%);
+                    -moz-filter: invert(50%);
+                    -o-filter: invert(50%);
+                    -ms-filter: invert(50%);
+                    filter: invert(50%);
+                }
+
+            .social ul li:nth-child(3) .rating
+            {
+                padding: 0;
+            }
+
+                .social ul li:nth-child(3) .rating span img
+                {
+                    width: 13%;
+                }
+
+            .social ul li:last-child p
+            {
+                padding: 0;
+                margin: 0;
+                font-weight: normal;
+                font-size: 86%;
+                color: #12a2c1;
+                text-shadow: none;
+            }
+
+.socialHolder
+{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: url(../images/General/socialOverlay.png);
+    height: 2em;
+    background-size: contain;
+    position: absolute;
+    top: 10.5em;
+}
+
+    .socialHolder .social ul li:first-child
+    {
+        margin-left: 3%;
+    }
+
+        .socialHolder .social ul li:first-child img.share
+        {
+            -webkit-filter: invert(0%);
+            -moz-filter: invert(0%);
+            -o-filter: invert(0%);
+            -ms-filter: invert(0%);
+            filter: invert(0%);
+        }
+
+        .socialHolder .social ul li:first-child img.share, .socialHolder .social ul li:nth-child(2) img.addComment
+        {
+            width: 72% !important;
+        }
+
+    .socialHolder .social ul li:last-child
+    {
+        float: left;
+    }
+
+        .socialHolder .social ul li:last-child p
+        {
+            display: inline-block;
+            color: #fff;
+        }
+
+        .socialHolder .social ul li:last-child .rating
+        {
+            display: inline-block;
+        }
+
+            .socialHolder .social ul li:last-child .rating span img
+            {
+                width: 13% !important;
+                margin-bottom: 0 !important;
+            }
+
+            .socialHolder .social ul li:last-child .rating span[data-empty="true"] img
+            {
+                content: url(../images/General/whiteStar.png);
+            }
+
+/*#endregion*/
+
+/*#region Gps & Location*/
+
+.location
+{
+    border: 2px solid #fff;
+    height: 40%;
+    border-radius: 0.4em;
+    width: 95%;
+    margin: 0 auto;
+}
+
+    .location .ui-grid-a, .location .ui-grid-a .ui-block-a, .location .ui-grid-a .ui-block-a
+    {
+        height: 100%;
+    }
+
+    .location button
+    {
+        height: 100%;
+        margin: 0;
+        text-indent: 1%;
+        color: #fff !important;
+        font-weight: normal !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+        .location button.active
+        {
+            background-color: rgba(255,255,255,0.7) !important;
+        }
+
 /*#endregion*/
 
 /*#region jQuery*/
@@ -184,7 +337,7 @@ body
 .ui-content
 {
     /*padding: 11% 0 5% 0;*/
-    padding: 0;
+    padding: 0 0 12% 0;
 }
 
 .ui-panel-inner
@@ -195,14 +348,18 @@ body
 [data-role="page"]
 {
     overflow: hidden !important;
-    height: 100% !important;
-    position: relative !important;
 }
 
 .ui-block-a input[type="text"], .ui-block-b input[type="text"], .ui-block-c input[type="text"], .ui-block-d input[type="text"], .ui-block-e input[type="text"]
 {
     text-align: right;
     border: 1px solid #000;
+}
+
+.ui-collapsible-content
+{
+    background-color: transparent !important;
+    border: none !important;
 }
 
 /*#endregion*/
@@ -236,6 +393,57 @@ body
 .ui-icon-expert:after
 {
     background-image: url(../images/Icons/help.png);
+    background-size: 18px 18px;
+}
+
+.ui-icon-tree:after
+{
+    background-image: url(../images/Dates/Sub/tree.png);
+    background-size: 18px 18px;
+    padding: 0 4%;
+}
+
+.ui-icon-old:after
+{
+    background-image: url(../images/Dates/Sub/old.png);
+    background-size: 18px 18px;
+    padding: 0 4%;
+}
+
+.ui-icon-ship:after
+{
+    background-image: url(../images/Dates/Sub/ship.png);
+    background-size: 18px 18px;
+    padding: 0 4%;
+}
+
+.ui-icon-gps:after
+{
+    background-image: url(../images/Icons/gps.png);
+    background-size: 18px 18px;
+}
+
+.ui-icon-location:after
+{
+    background-image: url(../images/Icons/location.png);
+    background-size: 18px 18px;
+}
+
+.ui-icon-fav:after
+{
+    background-image: url(../images/Icons/hearh.png);
+    background-size: 18px 18px;
+}
+
+.ui-icon-waze:after
+{
+    background-image: url(../images/Icons/waze.png);
+    background-size: 22px 24px;
+}
+
+.ui-icon-gift:after
+{
+    background-image: url(../images/Icons/present.png);
     background-size: 18px 18px;
 }
 
@@ -620,15 +828,6 @@ body
 
 /*#region Main Screen*/
 
-/*#region Header*/
-
-#mainScreen [data-role="header"]
-{
-    height: 80px;
-}
-
-/*#endregion*/
-
 /*#region Main*/
 
 #mainScreen .ui-content
@@ -839,9 +1038,9 @@ body
 
 /*#endregion*/
 
-/*#region Favorites*/
+/*#region Favorites & Single Page List*/
 
-.userFav
+.dataList
 {
     width: 100%;
     margin: 0;
@@ -849,7 +1048,7 @@ body
     height: auto;
 }
 
-    .userFav .favItem
+    .dataList .dataItem
     {
         width: 90%;
         display: block;
@@ -859,30 +1058,30 @@ body
         /*padding: 0 0 7% 0;*/
     }
 
-        .userFav .favItem div
+        .dataList .dataItem div
         {
             float: right;
             height: 100%;
         }
 
-            .userFav .favItem div:first-child
+            .dataList .dataItem div:first-child
             {
                 width: 20%;
             }
 
-                .userFav .favItem div:first-child img
+                .dataList .dataItem div:first-child img
                 {
                     width: 4em;
                     height: 3.7em;
                     margin: auto;
                 }
 
-            .userFav .favItem div:nth-child(2)
+            .dataList .dataItem div:nth-child(2)
             {
                 width: 70%;
             }
 
-                .userFav .favItem div:nth-child(2) h3
+                .dataList .dataItem div:nth-child(2) h3
                 {
                     font-size: 90%;
                     padding: 0 5%;
@@ -890,7 +1089,7 @@ body
                     color: #5e5e5e;
                 }
 
-                .userFav .favItem div:nth-child(2) article
+                .dataList .dataItem div:nth-child(2) article
                 {
                     padding: 0 5%;
                     margin: 0;
@@ -898,12 +1097,12 @@ body
                     font-size: 77%;
                 }
 
-            .userFav .favItem div:last-child
+            .dataList .dataItem div:last-child
             {
                 width: 10%;
             }
 
-                .userFav .favItem div:last-child a
+                .dataList .dataItem div:last-child a
                 {
                     float: left;
                     width: 100%;
@@ -911,7 +1110,7 @@ body
                     height: 100%;
                 }
 
-                    .userFav .favItem div:last-child a img
+                    .dataList .dataItem div:last-child a img
                     {
                         width: 35%;
                         position: relative;
@@ -1188,6 +1387,172 @@ body
             padding: 1.5% 8%;
             color: #fff;
         }
+
+/*#endregion*/
+
+/*#region Dates*/
+
+#datesPage [data-role="collapsible"]
+{
+    width: 95%;
+    margin: .5em auto;
+}
+
+    #datesPage [data-role="collapsible"] h4 a
+    {
+        background-color: #fff !important;
+        border: none;
+        color: #4c4855 !important;
+        font-weight: normal !important;
+        text-align: right !important;
+        line-height: 3em;
+        background: url('../images/Dates/Category/corner.png') no-repeat;
+        background-position: 0 100%;
+        background-size: 5% 31%;
+        -moz-box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        padding: 0;
+        text-indent: 5%;
+        text-shadow: none;
+    }
+
+        #datesPage [data-role="collapsible"] h4 a.ui-icon-plus:after, [data-role="collapsible"] h4 a.ui-icon-minus:after
+        {
+            display: none;
+        }
+
+        #datesPage [data-role="collapsible"] h4 a img
+        {
+            width: 20%;
+            min-width: 20%;
+            max-width: 20%;
+            float: right;
+        }
+
+    #datesPage [data-role="collapsible"] [data-role="listview"] li
+    {
+        margin-bottom: 1%;
+    }
+
+        #datesPage [data-role="collapsible"] [data-role="listview"] li a
+        {
+            background-color: #bcd3db !important;
+            color: #4c4855 !important;
+            text-align: right !important;
+            text-indent: 9%;
+            font-weight: normal;
+            text-shadow: none;
+        }
+
+/*#endregion*/
+
+/*#region Single Date*/
+
+#singleDate [role="main"] .wrapper img
+{
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+#singleDate [role="main"] .wrapper div.inputContainer
+{
+    width: 93%;
+    margin: 0 auto;
+}
+
+#singleDate_dateHeader
+{
+    color: #ae263f;
+    font-weight: bold;
+    font-size: 130%;
+    margin-bottom: 14%;
+}
+
+.dateWebsiteHolder label
+{
+    text-align: left;
+}
+
+    .dateWebsiteHolder label:not(:last-child)
+    {
+        margin-bottom: 18%;
+    }
+
+    .dateWebsiteHolder label #singleDate_dateWebsite
+    {
+        font-size: 85%;
+        margin-bottom: 1%;
+    }
+
+#singleDate_dateLocation
+{
+    color: #158798;
+}
+
+#singleDate_dateTel
+{
+    text-decoration: none;
+}
+
+#singleDate_dateDesc, #singleDate_dateSteps
+{
+    color: #c0bec3;
+    font-size: 85%;
+    font-weight: normal;
+    margin-top: 3%;
+}
+
+#singleDate_dateTip
+{
+    font-size: 77%;
+    color: #fff;
+    background: #ae263f url('../images/Add/lamp.png') no-repeat;
+    border: none;
+    background-position: 98% 33%;
+    padding: 2%;
+    width: 98%;
+    background-size: 5%;
+    text-indent: 8%;
+    margin-top: 10%;
+}
+
+#singleDate_dateStepsHeader
+{
+    color: #fff;
+    background-color: #187589;
+    font-size: 77%;
+    width: 44%;
+    padding: 2%;
+    margin-top: 6%;
+}
+
+.singleDate_buttons
+{
+    margin-top: 5%;
+}
+
+    .singleDate_buttons button
+    {
+        font-size: 80%;
+        width: 98%;
+        margin-right: 1% !important;
+    }
+
+    .singleDate_buttons .ui-block-a button
+    {
+        background-color: #ae263f !important;
+    }
+
+    .singleDate_buttons .ui-block-b button
+    {
+        background-color: #0c9ea7 !important;
+    }
+
+    .singleDate_buttons .ui-block-c button
+    {
+        background-color: #6471b3 !important;
+    }
 
 /*#endregion*/
 
