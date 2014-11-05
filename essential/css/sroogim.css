@@ -204,15 +204,6 @@ body
                 width: 60%;
             }
 
-                .social ul li:nth-child(2) img.share
-                {
-                    -webkit-filter: invert(50%);
-                    -moz-filter: invert(50%);
-                    -o-filter: invert(50%);
-                    -ms-filter: invert(50%);
-                    filter: invert(50%);
-                }
-
             .social ul li:nth-child(3) .rating
             {
                 padding: 0;
@@ -250,15 +241,6 @@ body
         margin-left: 3%;
     }
 
-        .socialHolder .social ul li:first-child img.share
-        {
-            -webkit-filter: invert(0%);
-            -moz-filter: invert(0%);
-            -o-filter: invert(0%);
-            -ms-filter: invert(0%);
-            filter: invert(0%);
-        }
-
         .socialHolder .social ul li:first-child img.share, .socialHolder .social ul li:nth-child(2) img.addComment
         {
             width: 72% !important;
@@ -267,6 +249,7 @@ body
     .socialHolder .social ul li:last-child
     {
         float: left;
+        margin-left: 5%;
     }
 
         .socialHolder .social ul li:last-child p
@@ -282,7 +265,7 @@ body
 
             .socialHolder .social ul li:last-child .rating span img
             {
-                width: 13% !important;
+                width: 16% !important;
                 margin-bottom: 0 !important;
             }
 
@@ -522,10 +505,10 @@ body
         text-align: right;
         text-indent: 6%;
         border-bottom: 1px solid #878788;
-        font-size: 82%;
+        font-size: 97%;
         padding-right: 20%;
         margin: 0;
-        padding-top: 5%;
+        padding-top: 8%;
     }
 
     #menuSidebar #panelLinks a.ui-btn:active
@@ -536,6 +519,7 @@ body
     #menuSidebar #panelLinks a.ui-btn-icon-right:after
     {
         margin-right: 5%;
+        margin-top: -2%;
     }
 
     #menuSidebar section:last-child small
@@ -1464,7 +1448,7 @@ body
 #singleDate_dateHeader
 {
     color: #ae263f;
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 130%;
     margin-bottom: 14%;
 }
@@ -1510,7 +1494,7 @@ body
     background: #ae263f url('../images/Add/lamp.png') no-repeat;
     border: none;
     background-position: 98% 33%;
-    padding: 2%;
+    padding: 3% 2%;
     width: 98%;
     background-size: 5%;
     text-indent: 8%;
