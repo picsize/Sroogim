@@ -123,7 +123,7 @@
     <!-- Register Form -->
     <div id="registerForm" data-role="page" data-theme="b">
         <!-- header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" /></a>
             <h1>Sroogim</h1>
@@ -177,7 +177,7 @@
     <div id="mainScreen" data-role="page" data-theme="b">
 
         <!-- header -->
-        <div data-role="header" data-position="fixed" class="bigHeader">
+        <div data-role="header" class="bigHeader">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -200,7 +200,7 @@
         </div>
 
         <!-- main -->
-        <div role="main" class="ui-content">
+        <div role="main" class="ui-content hasBigHeader">
             <div class="wrapper">
                 <!-- top 5 -->
                 <div id="top5">
@@ -287,7 +287,7 @@
     <div id="profilePage" data-role="page" data-theme="b">
 
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -318,7 +318,7 @@
     <!-- My Favorites -->
     <div id="favorites" data-role="page" data-theme="c">
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -514,7 +514,7 @@
     <div id="addDate" data-role="page" data-theme="c">
 
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -530,7 +530,7 @@
                 <form>
                     <img src="essential/images/Add/addImages.png" />
                     <div class="inputContainer">
-                        <div class="ui-grid-a">
+                        <!--<div class="ui-grid-a">
                             <div class="ui-block-a">
                                 <input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" />
                             </div>
@@ -543,7 +543,17 @@
                             <div class="ui-block-b">
                                 <input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" />
                             </div>
-                        </div>
+                        </div>-->
+                        <table class="ui-table ui-responsive">
+                            <tr>
+                                <td><input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" /></td>
+                                <td><input type="url" id="dateSite" name="dateSite" data-role="none" data-mini="true" value="כתובת אתר המקום" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="dateAddress" name="dateAddress" data-role="none" data-mini="true" value="מיקום הדייט" /></td>
+                                <td><input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" /></td>
+                            </tr>
+                        </table>
 
                         <div class="ui-grid-solo">
                             <div class="ui-block-a">
@@ -572,7 +582,6 @@
                         <input type="submit" value="שלח" id="dateSend" data-role="none" />
                     </div>
                 </form>
-
             </div>
         </div>
 
@@ -587,7 +596,7 @@
     <div id="addPresent" data-role="page" data-theme="c">
 
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -659,7 +668,7 @@
     <div id="experts" data-role="page" data-theme="c">
 
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -729,7 +738,7 @@
     <!--Dates-->
     <div data-role="page" id="datesPage" data-theme="b">
         <!-- Header -->
-        <div data-role="header" data-position="fixed" class="bigHeader">
+        <div data-role="header" class="bigHeader">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -750,7 +759,7 @@
         </div>
 
         <!-- Main -->
-        <div class="ui-content" role="main">
+        <div class="ui-content hasBigHeader" role="main">
             <div class="wrapper">
                 <!--דייטים באוויר הצח-->
                 <div data-role="collapsible">
@@ -794,7 +803,7 @@
     <div data-role="page" id="datesList" data-theme="c">
 
         <!-- Header -->
-        <div data-role="header" data-position="fixed" class="bigHeader">
+        <div data-role="header" class="bigHeader hasBigHeader">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -1074,7 +1083,7 @@
     <!-- Single Date -->
     <div data-role="page" id="singleDate" data-theme="c">
         <!-- Header -->
-        <div data-role="header" data-position="fixed">
+        <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
                 <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
             </a>
@@ -1186,7 +1195,6 @@
             <div class="advertisement"></div>
         </div>
     </div>
-
 
 </body>
 </html>
