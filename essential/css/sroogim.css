@@ -325,7 +325,7 @@ body
 
     .ui-content.hasBigHeader
     {
-        padding:24% 0 12% 0;
+        padding: 24% 0 12% 0;
     }
 
 .ui-panel-inner
@@ -435,6 +435,24 @@ body
     background-size: 18px 18px;
 }
 
+.ui-icon-woman:after
+{
+    background-image: url(../images/Icons/woman.png);
+    background-size: 15px 20px;
+}
+
+.ui-icon-man:after
+{
+    background-image: url(../images/Icons/men.png);
+    background-size: 15px 20px;
+}
+
+.ui-icon-date:after
+{
+    background-image: url(../images/Icons/date.png);
+    background-size: 15px 20px;
+}
+
 /*#endregion*/
 
 /*#region Menu Sidebar*/
@@ -442,9 +460,9 @@ body
 #menuSidebar
 {
     background-color: #3b393f;
-    /*height: 86.7% !important;
+    height: 86.7% !important;
     min-height: 86.7% !important;
-    margin-top: 6%;*/
+    margin-top: 6%;
 }
 
     #menuSidebar #sidebarCoverImg
@@ -1027,7 +1045,7 @@ body
 
 /*#endregion*/
 
-/*#region Favorites & Single Page List*/
+/*#region Favorites & Dates List & Presents Category*/
 
 .dataList
 {
@@ -1106,37 +1124,47 @@ body
                         top: 30%;
                     }
 
+        .dataList .dataItem.presentCategory
+        {
+            height:5em;
+        }
+
+            .dataList .dataItem.presentCategory div:first-child img
+            {
+                margin-top: 11.5%;
+            }
+
 /*#endregion*/
 
 /*#region Add Date*/
 
 #addDate .ui-table
 {
-    margin-bottom:4%;
+    margin-bottom: 4%;
 }
 
-#addDate .ui-table tr td
-{
-    padding:0;
-    text-align:right;
-}
+    #addDate .ui-table tr td
+    {
+        padding: 0;
+        text-align: right;
+    }
 
-#addDate .ui-table tr:first-child td
-{
-    padding-bottom: 6%;
-}
+    #addDate .ui-table tr:first-child td
+    {
+        padding-bottom: 6%;
+    }
 
     #addDate .ui-table tr td:nth-child(2)
     {
-        text-align:left;
+        text-align: left;
     }
 
     #addDate .ui-table td input
     {
-        width:90%;
-        border:1px solid #000;
-        letter-spacing:1px;
-        font-size:100%;
+        width: 90%;
+        border: 1px solid #000;
+        letter-spacing: 1px;
+        font-size: 100%;
     }
 
 
@@ -1184,7 +1212,6 @@ body
 
 #dateTip
 {
-    
     color: #fff;
     background: #ae263f url('../images/Add/lamp.png') no-repeat;
     border: none;
@@ -1295,7 +1322,7 @@ body
     padding: 2% 0;
 }
 
-#addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-c [class^="ui-block"]
+#addPresent [role="main"] .wrapper form div.inputContainer .ui-grid-b [class^="ui-block"]
 {
     text-align: center;
 }
@@ -1557,6 +1584,86 @@ body
     }
 
     .singleDate_buttons .ui-block-c button
+    {
+        background-color: #6471b3 !important;
+    }
+
+/*#endregion*/
+
+/*#region Single Present*/
+
+#singlePresent [role="main"] .wrapper img
+{
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+#singlePresent [role="main"] .wrapper div.inputContainer
+{
+    width: 93%;
+    margin: 0 auto;
+}
+
+#singlePresent .socialHolder
+{
+    top:11.4em;
+}
+
+#singlePresent_presentHeader
+{
+    color: #ae263f;
+    font-weight: bolder;
+    font-size: 130%;
+}
+
+#singlePeresent_presentTip
+{
+    font-size: 77%;
+    color: #fff;
+    background: #ae263f url('../images/Add/lamp.png') no-repeat;
+    border: none;
+    background-position: 98% 33%;
+    padding: 3% 2%;
+    width: 98%;
+    background-size: 5%;
+    text-indent: 8%;
+    margin-top: 10%;
+}
+
+#singlePresent_whereToBuy
+{
+    margin:7% 0 9% 0;
+    text-decoration:underline;
+}
+
+#singlePresent [role="main"] .wrapper div.inputContainer .ui-grid-b [class^="ui-block"]
+{
+    text-align: center;
+}
+
+    #singlePresent [role="main"] .wrapper div.inputContainer .ui-grid-b [class^="ui-block"] img
+    {
+        width:75%;
+    }
+
+#singlePresent .singleDate_buttons
+{
+    margin-top: 5%;
+}
+
+    #singlePresent .singleDate_buttons button
+    {
+        font-size: 80%;
+        width: 98%;
+        margin-right: 1% !important;
+    }
+
+    #singlePresent .singleDate_buttons .ui-block-a button
+    {
+        background-color: #ae263f !important;
+    }
+
+    #singlePresent .singleDate_buttons .ui-block-b button
     {
         background-color: #6471b3 !important;
     }
