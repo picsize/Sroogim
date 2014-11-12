@@ -63,7 +63,7 @@ body
     width: 100%;
     display: block;
     background-color: #e7e7e7;
-    padding: 2%;
+    padding: 3%;
 }
 
     .title h2
@@ -249,7 +249,6 @@ body
     .socialHolder .social ul li:last-child
     {
         float: left;
-        margin-left: 5%;
     }
 
         .socialHolder .social ul li:last-child p
@@ -265,7 +264,7 @@ body
 
             .socialHolder .social ul li:last-child .rating span img
             {
-                width: 16% !important;
+                width: 12% !important;
                 margin-bottom: 0 !important;
             }
 
@@ -358,30 +357,45 @@ body
 {
     background-image: url(../images/Icons/edit.png);
     background-size: 18px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-user-fav:after
 {
     background-image: url(../images/Icons/fav.png);
     background-size: 18px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-add-date:after
 {
     background-image: url(../images/Icons/dateicon.png);
-    background-size: 18px 18px;
+    background-size: 20px 20px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-add-present:after
 {
     background-image: url(../images/Icons/presenticon.png);
-    background-size: 18px 18px;
+background-size: 21px 20px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-expert:after
 {
     background-image: url(../images/Icons/help.png);
-    background-size: 18px 18px;
+    background-size: 26px 24px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-tree:after
@@ -389,6 +403,9 @@ body
     background-image: url(../images/Dates/Sub/tree.png);
     background-size: 18px 18px;
     padding: 0 4%;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-old:after
@@ -396,6 +413,9 @@ body
     background-image: url(../images/Dates/Sub/old.png);
     background-size: 18px 18px;
     padding: 0 4%;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-ship:after
@@ -403,54 +423,81 @@ body
     background-image: url(../images/Dates/Sub/ship.png);
     background-size: 18px 18px;
     padding: 0 4%;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-gps:after
 {
     background-image: url(../images/Icons/gps.png);
     background-size: 14px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-location:after
 {
     background-image: url(../images/Icons/location.png);
     background-size: 18px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-fav:after
 {
     background-image: url(../images/Icons/hearh.png);
-    background-size: 18px 18px;
+    background-size: 20px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-waze:after
 {
     background-image: url(../images/Icons/waze.png);
     background-size: 22px 24px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-gift:after
 {
     background-image: url(../images/Icons/present.png);
     background-size: 18px 18px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-woman:after
 {
     background-image: url(../images/Icons/woman.png);
-    background-size: 15px 20px;
+    background-size: 13px 21px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-man:after
 {
     background-image: url(../images/Icons/men.png);
-    background-size: 15px 20px;
+    background-size: 12px 21px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 .ui-icon-date:after
 {
     background-image: url(../images/Icons/date.png);
     background-size: 15px 20px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
 }
 
 /*#endregion*/
@@ -460,10 +507,10 @@ body
 #menuSidebar
 {
     background-color: #3b393f;
-    height: 86.7% !important;
+    /*height: 86.7% !important;
     min-height: 86.7% !important;
     margin-top: 6%;
-    top:1%;
+    top:0.5%;*/
 }
 
     #menuSidebar #sidebarCoverImg
@@ -521,7 +568,7 @@ body
         border: none;
         color: #fff;
         font-weight: normal;
-        font-size: 70%;
+        font-size: 72%;
     }
 
     #menuSidebar #panelLinks .ui-btn
@@ -532,7 +579,7 @@ body
         font-size: 97%;
         padding-right: 20%;
         margin: 0;
-        padding-top: 8%;
+        padding-top: 6%;
     }
 
     #menuSidebar #panelLinks a.ui-btn:active
@@ -552,7 +599,6 @@ body
         margin: 0;
         color: #fff;
         font: menu;
-        line-height: 0.5em;
         margin-left: 4%;
     }
 
@@ -1164,7 +1210,6 @@ body
     {
         width: 90%;
         border: 1px solid #000;
-        letter-spacing: 1px;
         font-size: 100%;
     }
 
@@ -1307,7 +1352,7 @@ body
     color: #555555;
     text-decoration: underline;
     font-size: 90%;
-    width: 44%;
+    width: 47%;
     padding: 2%;
     margin-top: 3%;
 }
@@ -1615,6 +1660,14 @@ body
     color: #ae263f;
     font-weight: bolder;
     font-size: 130%;
+}
+
+#singlePresent_presentDesc
+{
+    color: #c0bec3;
+    font-size: 85%;
+    font-weight: normal;
+    margin-top: 3%;
 }
 
 #singlePeresent_presentTip
