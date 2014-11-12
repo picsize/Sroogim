@@ -1,7 +1,7 @@
 ﻿$(function () {
     checkPhonegap();
 
-    $('[data-role=panel]').panel().enhanceWithin();
+    $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
 });
 

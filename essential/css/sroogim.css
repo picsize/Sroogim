@@ -408,7 +408,7 @@ body
 .ui-icon-gps:after
 {
     background-image: url(../images/Icons/gps.png);
-    background-size: 18px 18px;
+    background-size: 14px 18px;
 }
 
 .ui-icon-location:after
@@ -1247,13 +1247,13 @@ body
 {
     width: 77%;
     color: #ae263f;
-    font-size: 82%;
+    font-size: 100%;
     font-weight: bold;
 }
 
 #presentDesc
 {
-    font-size: 77%;
+    font-size: 90%;
     color: #a6a3aa;
     width: 98%;
     margin-bottom: 3%;
@@ -1263,12 +1263,12 @@ body
 
 #presentTip
 {
-    font-size: 77%;
+    font-size: 90%;
     color: #fff;
     background: #ae263f url('../images/Add/lamp.png') no-repeat;
     border: none;
     background-position: 98% 33%;
-    padding: 2%;
+    padding: 4%;
     width: 98%;
     background-size: 5%;
     text-indent: 8%;
@@ -1278,7 +1278,7 @@ body
 {
     color: #555555;
     text-decoration: underline;
-    font-size: 77%;
+    font-size: 90%;
     width: 44%;
     padding: 2%;
     margin-top: 3%;
