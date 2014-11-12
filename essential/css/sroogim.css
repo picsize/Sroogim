@@ -463,6 +463,7 @@ body
     height: 86.7% !important;
     min-height: 86.7% !important;
     margin-top: 6%;
+    top:1%;
 }
 
     #menuSidebar #sidebarCoverImg
@@ -551,7 +552,7 @@ body
         margin: 0;
         color: #fff;
         font: menu;
-        line-height: 5em;
+        line-height: 0.5em;
         margin-left: 4%;
     }
 
