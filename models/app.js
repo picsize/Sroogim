@@ -1,5 +1,5 @@
 ﻿
-api = 'http://www.sroogim.co.il/SroogimCMS/app/api/';
+api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 date = getAllDates();
 present = getAllPresents();
 
