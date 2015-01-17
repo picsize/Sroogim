@@ -22,11 +22,13 @@
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
     <script src="essential/jQuery/jquery.marquee.js"></script>
-    <script src="models/settings.js"></script>
+    <script src="models/app.js"></script>
     <script src="models/uploadImages.js"></script>
     <script src="models/loginAndRegister.js"></script>
     <script src="models/addDateOrPresent.js"></script>
     <script src="models/rating.js"></script>
+    <!-- Google Map -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
 
     <div id="fb-root"></div>
     <div id="loadImages"></div>
@@ -830,246 +832,6 @@
                     <h2>טיילות</h2>
                 </div>
                 <ul class="dataList">
-                    <li class="dataItem">
-                        <!--Image-->
-                        <div>
-                            <img src="essential/images/Favroites/imgFav.png" />
-                        </div>
-                        <!--Description + Social-->
-                        <div>
-                            <h3>טיילת מספר 1</h3>
-                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
-                            <section class="social">
-                                <ul>
-                                    <li>
-                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
-                                    </li>
-                                    <li>
-                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
-                                    </li>
-                                    <li>
-                                        <section class="rating">
-                                            <span data-value="5" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="4" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="3" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="2" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                            <span data-value="1" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                        </section>
-                                    </li>
-                                    <li>
-                                        <p>10 ק"מ ממקומך</p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                        <!--Arrow-->
-                        <div>
-                            <a data-ajax="false" href="index.html#singleDate" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
-                        </div>
-                    </li>
-                    <li class="dataItem">
-                        <!--Image-->
-                        <div>
-                            <img src="essential/images/Favroites/imgFav.png" />
-                        </div>
-                        <!--Description + Social-->
-                        <div>
-                            <h3>טיילת מספר 1</h3>
-                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
-                            <section class="social">
-                                <ul>
-                                    <li>
-                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
-                                    </li>
-                                    <li>
-                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
-                                    </li>
-                                    <li>
-                                        <section class="rating">
-                                            <span data-value="5" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="4" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="3" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="2" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                            <span data-value="1" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                        </section>
-                                    </li>
-                                    <li>
-                                        <p>10 ק"מ ממקומך</p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                        <!--Arrow-->
-                        <div>
-                            <a data-ajax="false" href="index.html#singleDate" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
-                        </div>
-                    </li>
-                    <li class="dataItem">
-                        <!--Image-->
-                        <div>
-                            <img src="essential/images/Favroites/imgFav.png" />
-                        </div>
-                        <!--Description + Social-->
-                        <div>
-                            <h3>טיילת מספר 1</h3>
-                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
-                            <section class="social">
-                                <ul>
-                                    <li>
-                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
-                                    </li>
-                                    <li>
-                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
-                                    </li>
-                                    <li>
-                                        <section class="rating">
-                                            <span data-value="5" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="4" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="3" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="2" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                            <span data-value="1" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                        </section>
-                                    </li>
-                                    <li>
-                                        <p>10 ק"מ ממקומך</p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                        <!--Arrow-->
-                        <div>
-                            <a data-ajax="false" href="index.html#singleDate" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
-                        </div>
-                    </li>
-                    <li class="dataItem">
-                        <!--Image-->
-                        <div>
-                            <img src="essential/images/Favroites/imgFav.png" />
-                        </div>
-                        <!--Description + Social-->
-                        <div>
-                            <h3>טיילת מספר 1</h3>
-                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
-                            <section class="social">
-                                <ul>
-                                    <li>
-                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
-                                    </li>
-                                    <li>
-                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
-                                    </li>
-                                    <li>
-                                        <section class="rating">
-                                            <span data-value="5" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="4" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="3" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="2" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                            <span data-value="1" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                        </section>
-                                    </li>
-                                    <li>
-                                        <p>10 ק"מ ממקומך</p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                        <!--Arrow-->
-                        <div>
-                            <a data-ajax="false" href="index.html#singleDate" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
-                        </div>
-                    </li>
-                    <li class="dataItem">
-                        <!--Image-->
-                        <div>
-                            <img src="essential/images/Favroites/imgFav.png" />
-                        </div>
-                        <!--Description + Social-->
-                        <div>
-                            <h3>טיילת מספר 1</h3>
-                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
-                            <section class="social">
-                                <ul>
-                                    <li>
-                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
-                                    </li>
-                                    <li>
-                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
-                                    </li>
-                                    <li>
-                                        <section class="rating">
-                                            <span data-value="5" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="4" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="3" data-empty="true">
-                                                <img src="essential/images/General/blankStar.png" />
-                                            </span>
-                                            <span data-value="2" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                            <span data-value="1" data-empty="false">
-                                                <img src="essential/images/General/goldenStar.png" />
-                                            </span>
-                                        </section>
-                                    </li>
-                                    <li>
-                                        <p>10 ק"מ ממקומך</p>
-                                    </li>
-                                </ul>
-                            </section>
-                        </div>
-                        <!--Arrow-->
-                        <div>
-                            <a data-ajax="false" href="index.html#singleDate" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -1139,7 +901,7 @@
                             <label id="singleDate_dateLocation">חוף הצוק - תל אביב יפו</label>
                         </div>
                         <div class="ui-block-b dateWebsiteHolder">
-                            <label><a id="singleDate_dateWebsite" href="#">קישור לאתר המקום</a></label>
+                            <label><a id="singleDate_dateWebsite" href="">קישור לאתר המקום</a></label>
                             <label><a data-ajax="false" href="tel:0501111111" id="singleDate_dateTel">050-1111111</a></label>
                         </div>
                     </div>
@@ -1368,7 +1130,7 @@
                         </div>
                         <!--Arrow-->
                         <div>
-                            <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
+                            <a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-dateid="1">
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
                     </li>
