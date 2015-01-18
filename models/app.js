@@ -1,11 +1,12 @@
 ﻿
-api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+//api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+api = '../SroogimCMS/app/api/Default.aspx/';
 date = getAllDates();
 present = getAllPresents();
 
 
 $(function () {
-    checkPhonegap();
+    //checkPhonegap();
 
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
@@ -27,8 +28,8 @@ function getAllDates() {
         data: '',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        error: function (result) {
-            alert(result.d);
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
         },
         success: function (result) {
             date = JSON.parse(result.d);
@@ -44,8 +45,8 @@ function getAllPresents() {
         data: '',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        error: function (result) {
-            alert(result.d);
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
         },
         success: function (result) {
             present = JSON.parse(result.d);
@@ -65,8 +66,13 @@ function createDatePage(json) {
     else {
         $('#singleDate_dateTip').parent().parent().hide();
     }
+    //var info = json.MoreInfoHeader.split('<br>');
+    //var infoText = '';
+    //for (var i = 0; i < info.length; i++) {
+    //    infoText += info[i] + "<br>";
+    //}
     $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
-    $('#singleDate_dateSteps').text(json.MoreInfoText);
+    $('#singleDate_dateSteps').html(json.MoreInfoText);
 }
 
 //create present page
@@ -127,14 +133,9 @@ $(document).on('pagebeforecreate', '#datesList', function () {
     $('.dataList').html(dateLi);
 });
 
-//store dateID to local storage
-$(document).on('click', '.goToDate', function () {
-    localStorage.setItem('dateID', $(this).attr('data-date-id'));
-});
-
 //show date page
-$(document).on('pagebeforecreate', '#singleDate', function () {
-    var dateID = parseInt(localStorage.getItem('dateID'));
+$(document).on('click', '.goToDate', function () {
+    var dateID = parseInt($(this).attr('data-date-id'));
     for (var i = 0; i < date.length; i++) {
         if (dateID == date[i].DateID) {
             createDatePage(date[i]);
@@ -185,15 +186,9 @@ $(document).on('pagebeforecreate', '#presentsList', function () {
     $('.dataList').html(presentLi);
 });
 
-//store presentIDto local storage
-$(document).on('click', '.goToPresent', function () {
-    localStorage.setItem('presentID', $(this).attr('data-present-id'));
-});
-
 //show present page
-$(document).on('pagebeforecreate', '#singlePresent', function () {
-    var presentID = parseInt(localStorage.getItem('presentID'));
-   // alert(presentID);
+$(document).on('click', '.goToPresent', function () {
+    var presentID = parseInt($(this).attr('data-present-id'));
     for (var i = 0; i < present.length; i++) {
         if (presentID == present[i].PresentID) {
             createPresentPage(present[i]);

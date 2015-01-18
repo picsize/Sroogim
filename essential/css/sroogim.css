@@ -105,10 +105,10 @@ body
         color: #fff;
         text-shadow: none;
         font-family: 'sroogimHeader' !important;
-        font-weight: normal;
-        letter-spacing: 3px;
         text-align: center;
-        font-size: 140%;
+        font-size: 125% !important;
+        margin: 0 !important;
+        padding: 2% 0 4% !important;
     }
 
     [data-role="header"] .goBack img
@@ -137,8 +137,8 @@ body
     direction: rtl !important;
     background-color: transparent !important;
     border: none;
-    position: fixed;
-    bottom: 0;
+    /*position: fixed;
+    bottom: 0;*/
     /*position: absolute !important;
     top: auto !important;*/
     width: 100%;
@@ -161,14 +161,14 @@ body
     padding: 2% 5%;
 }
 
-    .rating > span:hover,
-    .rating > span:hover ~ span
+    .rating.clickable > span:hover,
+    .rating.clickable > span:hover ~ span
     {
         content: url('../images/General/goldenStar.png');
     }
 
-        .rating > span:hover:before,
-        .rating > span:hover ~ span:before
+        .rating.clickable > span:hover:before,
+        .rating.clickable > span:hover ~ span:before
         {
             content: url('../images/General/goldenStar.png');
         }
@@ -197,6 +197,7 @@ body
         {
             display: inline;
             float: right;
+            margin-right:2%;
         }
 
             .social ul li:first-child img, .social ul li:nth-child(2) img
@@ -211,7 +212,7 @@ body
 
                 .social ul li:nth-child(3) .rating span img
                 {
-                    width: 13%;
+                    width: 1.1em;
                 }
 
             .social ul li:last-child p
@@ -248,7 +249,7 @@ body
 
     .socialHolder .social ul li:last-child
     {
-        float: left;
+        /*float: left;*/
     }
 
         .socialHolder .social ul li:last-child p
@@ -264,7 +265,7 @@ body
 
             .socialHolder .social ul li:last-child .rating span img
             {
-                width: 12% !important;
+                width: 1.2em !important;
                 margin-bottom: 0 !important;
             }
 
@@ -383,7 +384,7 @@ body
 .ui-icon-add-present:after
 {
     background-image: url(../images/Icons/presenticon.png);
-background-size: 21px 20px;
+    background-size: 21px 20px;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -590,7 +591,7 @@ background-size: 21px 20px;
     #menuSidebar #panelLinks a.ui-btn-icon-right:after
     {
         margin-right: 5%;
-        margin-top: -2%;
+        margin-top: -4%;
     }
 
     #menuSidebar section:last-child small
@@ -617,7 +618,7 @@ background-size: 21px 20px;
 #logo
 {
     width: 80%;
-    margin: 8% auto;
+    margin: -4% auto 10%;
 }
 
     #logo img
@@ -1149,6 +1150,7 @@ background-size: 21px 20px;
                     margin: 0;
                     color: #b7b7b7;
                     font-size: 77%;
+                    height:4em;
                 }
 
             .dataList .dataItem div:last-child
@@ -1173,7 +1175,7 @@ background-size: 21px 20px;
 
         .dataList .dataItem.presentCategory
         {
-            height:5em;
+            height: 5em;
         }
 
             .dataList .dataItem.presentCategory div:first-child img
@@ -1652,7 +1654,7 @@ background-size: 21px 20px;
 
 #singlePresent .socialHolder
 {
-    top:11.4em;
+    top: 11.4em;
 }
 
 #singlePresent_presentHeader
@@ -1686,8 +1688,8 @@ background-size: 21px 20px;
 
 #singlePresent_whereToBuy
 {
-    margin:7% 0 9% 0;
-    text-decoration:underline;
+    margin: 7% 0 9% 0;
+    text-decoration: underline;
 }
 
 #singlePresent [role="main"] .wrapper div.inputContainer .ui-grid-b [class^="ui-block"]
@@ -1697,7 +1699,7 @@ background-size: 21px 20px;
 
     #singlePresent [role="main"] .wrapper div.inputContainer .ui-grid-b [class^="ui-block"] img
     {
-        width:75%;
+        width: 75%;
     }
 
 #singlePresent .singleDate_buttons

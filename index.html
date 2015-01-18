@@ -26,7 +26,7 @@
     <script src="models/uploadImages.js"></script>
     <script src="models/loginAndRegister.js"></script>
     <script src="models/addDateOrPresent.js"></script>
-    <script src="models/rating.js"></script>
+    <script src="models/social.js"></script>
     <!-- Google Map -->
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>-->
 
@@ -53,10 +53,10 @@
             <fieldset class="ui-grid-a">
                 <legend></legend>
                 <div class="ui-block-a">
-                    <button class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user">עדכן תמונת פרופיל</button>
+                    <button class="ui-btn ui-shadow ui-btn-icon-right">עדכן תמונת פרופיל</button>
                 </div>
                 <div class="ui-block-b">
-                    <button class="ui-btn ui-shadow ui-btn-icon-right ui-icon-action">עדכן תמונת נושא</button>
+                    <button class="ui-btn ui-shadow ui-btn-icon-right">עדכן תמונת נושא</button>
                 </div>
             </fieldset>
         </section>
@@ -64,11 +64,11 @@
         <!-- Links -->
         <section>
             <div id="panelLinks">
-                <a data-ajax="false" href="index.html#profilePage" data-ajax="false" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
-                <a data-ajax="false" href="index.html#favorites" data-ajax="false" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon">העדפות שלי</a>
-                <a data-ajax="false" href="index.html#addDate" data-ajax="false" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
-                <a data-ajax="false" href="index.html#addPresent" data-ajax="false" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
-                <a data-ajax="false" href="index.html#experts" data-ajax="false" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
+                <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
+                <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon">העדפות שלי</a>
+                <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
+                <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
+                <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
             </div>
         </section>
 
@@ -873,7 +873,7 @@
                                 <span>
                                     <p>דרג/י</p>
                                 </span>
-                                <section class="rating">
+                                <section class="rating clickable">
                                     <span data-value="5" data-empty="true">
                                         <img src="essential/images/General/blankStar.png" />
                                     </span>
@@ -1311,7 +1311,7 @@
                                 <span>
                                     <p>דרג/י</p>
                                 </span>
-                                <section class="rating">
+                                <section class="rating clickable">
                                     <span data-value="5" data-empty="true">
                                         <img src="essential/images/General/blankStar.png" />
                                     </span>
