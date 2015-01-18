@@ -1,12 +1,12 @@
 ﻿
-//api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
-api = '../SroogimCMS/app/api/Default.aspx/';
+api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+//api = '../SroogimCMS/app/api/Default.aspx/';
 date = getAllDates();
 present = getAllPresents();
 
 
 $(function () {
-    //checkPhonegap();
+    checkPhonegap();
 
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
