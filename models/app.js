@@ -117,6 +117,7 @@ function getAllDates() {
         },
         success: function (result) {
             date = JSON.parse(result.d);
+            alert(JSON.stringify(date));
             for (var i = 0; i < date.length; i++) {
                 codeAddress(date[i].DateGps, date[i].DateID);
             }
@@ -137,6 +138,7 @@ function getAllPresents() {
         },
         success: function (result) {
             present = JSON.parse(result.d);
+            alert(JSON.stringify(present));
         }
     });
 }
@@ -154,7 +156,7 @@ function getAllCategories() {
         },
         success: function (result) {
             categories = JSON.parse(result.d);
-            //alert(JSON.stringify(categories));
+            alert(JSON.stringify(categories));
         }
     });
 }

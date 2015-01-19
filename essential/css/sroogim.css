@@ -295,12 +295,12 @@ body
     .location button
     {
         height: 100%;
-        margin: 0;
         text-indent: 1%;
         color: #fff !important;
         font-weight: normal !important;
         width: 100% !important;
         margin: 0 !important;
+        padding:.8em 1em;
     }
 
         .location button.active
