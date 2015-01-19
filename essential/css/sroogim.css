@@ -137,8 +137,8 @@ body
     direction: rtl !important;
     background-color: transparent !important;
     border: none;
-    /*position: fixed;
-    bottom: 0;*/
+    position: fixed;
+    bottom: 0;
     /*position: absolute !important;
     top: auto !important;*/
     width: 100%;
@@ -839,13 +839,13 @@ body
             width: 60%;
             border: none;
             border-bottom: 1px dotted #959595;
-            color: #959595;
+            color: #3A3A3A;
             outline: none;
         }
 
     #userDetails span
     {
-        color: #959595;
+        color: #3A3A3A;
         font-size: 75%;
         margin-right: 6%;
     }
