@@ -5,9 +5,8 @@ var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
-document.addEventListener("deviceready", onDeviceReady, false);
+$(function () {
 
-function onDeviceReady() {
     checkPhonegap();
     getAllDates();
     getAllPresents();
@@ -17,21 +16,8 @@ function onDeviceReady() {
     $('#newsContainer p').marquee();
 
     geocoder = new google.maps.Geocoder();
-}
 
-//$(function () {
-
-//    checkPhonegap();
-//    getAllDates();
-//    getAllPresents();
-//    getAllCategories();
-
-//    $('#menuSidebar').panel().enhanceWithin();
-//    $('#newsContainer p').marquee();
-
-//    geocoder = new google.maps.Geocoder();
-
-//});
+});
 
 //check phonegap components
 function checkPhonegap() {
@@ -343,6 +329,17 @@ $(document).on('click', '.goToPresent', function () {
         if (presentID == present[i].PresentID) {
             createPresentPage(present[i]);
         }
+    }
+});
+
+//apply location view
+$(document).on('click', '.findGps, .selectLocation', function () {
+    if ($(this).hasClass('findGps')) {
+        $(this).addClass('active');
+        $('.selectLocation').removeClass('active');
+    } else {
+        $(this).addClass('active');
+        $('.findGps').removeClass('active');
     }
 });
 
