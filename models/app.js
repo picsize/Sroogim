@@ -5,43 +5,13 @@ var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
-//set device ready event
-document.addEventListener("deviceready", function () {
-    var count = 7;
-    var devicePlatform = device.platform;
-    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-            StatusBar.hide();
-        }
-    }
-
-    if (!window.jQuery) {
-        deviceOffline();
-    }
-    else {
-        var check = function () {
-            if (count <= 0) {
-                $.mobile.loading('hide');
-                init();
-                loadFacebook();
-            }
-            else {
-                count--;
-
-                $.mobile.loading('show', {
-                    text: count,
-                    textVisible: true,
-                    theme: 'a',
-                    textonly: false
-                });
-
-                setTimeout(check, 1000); // check again in a second
-            }
-        }
-        check();
-    }
-
-}, false);
+$(function () {
+    document.addEventListener("deviceready", function () {
+        alert('app.js device ready');
+        init();
+    }, true);
+    //init();
+});
 
 
 function init() {

@@ -4,22 +4,60 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
+document.addEventListener("deviceready", initLogin, true);
+
+function initLogin() {
+    alert('login register');
+    var count = 7;
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
+
+    if (!window.jQuery) {
+        deviceOffline();
+    }
+    else {
+        var check = function () {
+            if (count <= 0) {
+                $.mobile.loading('hide');
+                loadFacebook();
+            }
+            else {
+                count--;
+
+                $.mobile.loading('show', {
+                    text: count,
+                    textVisible: true,
+                    theme: 'a',
+                    textonly: false
+                });
+
+                setTimeout(check, 1000); // check again in a second
+            }
+        };
+        check();
+    }
+}
+
 $(function () {
 
     //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {
-        loginFromFacebook();
+        //loginFromFacebook();
     });
 
     //upload cover img
     $(document).on('click', '#uploadCoverImg', function () {
         showImgPreview('cover');
-    })
+    });
 
     //upload profile img
     $(document).on('click', '#uploadProfileImg', function () {
         showImgPreview('profile');
-    })
+    });
 
 });
 
