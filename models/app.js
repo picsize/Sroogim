@@ -6,20 +6,15 @@ var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
 $(function () {
-    init();
-});
+    $('#menuSidebar').panel().enhanceWithin();
+    $('#newsContainer p').marquee();
 
-
-function init() {
     checkPhonegap();
     getAllDates();
     getAllPresents();
     getAllCategories();
     initGps();
-
-    $('#menuSidebar').panel().enhanceWithin();
-    $('#newsContainer p').marquee();
-}
+});
 
 //check phonegap components
 function checkPhonegap() {

@@ -6,7 +6,7 @@
 
 $(function () {
 
-    document.addEventListener("deviceready", initLogin, false);
+    document.addEventListener("deviceready", initLogin, true);
 
     //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {
