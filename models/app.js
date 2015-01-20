@@ -1,7 +1,7 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var date, present, categories, geocoder, distance;
+var date, present, categories, geocoder, distance, lat, lng;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
@@ -170,11 +170,11 @@ function getcurrentlatlong() {
 //success to get my location
 function onSuccess(position) {
     //console.log("onSuccess called");
-    var lat = position.coords.latitude;
-    var lng = position.coords.longitude;
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
     //myLocation = new google.maps.LatLng(lat, lng);
-    localStorage.setItem('lat', lat);
-    localStorage.setItem('lng', lng);
+    //localStorage.setItem('lat', lat);
+    //localStorage.setItem('lng', lng);
     //console.log("latitude is: " + lat + " longitude is: " + lng);
 }
 
@@ -253,6 +253,7 @@ function getAllDates() {
             for (var i = 0; i < date.length; i++) {
                 codeAddress(date[i].DateGps, date[i].DateID);
             }
+            alert(JSON.stringify(gpsAddress));
         }
     });
 }
