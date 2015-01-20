@@ -4,7 +4,26 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-document.addEventListener("deviceready", initLogin, true);
+$(function () {
+
+    document.addEventListener("deviceready", initLogin, false);
+
+    //click on facebook login button
+    $(document).on('click', '#facebookLogin', function () {
+        //loginFromFacebook();
+    });
+
+    //upload cover img
+    $(document).on('click', '#uploadCoverImg', function () {
+        showImgPreview('cover');
+    });
+
+    //upload profile img
+    $(document).on('click', '#uploadProfileImg', function () {
+        showImgPreview('profile');
+    });
+
+});
 
 function initLogin() {
     alert('login register');
@@ -41,25 +60,6 @@ function initLogin() {
         check();
     }
 }
-
-$(function () {
-
-    //click on facebook login button
-    $(document).on('click', '#facebookLogin', function () {
-        //loginFromFacebook();
-    });
-
-    //upload cover img
-    $(document).on('click', '#uploadCoverImg', function () {
-        showImgPreview('cover');
-    });
-
-    //upload profile img
-    $(document).on('click', '#uploadProfileImg', function () {
-        showImgPreview('profile');
-    });
-
-});
 
 //#region Facebook Login
 

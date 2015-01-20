@@ -6,11 +6,7 @@ var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
 $(function () {
-    document.addEventListener("deviceready", function () {
-        alert('app.js device ready');
-        init();
-    }, true);
-    //init();
+    init();
 });
 
 
