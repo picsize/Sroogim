@@ -227,6 +227,7 @@ function setDistance(response, status) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
                 distance = results[j].distance.text.replace('km', 'ק"מ');
+                alert(distance);
                 //console.log('text: ' + results[j].distance.text);
                 //localStorage.setItem('distance', results[j].distance.text.replace('km', 'ק"מ'));
                 //console.log('c: ' + localStorage.getItem('distance'));
@@ -358,6 +359,7 @@ $(document).on('click', '.goToDateList', function () {
     for (var i = 0; i < date.length; i++) {
         if (date[i].DateCategory == categoryID) {
             var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+            alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, date[i].DateGps);
             dateLi += '<li class="dataItem">' +
                             '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
