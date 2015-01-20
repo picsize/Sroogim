@@ -1,5 +1,5 @@
 ﻿
-api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+api = 'http://www.sroogim.co.il/sroogimCMS/app/api/default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
 var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
