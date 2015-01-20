@@ -1,7 +1,7 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var date, present, categories, geocoder;
+var date, present, categories, geocoder, distance;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
@@ -134,13 +134,13 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-//FB.Event.subscribe('auth.login', function (response) {
-//    FB.api('/me', function (a_response) {
-//        if (a_response && !a_response.error) {
-//            loginToSroogim(a_response);
-//        }
-//    });
-//});
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            loginToSroogim(a_response);
+        }
+    });
+});
 
 //#endregion
 
@@ -192,6 +192,7 @@ function codeAddress(address, dateID) {
                 'lat': results[0].geometry.location.k,
                 'lng': results[0].geometry.location.D
             };
+            alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
         } else {
             return address
@@ -225,8 +226,9 @@ function setDistance(response, status) {
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
+                distance = results[j].distance.text.replace('km', 'ק"מ');
                 //console.log('text: ' + results[j].distance.text);
-                localStorage.setItem('distance', results[j].distance.text.replace('km', 'ק"מ'));
+                //localStorage.setItem('distance', results[j].distance.text.replace('km', 'ק"מ'));
                 //console.log('c: ' + localStorage.getItem('distance'));
             }
         }
@@ -385,7 +387,7 @@ $(document).on('click', '.goToDateList', function () {
                                             '</section>' +
                                         '</li>' +
                                         '<li>' +
-                                            '<p>' + localStorage.getItem('distance') + ' ממקומך' + '</p>' +
+                                            '<p>' + distance + ' ממקומך' + '</p>' +
                                         '</li>' +
                                     '</ul>' +
                                 '</section>' +
@@ -400,7 +402,7 @@ $(document).on('click', '.goToDateList', function () {
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
     }
-    alert('DISTANCE: ' + localStorage.getItem('distance'))
+    alert('DISTANCE: ' + distance)
     $('.dataList').html(dateLi);
 });
 
