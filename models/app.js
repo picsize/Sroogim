@@ -5,7 +5,7 @@ var date, present, categories, geocoder, distance, lat, lng;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
-document.addEventListener("deviceready", initApp, true);
+document.addEventListener("deviceready", initApp, false);
 
 //$(function () {
 //    initApp();
@@ -153,6 +153,7 @@ function checkPhonegap() {
 
 function initGps() {
     geocoder = new google.maps.Geocoder();
+    alert('g: ' + geocoder);
 }
 
 //get my current location
@@ -251,9 +252,10 @@ function getAllDates() {
             date = JSON.parse(result.d);
             alert('DATES: ' + JSON.stringify(date));
             for (var i = 0; i < date.length; i++) {
+                alert('i=' + i);
                 codeAddress(date[i].DateGps, date[i].DateID);
             }
-            alert(JSON.stringify(gpsAddress));
+            //alert(JSON.stringify(gpsAddress));
         }
     });
 }
