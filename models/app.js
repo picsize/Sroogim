@@ -11,19 +11,22 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
-    var num = 10;
-    $('#menuSidebar').panel().enhanceWithin();
-    $('#newsContainer p').marquee();
-    if (typeof google === 'object' && typeof google.maps === 'object') {
 
-        alert('google maps loaded');
-    }
+    $.when(
+         $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I'),
+         $.Deferred(function (deferred) {
+             $(deferred.resolve);
+         })
+        ).done(function () {
+            $('#menuSidebar').panel().enhanceWithin();
+            $('#newsContainer p').marquee();
 
-    checkPhonegap();
-    getAllDates();
-    getAllPresents();
-    getAllCategories();
-    getModels();
+            checkPhonegap();
+            getAllDates();
+            getAllPresents();
+            getAllCategories();
+        });
+
 }
 
 //check phonegap components
@@ -31,15 +34,6 @@ function checkPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
     if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
     if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
-}
-
-//get all the models for the app
-function getModels() {
-    $.getScript('models/loginAndRegister.js');
-    //$.getScript('models/.js');
-    //$.getScript('models/.js');
-    //$.getScript('models/.js');
-    //$.getScript('models/.js');
 }
 
 //get my current location
@@ -70,6 +64,7 @@ function onError(error) {
 function codeAddress(address, dateID) {
     alert('codeAddress');
     var geocoder = new google.maps.Geocoder();
+    alert('g: ' + geocoder);
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
