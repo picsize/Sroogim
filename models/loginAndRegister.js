@@ -8,6 +8,7 @@ $(function () {
 
     //set device ready event
     document.addEventListener("deviceready", function () {
+        alert('device is ready');
         var count = 7;
         var devicePlatform = device.platform;
         if (devicePlatform.toLowerCase().indexOf('ios') != -1) {

@@ -11,11 +11,10 @@ $(function () {
     getAllDates();
     getAllPresents();
     getAllCategories();
+    initGps();
 
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
-
-    geocoder = new google.maps.Geocoder();
 
 });
 
@@ -24,6 +23,10 @@ function checkPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
     if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
     if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+}
+
+function initGps() {
+    geocoder = new google.maps.Geocoder();
 }
 
 //get my current location
@@ -40,18 +43,18 @@ function getcurrentlatlong() {
 
 //success to get my location
 function onSuccess(position) {
-    console.log("onSuccess called");
+    //console.log("onSuccess called");
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
-    myLocation = new google.maps.LatLng(lat, lng);
+    //myLocation = new google.maps.LatLng(lat, lng);
     localStorage.setItem('lat', lat);
     localStorage.setItem('lng', lng);
-    console.log("latitude is: " + lat + " longitude is: " + lng);
+    //console.log("latitude is: " + lat + " longitude is: " + lng);
 }
 
 //error while getting my location
 function onError(error) {
-    console.log("Getting the error" + error.code + "\nerror mesg :" + error.message);
+    //console.log("Getting the error" + error.code + "\nerror mesg :" + error.message);
 }
 
 //convert date location to lat & lng
@@ -91,14 +94,14 @@ function setDistance(response, status) {
     } else {
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
-        console.log('d: ' + destinations);
+        //console.log('d: ' + destinations);
 
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
-                console.log('text: ' + results[j].distance.text);
+                //console.log('text: ' + results[j].distance.text);
                 localStorage.setItem('distance', results[j].distance.text.replace('km', 'ק"מ'));
-                console.log('c: ' + localStorage.getItem('distance'));
+                //console.log('c: ' + localStorage.getItem('distance'));
             }
         }
     }
