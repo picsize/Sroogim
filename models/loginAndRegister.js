@@ -4,9 +4,9 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-$(function () {
+//document.addEventListener("deviceready", initLogin, true);
 
-    document.addEventListener("deviceready", initLogin, true);
+$(function () {
 
     //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {

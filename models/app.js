@@ -5,7 +5,9 @@ var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
-$(function () {
+document.addEventListener("deviceready", initApp, true);
+
+function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
 
@@ -14,7 +16,12 @@ $(function () {
     getAllPresents();
     getAllCategories();
     initGps();
-});
+    initLogin();
+}
+
+//$(function () {
+    
+//});
 
 //check phonegap components
 function checkPhonegap() {
