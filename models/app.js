@@ -7,7 +7,6 @@ var subCategories = [], gpsAddress = [];
 
 //set device ready event
 document.addEventListener("deviceready", function () {
-    alert('device is ready');
     var count = 7;
     var devicePlatform = device.platform;
     if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
@@ -158,7 +157,7 @@ function getAllDates() {
         },
         success: function (result) {
             date = JSON.parse(result.d);
-            alert(JSON.stringify(date));
+            alert('DATES: ' + JSON.stringify(date));
             for (var i = 0; i < date.length; i++) {
                 codeAddress(date[i].DateGps, date[i].DateID);
             }
@@ -179,7 +178,7 @@ function getAllPresents() {
         },
         success: function (result) {
             present = JSON.parse(result.d);
-            alert(JSON.stringify(present));
+            alert('PRESENTS: ' + JSON.stringify(present));
         }
     });
 }
@@ -197,7 +196,7 @@ function getAllCategories() {
         },
         success: function (result) {
             categories = JSON.parse(result.d);
-            alert(JSON.stringify(categories));
+            alert('CATEGORIES: ' + JSON.stringify(categories));
         }
     });
 }
