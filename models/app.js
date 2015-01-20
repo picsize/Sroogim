@@ -1,5 +1,5 @@
 ﻿
-api = 'http://www.sroogim.co.il/sroogimCMS/app/api/default.aspx/';
+api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
 var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
@@ -134,13 +134,13 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
-        }
-    });
-});
+//FB.Event.subscribe('auth.login', function (response) {
+//    FB.api('/me', function (a_response) {
+//        if (a_response && !a_response.error) {
+//            loginToSroogim(a_response);
+//        }
+//    });
+//});
 
 //#endregion
 
@@ -298,6 +298,7 @@ function createDatePage(json) {
             gps = gpsAddress[i].lat + ',' + gpsAddress[i].lng;
         }
     }
+    alert('gps: ' + gps);
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
@@ -340,7 +341,8 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
             html += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
         }
         html += '</ul></div>';
-    }
+    };
+    alert(html);
     $('#datesPage .wrapper').html(html);
 });
 
@@ -348,6 +350,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
 $(document).on('click', '.goToDateList', function () {
     getcurrentlatlong();
     var categoryID = parseInt($(this).attr('data-category-id'));
+    alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
     for (var i = 0; i < date.length; i++) {
@@ -397,6 +400,7 @@ $(document).on('click', '.goToDateList', function () {
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
     }
+    alert('DISTANCE: ' + localStorage.getItem('distance'))
     $('.dataList').html(dateLi);
 });
 
