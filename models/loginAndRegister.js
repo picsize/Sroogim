@@ -6,45 +6,6 @@
 
 $(function () {
 
-    //set device ready event
-    document.addEventListener("deviceready", function () {
-        alert('device is ready');
-        var count = 7;
-        var devicePlatform = device.platform;
-        if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-            if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-                StatusBar.hide();
-            }
-        }
-
-        if (!window.jQuery) {
-            deviceOffline();
-        }
-        else {
-            var check = function () {
-                if (count <= 0) {
-                    // run when condition is met
-                    $.mobile.loading('hide');
-                    loadFacebook();
-                }
-                else {
-                    count--;
-
-                    $.mobile.loading('show', {
-                        text: count,
-                        textVisible: true,
-                        theme: 'a',
-                        textonly: false
-                    });
-
-                    setTimeout(check, 1000); // check again in a second
-                }
-            }
-            check();
-        }
-
-    }, false);
-
     //click on facebook login button
     $(document).on('click', '#facebookLogin', function () {
         loginFromFacebook();
@@ -70,6 +31,7 @@ function facebookDismissed() {
 
 //load facebook plugin
 function loadFacebook() {
+    alert('load facebook');
     try {
         FB.init({
             appId: "988309234528102",

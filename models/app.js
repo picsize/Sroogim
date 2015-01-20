@@ -5,8 +5,47 @@ var date, present, categories, geocoder;
 var subCategories = [], gpsAddress = [];
 //var bounds = new google.maps.LatLngBounds();
 
-$(function () {
+//set device ready event
+document.addEventListener("deviceready", function () {
+    alert('device is ready');
+    var count = 7;
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
 
+    if (!window.jQuery) {
+        deviceOffline();
+    }
+    else {
+        var check = function () {
+            if (count <= 0) {
+                $.mobile.loading('hide');
+                init();
+                loadFacebook();
+            }
+            else {
+                count--;
+
+                $.mobile.loading('show', {
+                    text: count,
+                    textVisible: true,
+                    theme: 'a',
+                    textonly: false
+                });
+
+                setTimeout(check, 1000); // check again in a second
+            }
+        }
+        check();
+    }
+
+}, false);
+
+
+function init() {
     checkPhonegap();
     getAllDates();
     getAllPresents();
@@ -15,8 +54,7 @@ $(function () {
 
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
-
-});
+}
 
 //check phonegap components
 function checkPhonegap() {
