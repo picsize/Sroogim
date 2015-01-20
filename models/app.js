@@ -1,7 +1,7 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var date, present, categories, geocoder, distance, lat, lng;
+var date, present, categories, distance, lat, lng;
 var subCategories = [], gpsAddress = [];
 
 document.addEventListener("deviceready", initApp, false);
@@ -15,34 +15,9 @@ function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
     if (typeof google === 'object' && typeof google.maps === 'object') {
-        geocoder = new google.maps.Geocoder();
-        alert('g: ' + geocoder);
-    }
-    else {
-        var gMap = function () {
-            if (num <= 0) {
-                $.mobile.loading('hide');
-                if (typeof google === 'object' && typeof google.maps === 'object') {
-                    geocoder = new google.maps.Geocoder();
-                    alert('g: ' + geocoder);
-                }
-            }
-            else {
-                count--;
 
-                $.mobile.loading('show', {
-                    text: 'gMap ' + count,
-                    textVisible: true,
-                    theme: 'a',
-                    textonly: false
-                });
-
-                setTimeout(gMap, 1000); // check again in a second
-            }
-        };
-        gMap();
+        alert('google maps loaded');
     }
-    
 
     checkPhonegap();
     getAllDates();
@@ -93,6 +68,8 @@ function onError(error) {
 
 //convert date location to lat & lng
 function codeAddress(address, dateID) {
+    alert('codeAddress');
+    var geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
