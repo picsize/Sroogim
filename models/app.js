@@ -11,10 +11,38 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
+    var num = 10;
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
-    geocoder = new google.maps.Geocoder();
-    alert('g: ' + geocoder);
+    if (typeof google === 'object' && typeof google.maps === 'object') {
+        geocoder = new google.maps.Geocoder();
+        alert('g: ' + geocoder);
+    }
+    else {
+        var gMap = function () {
+            if (num <= 0) {
+                $.mobile.loading('hide');
+                if (typeof google === 'object' && typeof google.maps === 'object') {
+                    geocoder = new google.maps.Geocoder();
+                    alert('g: ' + geocoder);
+                }
+            }
+            else {
+                count--;
+
+                $.mobile.loading('show', {
+                    text: 'gMap ' + count,
+                    textVisible: true,
+                    theme: 'a',
+                    textonly: false
+                });
+
+                setTimeout(gMap, 1000); // check again in a second
+            }
+        };
+        gMap();
+    }
+    
 
     checkPhonegap();
     getAllDates();
