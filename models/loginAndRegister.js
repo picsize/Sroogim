@@ -4,7 +4,8 @@
     (C) 2014 Picsize - Be Exclusive
 */
 
-document.addEventListener("deviceready", function () {
+$(function () {
+
     alert('login register');
     var count = 7;
     var devicePlatform = device.platform;
@@ -15,7 +16,7 @@ document.addEventListener("deviceready", function () {
     }
 
     if (!window.jQuery) {
-        deviceOffline();
+        //deviceOffline();
     }
     else {
         var check = function () {
@@ -38,8 +39,23 @@ document.addEventListener("deviceready", function () {
         };
         check();
     }
-}, false);
 
+    //click on facebook login button
+    $(document).on('click', '#facebookLogin', function () {
+        //loginFromFacebook();
+    });
+
+    //upload cover img
+    $(document).on('click', '#uploadCoverImg', function () {
+        showImgPreview('cover');
+    });
+
+    //upload profile img
+    $(document).on('click', '#uploadProfileImg', function () {
+        showImgPreview('profile');
+    });
+
+});
 
 //#region Facebook Login
 
@@ -127,24 +143,7 @@ FB.Event.subscribe('auth.login', function (response) {
 //#endregion
 
 
-$(function () {
 
-    //click on facebook login button
-    $(document).on('click', '#facebookLogin', function () {
-        //loginFromFacebook();
-    });
-
-    //upload cover img
-    $(document).on('click', '#uploadCoverImg', function () {
-        showImgPreview('cover');
-    });
-
-    //upload profile img
-    $(document).on('click', '#uploadProfileImg', function () {
-        showImgPreview('profile');
-    });
-
-});
 
 
 

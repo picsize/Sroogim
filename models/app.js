@@ -20,7 +20,7 @@ function initApp() {
     getAllDates();
     getAllPresents();
     getAllCategories();
-    initGps();
+    getModels();
 }
 
 //check phonegap components
@@ -28,6 +28,15 @@ function checkPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
     if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
     if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+}
+
+//get all the models for the app
+function getModels() {
+    $.getScript('models/loginAndRegister.js');
+    //$.getScript('models/.js');
+    //$.getScript('models/.js');
+    //$.getScript('models/.js');
+    //$.getScript('models/.js');
 }
 
 //get my current location
@@ -105,6 +114,7 @@ function setDistance(response, status) {
 
 //get all dates
 function getAllDates() {
+
     $.ajax({
         type: 'POST',
         url: api + 'getAllAppDates',
@@ -113,20 +123,17 @@ function getAllDates() {
         dataType: 'json',
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
-        },
-        success: function (result) {
-            date = JSON.parse(result.d);
-            
-        },
-        done: function () {
-            alert('DATES: ' + JSON.stringify(date));
-            for (var i = 0; i < date.length; i++) {
-                alert('i=' + i);
-                codeAddress(date[i].DateGps, date[i].DateID);
-            }
-            alert('done: ' + JSON.stringify(gpsAddress));
         }
+    }).done(function (result) {
+        date = JSON.parse(result.d);
+        alert('DATES: ' + JSON.stringify(date));
+        for (var i = 0; i < date.length; i++) {
+            alert('i=' + i);
+            codeAddress(date[i].DateGps, date[i].DateID);
+        }
+        alert('done: ' + JSON.stringify(gpsAddress));
     });
+
 }
 
 //get all presents
