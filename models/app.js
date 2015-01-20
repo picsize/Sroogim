@@ -3,7 +3,6 @@ api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
 var date, present, categories, geocoder, distance, lat, lng;
 var subCategories = [], gpsAddress = [];
-//var bounds = new google.maps.LatLngBounds();
 
 document.addEventListener("deviceready", initApp, false);
 
@@ -14,135 +13,15 @@ document.addEventListener("deviceready", initApp, false);
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#newsContainer p').marquee();
+    geocoder = new google.maps.Geocoder();
+    alert('g: ' + geocoder);
 
     checkPhonegap();
     getAllDates();
     getAllPresents();
     getAllCategories();
     initGps();
-    initLogin();
 }
-
-function initLogin() {
-    alert('login register');
-    var count = 7;
-    var devicePlatform = device.platform;
-    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-            StatusBar.hide();
-        }
-    }
-
-    if (!window.jQuery) {
-        deviceOffline();
-    }
-    else {
-        var check = function () {
-            if (count <= 0) {
-                $.mobile.loading('hide');
-                loadFacebook();
-            }
-            else {
-                count--;
-
-                $.mobile.loading('show', {
-                    text: count,
-                    textVisible: true,
-                    theme: 'a',
-                    textonly: false
-                });
-
-                setTimeout(check, 1000); // check again in a second
-            }
-        };
-        check();
-    }
-}
-
-//#region Facebook Login
-
-function facebookDismissed() {
-    //do nothing
-}
-
-//load facebook plugin
-function loadFacebook() {
-    alert('load facebook');
-    try {
-        FB.init({
-            appId: "988309234528102",
-            nativeInterface: CDV.FB,
-            useCachedDialogs: false,
-            oauth: true
-        });
-        getLoginStatus();
-    } catch (e) {
-        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'Sroogim', 'אישור');
-    }
-}
-
-//check if user is already log in
-function getLoginStatus() {
-    FB.getLoginStatus(function (response) {
-        if (response.status == 'connected') {
-            loginToSroogim(response);
-        } else {
-            $.mobile.changePage('index.html');
-        }
-    });
-}
-
-//login to sroogim via facebook
-function loginToSroogim(response) {
-    //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
-    //alert('hello ' + response.first_name + ' ' + response.last_name);
-    $.mobile.changePage('index.html#mainScreen');
-}
-
-//trigger to facebookLogin()
-function loginFromFacebook() {
-    facebookLogin();
-}
-
-//logout fron facebook
-function logoutFromFacebook() {
-    try {
-        FB.logout(function (response) {
-            $.mobile.changePage('index.html');
-        });
-    } catch (e) {
-        $.mobile.changePage('index.html');
-    }
-}
-
-//login to facebook
-function facebookLogin() {
-    FB.login(function (response) {
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response) {
-                //console.log('Good to see you, ' + response.name + '.');
-                if (response && !response.error) {
-                    loginToSroogim(response);
-                }
-            });
-        } else {
-            console.log('User cancelled login or did not fully authorize.');
-        }
-    }, //{ scope: 'email, user_birthday, user_location' });
-    { scope: 'user_location' });
-}
-
-//if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
-        }
-    });
-});
-
-//#endregion
 
 //check phonegap components
 function checkPhonegap() {
@@ -151,37 +30,28 @@ function checkPhonegap() {
     if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
 }
 
-function initGps() {
-    geocoder = new google.maps.Geocoder();
-    alert('g: ' + geocoder);
-}
-
 //get my current location
 function getcurrentlatlong() {
 
     if (navigator.geolocation) {
-        console.log("navigator.geolocation is supported");
+        alert("navigator.geolocation is supported");
         navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
     }
     else {
-        console.log("navigator.geolocation not supported");
+        alert("navigator.geolocation not supported");
     }
 }
 
 //success to get my location
 function onSuccess(position) {
-    //console.log("onSuccess called");
+    alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
-    //myLocation = new google.maps.LatLng(lat, lng);
-    //localStorage.setItem('lat', lat);
-    //localStorage.setItem('lng', lng);
-    //console.log("latitude is: " + lat + " longitude is: " + lng);
 }
 
 //error while getting my location
 function onError(error) {
-    //console.log("Getting the error" + error.code + "\nerror mesg :" + error.message);
+    alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
 }
 
 //convert date location to lat & lng
@@ -222,16 +92,12 @@ function setDistance(response, status) {
     } else {
         var origins = response.originAddresses;
         var destinations = response.destinationAddresses;
-        //console.log('d: ' + destinations);
 
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
                 distance = results[j].distance.text.replace('km', 'ק"מ');
                 alert(distance);
-                //console.log('text: ' + results[j].distance.text);
-                //localStorage.setItem('distance', results[j].distance.text.replace('km', 'ק"מ'));
-                //console.log('c: ' + localStorage.getItem('distance'));
             }
         }
     }
@@ -250,12 +116,15 @@ function getAllDates() {
         },
         success: function (result) {
             date = JSON.parse(result.d);
+            
+        },
+        done: function () {
             alert('DATES: ' + JSON.stringify(date));
             for (var i = 0; i < date.length; i++) {
                 alert('i=' + i);
                 codeAddress(date[i].DateGps, date[i].DateID);
             }
-            //alert(JSON.stringify(gpsAddress));
+            alert('done: ' + JSON.stringify(gpsAddress));
         }
     });
 }
