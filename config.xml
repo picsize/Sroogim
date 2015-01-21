@@ -118,6 +118,7 @@
     -->
   <!--<access origin="*" />-->
   <access origin="*.sroogim.co.il"/>
+  <access origin="*"/>
   <!-- allow local pages -->
   <!--
         <access origin="http://phonegap.com" />                    - allow any secure requests to http://phonegap.com/

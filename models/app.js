@@ -6,26 +6,25 @@ var subCategories = [], gpsAddress = [];
 
 document.addEventListener("deviceready", initApp, false);
 
-//$(function () {
-//    initApp();
-//});
+$(function () {
+    initApp();
+});
 
 function initApp() {
-
     $.when(
-         $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I'),
-         $.Deferred(function (deferred) {
-             $(deferred.resolve);
-         })
+        $('#menuSidebar').panel().enhanceWithin(),
+        $('#newsContainer p').marquee(),
+        checkPhonegap(),
+        getAllDates(),
+        getAllPresents(),
+        getAllCategories()
         ).done(function () {
-            $('#menuSidebar').panel().enhanceWithin();
-            $('#newsContainer p').marquee();
-
-            checkPhonegap();
-            getAllDates();
-            getAllPresents();
-            getAllCategories();
+            $.getScript('./models/addDateOrPresent.js'),
+            $.getScript('./models/loginAndRegister.js'),
+            $.getScript('./models/uploadImages.js'),
+            $.getScript('./models/social.js')
         });
+
 
 }
 
