@@ -45,12 +45,12 @@ function getAllDates() {
         }
     }).done(function (result) {
         dates = JSON.parse(result.d);
-        alert('DATES: ' + JSON.stringify(dates));
+        //alert('DATES: ' + JSON.stringify(dates));
         for (var i = 0; i < dates.length; i++) {
-            alert('i=' + i);
+           // alert('i=' + i);
             codeAddress(dates[i].DateGps, dates[i].DateID);
         }
-        alert('done: ' + JSON.stringify(gpsAddress));
+        //alert('done: ' + JSON.stringify(gpsAddress));
     });
 
 }
@@ -68,7 +68,7 @@ function getAllPresents() {
         },
         success: function (result) {
             presents = JSON.parse(result.d);
-            alert('PRESENTS: ' + JSON.stringify(presents));
+            //alert('PRESENTS: ' + JSON.stringify(presents));
         }
     });
 }
@@ -86,7 +86,7 @@ function getAllCategories() {
         },
         success: function (result) {
             categories = JSON.parse(result.d);
-            alert('CATEGORIES: ' + JSON.stringify(categories));
+            //alert('CATEGORIES: ' + JSON.stringify(categories));
         }
     });
 }
@@ -105,7 +105,7 @@ function getAllLocations() {
         success: function (result) {
             locations = JSON.parse(result.d);
             createLocationPage();
-            alert('LOCATIONS: ' + JSON.stringify(locations));
+            //alert('LOCATIONS: ' + JSON.stringify(locations));
         }
     });
 }
@@ -118,31 +118,31 @@ function getAllLocations() {
 function getcurrentlatlong() {
 
     if (navigator.geolocation) {
-        alert("navigator.geolocation is supported");
+        //alert("navigator.geolocation is supported");
         navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
     }
     else {
-        alert("navigator.geolocation not supported");
+        //alert("navigator.geolocation not supported");
     }
 }
 
 //success to get my location
 function onSuccess(position) {
-    alert("onSuccess called");
+    //alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
 }
 
 //error while getting my location
 function onError(error) {
-    alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
+    //alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
 }
 
 //convert date location to lat & lng
 function codeAddress(address, dateID) {
-    alert('codeAddress');
+    //alert('codeAddress');
     var geocoder = new google.maps.Geocoder();
-    alert('g: ' + geocoder);
+    //alert('g: ' + geocoder);
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
@@ -161,7 +161,7 @@ function codeAddress(address, dateID) {
 //calculate the distance between my curret location to date location
 function calculateDistances(myLocation, dateJson) {
     thisDate = dateJson;
-    alert('fdfdf: ' + JSON.stringify(thisDate));
+    //alert('fdfdf: ' + JSON.stringify(thisDate));
     var service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
       {
@@ -176,7 +176,7 @@ function calculateDistances(myLocation, dateJson) {
 
 //set the distance in the app
 function setDistance(response, status) {
-    alert('sss: ' + JSON.stringify(thisDate));
+    //alert('sss: ' + JSON.stringify(thisDate));
     if (status != google.maps.DistanceMatrixStatus.OK) {
         console.log('Error was: ' + status);
     } else {
@@ -246,7 +246,7 @@ function facebookDismissed() {
 
 //load facebook plugin
 function loadFacebook() {
-    alert('load facebook');
+    //alert('load facebook');
     try {
         FB.init({
             appId: "988309234528102",
@@ -256,7 +256,7 @@ function loadFacebook() {
         });
         getLoginStatus();
     } catch (e) {
-        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'Sroogim', 'אישור');
+        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'SROOGIM', 'אישור');
     }
 }
 
@@ -312,8 +312,9 @@ function facebookLogin() {
                 'width': '200'
             }, function (response) {
                 if (response && !response.error) {
-                    alert('f url: ' + url);
+                    alert('f url: ' + response.url);
                 }
+                else { alert('no image'); }
             });
         } else {
             console.log('User cancelled login or did not fully authorize.');
@@ -327,6 +328,17 @@ FB.Event.subscribe('auth.login', function (response) {
         if (a_response && !a_response.error) {
             loginToSroogim(a_response);
         }
+    });
+    FB.api('/me/picture', {
+        'redirect': false,
+        'height': '200',
+        'type': 'normal',
+        'width': '200'
+    }, function (response) {
+        if (response && !response.error) {
+            alert('f url: ' + response.url);
+        }
+        else { alert('no image'); }
     });
 });
 
@@ -346,7 +358,7 @@ function createDatePage(json) {
             gps = gpsAddress[i].lat + ',' + gpsAddress[i].lng;
         }
     }
-    alert('gps: ' + gps);
+    //alert('gps: ' + gps);
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
@@ -379,7 +391,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
         }
         html += '</ul></div>';
     };
-    alert(html);
+    //alert(html);
     $('#datesPage .wrapper').html(html);
 });
 
@@ -387,13 +399,13 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
 $(document).on('click', '.goToDateList', function () {
     getcurrentlatlong();
     var categoryID = parseInt($(this).attr('data-category-id'));
-    alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
+    //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
             var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
-            alert('cLocation: ' + JSON.stringify(currentLocation));
+            //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem">' +
                             '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
@@ -474,7 +486,6 @@ $(document).on('click', '.goToDate', function () {
     }
 });
 
-
 //apply location view
 $(document).on('click', '.findGps, .selectLocation', function () {
     if ($(this).hasClass('findGps')) {
@@ -498,7 +509,7 @@ $(document).on('click', '.city', function () {
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].CityName == cityName) {
             var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
-            alert('cLocation: ' + JSON.stringify(currentLocation));
+            //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem">' +
                             '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
@@ -690,7 +701,7 @@ $(document).on('click', '#presentSend', function () {
                 }
             }
         }).done(function (response) {
-            alert('המתנה ששלחת התקבל')
+            alert('המתנה ששלחת התקבלה')
         });
 
     } catch (e) {
