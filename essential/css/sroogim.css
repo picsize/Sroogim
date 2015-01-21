@@ -74,22 +74,22 @@ body
     }
 
 input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], input[type="tel"], textarea
-        {
-            width: 95%;
-            border: 3px solid rgba(247,247,247,.3);
-            -moz-border-radius: 3px / 3px;
-            -webkit-border-radius: 3px / 3px;
-            border-radius: 3px / 3px;
-            -moz-background-clip: padding;
-            -webkit-background-clip: padding-box;
-            background-clip: padding-box;
-            background-color: #fcfcfc;
-            -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
-            -moz-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
-            box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
-            text-indent: 2%;
-            margin-bottom: 4%;
-        }
+{
+    width: 95%;
+    border: 3px solid rgba(247,247,247,.3);
+    -moz-border-radius: 3px / 3px;
+    -webkit-border-radius: 3px / 3px;
+    border-radius: 3px / 3px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fcfcfc;
+    -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+    -moz-box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+    box-shadow: 0 0 3px rgba(0,0,0,0.3), inset 0 4px 4px rgba(0,0,0,.05), inset 0 0 0 1px rgba(0,0,0,0.07);
+    text-indent: 2%;
+    margin-bottom: 4%;
+}
 
 /*#endregion*/
 
@@ -320,7 +320,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         font-weight: normal !important;
         width: 100% !important;
         margin: 0 !important;
-        padding: .55em 1em;
+        padding: .57em 1em;
     }
 
         .location button.active
@@ -342,23 +342,22 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 .locationsList, .locationsList ul
 {
     list-style: none;
-    width:95%;
-    
+    width: 95%;
 }
 
 .locationsList
 {
-    padding:0 4% 0 0;
+    padding: 0 4% 0 0;
 }
 
     .locationsList ul
     {
-        padding:0;
+        padding: 0;
     }
 
 .area:not(:first-child)
 {
-    margin-top:4%;
+    margin-top: 4%;
 }
 
 .area label
@@ -370,9 +369,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .city
 {
-    color:#c0bec3;
-    border-bottom:1px solid #c0bec3;
-    padding:1% 0;
+    color: #c0bec3;
+    border-bottom: 1px solid #c0bec3;
+    padding: 1% 0;
 }
 
 /*#endregion*/
@@ -1287,7 +1286,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 {
     width: 100%;
     margin-bottom: 3%;
-    height:240px;
+    height: 240px;
 }
 
 #addDate [role="main"] .wrapper form div.inputContainer
@@ -1380,7 +1379,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 {
     width: 100%;
     margin-bottom: 3%;
-    height:240px;
+    height: 240px;
 }
 
 #addPresent [role="main"] .wrapper form div.inputContainer
@@ -1470,7 +1469,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     #experts [role="main"] .wrapper form .inputContainer p
     {
-        font-size: 77%;
+        font-size: 85%;
         color: #3a3a3a;
         margin-bottom: 8%;
     }
@@ -1478,8 +1477,13 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #experts [role="main"] .wrapper form .inputContainer label
     {
         font-size: 77%;
-        color: #bebebe;
+        color: #3a3a3a;
     }
+
+#experts input
+{
+    height:1.5em;
+}
 
         #experts [role="main"] .wrapper form .inputContainer label[data-required="true"]:after
         {
@@ -1492,13 +1496,13 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         text-align: center;
     }
 
-            #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input:focus:invalid, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea:focus:invalid
-            {
-                background-color: #fff6f6;
-                -moz-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-                -webkit-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-                box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-            }
+        #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input:focus:invalid, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea:focus:invalid
+        {
+            background-color: #fff6f6;
+            -moz-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+            -webkit-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+            box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+        }
 
         #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea
         {
@@ -1665,6 +1669,13 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 .singleDate_buttons
 {
     margin-top: 5%;
+    position: fixed;
+    width: 100%;
+    bottom: 2.8em;
+    -moz-box-shadow: 3px 1px 20px #888;
+    -webkit-box-shadow: 3px 1px 20px #888;
+    box-shadow: 3px 1px 20px #888;
+    padding: 0.8% 0;
 }
 
     .singleDate_buttons button
@@ -1758,6 +1769,13 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 #singlePresent .singleDate_buttons
 {
     margin-top: 5%;
+    position: fixed;
+    width: 100%;
+    bottom: 2.8em;
+    -moz-box-shadow: 3px 1px 20px #888;
+    -webkit-box-shadow: 3px 1px 20px #888;
+    box-shadow: 3px 1px 20px #888;
+    padding: 0.8% 0;
 }
 
     #singlePresent .singleDate_buttons button

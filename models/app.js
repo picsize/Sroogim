@@ -12,13 +12,13 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
-    $('#menuSidebar').panel().enhanceWithin(),
-    $('#newsContainer p').marquee(),
-    checkPhonegap(),
-    getAllDates(),
-    getAllPresents(),
-    getAllCategories(),
-    //getAllLocations()
+    $('#menuSidebar').panel().enhanceWithin();
+    $('#newsContainer p').marquee();
+    checkPhonegap();
+    getAllDates();
+    getAllPresents();
+    getAllCategories();
+    getAllLocations();
     initFacebook();
 }
 
@@ -150,7 +150,7 @@ function codeAddress(address, dateID) {
                 'lat': results[0].geometry.location.k,
                 'lng': results[0].geometry.location.D
             };
-            alert('dGps: ' + JSON.stringify(dGps));
+            //alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
         } else {
             return address
@@ -274,7 +274,8 @@ function getLoginStatus() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
-    alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
+    //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
+    alert('facebook res: ' + JSON.stringify(response));
     $.mobile.changePage('index.html#mainScreen');
 }
 
@@ -305,17 +306,6 @@ function facebookLogin() {
                     loginToSroogim(response);
                 }
             });
-            //FB.api('/me/picture', {
-            //    'redirect': false,
-            //    'height': '200',
-            //    'type': 'normal',
-            //    'width': '200'
-            //}, function (response) {
-            //    if (response && !response.error) {
-            //        alert('f url: ' + response.url);
-            //    }
-            //    else { alert('no image'); }
-            //});
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
@@ -329,17 +319,6 @@ FB.Event.subscribe('auth.login', function (response) {
             loginToSroogim(a_response);
         }
     });
-    //FB.api('/me/picture', {
-    //    'redirect': false,
-    //    'height': '200',
-    //    'type': 'normal',
-    //    'width': '200'
-    //}, function (response) {
-    //    if (response && !response.error) {
-    //        alert('f url: ' + response.url);
-    //    }
-    //    else { alert('no image'); }
-    //});
 });
 
 $(document).on('click', '#facebookLogin', function () {
@@ -363,7 +342,7 @@ function createDatePage(json) {
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
     //$('#gpsButton').attr('date-gps', 'geo:' + gps);
-    $('#gpsButton').attr('href', 'waze://q=' + json.DateGps);
+    $('#gpsButton').attr('date-gps', 'waze://q=' + json.DateGps);
     $('#singleDate_dateDesc').text(json.DateDescription);
     if (json.ShowDateTip == 'Y') {
         $('#singleDate_dateTip').text(json.DateTip);
@@ -381,6 +360,20 @@ function createDatePage(json) {
     }
 }
 
+//create locations page
+function createLocationPage() {
+    //locationsList
+    var html = '';
+    for (var i = 0; i < locations.length; i++) {
+        html += '<li class="area"><label>' + locations[i].AreaName + '</label><ul>';
+        for (var j = 0; j < locations[i].Cities.length; j++) {
+            html += '<li class="city" data-city-code="' + locations[i].Cities[j].CityCode + '">' + locations[i].Cities[j].CityName + '</li>';
+        }
+        html += '</ul></li>'
+    }
+    $('.locationsList').html(html);
+}
+
 //create date categories
 $(document).on('click', '[href="index.html#datesPage"]', function () {
     var html = '';
@@ -391,7 +384,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
         }
         html += '</ul></div>';
     };
-    //alert(html);
+    alert(html);
     $('#datesPage .wrapper').html(html);
 });
 
@@ -600,19 +593,16 @@ $(document).on('click', '#dateSend', function () {
     }
 });
 
-//create locations page
-function createLocationPage() {
-    //locationsList
-    var html = '';
-    for (var i = 0; i < locations.length; i++) {
-        html += '<li class="area"><label>' + locations[i].AreaName + '</label><ul>';
-        for (var j = 0; j < locations[i].Cities.length; j++) {
-            html += '<li class="city" data-city-code="' + locations[i].Cities[j].CityCode + '">' + locations[i].Cities[j].CityName + '</li>';
-        }
-        html += '</ul></li>'
-    }
-    $('.locationsList').html(html);
-}
+//go to presents
+$(document).on('click', '#goToPresent', function () {
+    $.mobile.changePage('index.html#presentsCategories');
+});
+
+//date-gps
+$(document).on('click', '#gpsButton', function () {
+    window.location.replace($(this).attr('data-gps'));
+});
+
 
 //#endregion
 
