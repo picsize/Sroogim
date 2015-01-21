@@ -1,8 +1,8 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var date, present, categories, distance, lat, lng;
-var subCategories = [], gpsAddress = [];
+var date, present, categories, lat, lng;
+var subCategories = [], gpsAddress = [], distance = [];
 
 document.addEventListener("deviceready", initApp, false);
 
@@ -104,8 +104,9 @@ function setDistance(response, status) {
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
-                distance = results[j].distance.text.replace('km', 'ק"מ');
-                alert(distance);
+                d = results[j].distance.text.replace('km', 'ק"מ');
+                distance.push(d);
+                //alert(distance);
             }
         }
     }
@@ -271,7 +272,7 @@ $(document).on('click', '.goToDateList', function () {
                                             '</section>' +
                                         '</li>' +
                                         '<li>' +
-                                            '<p>' + distance + ' ממקומך' + '</p>' +
+                                            '<p class="distance">' + distance + ' ממקומך' + '</p>' +
                                         '</li>' +
                                     '</ul>' +
                                 '</section>' +
@@ -289,6 +290,14 @@ $(document).on('click', '.goToDateList', function () {
     }
     
     $('.dataList').html(dateLi);
+});
+
+//set distance to places
+$(document).on('pagebeforecreate', '#datesList', function () {
+    var j = 0;
+    $('.distance').each(function () {
+        $(this).text(distance[j] + ' ממקומך');
+    });
 });
 
 //show date page
