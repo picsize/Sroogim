@@ -309,7 +309,7 @@ function facebookLogin() {
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
-    }, { scope: 'user_location' }); //{ scope: 'email, user_birthday, user_location' });
+    }, { scope: 'user_location, picture' }); //{ scope: 'email, user_birthday, user_location' });
 }
 
 //if user alredy log in
@@ -384,7 +384,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
         }
         html += '</ul></div>';
     };
-    alert(html);
+    //alert(html);
     $('#datesPage .wrapper').html(html);
 });
 
