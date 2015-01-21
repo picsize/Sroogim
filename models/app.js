@@ -239,8 +239,10 @@ $(document).on('click', '.goToDateList', function () {
         if (date[i].DateCategory == categoryID) {
             var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
             alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, date[i].DateGps).done(function () {
-                alert('DISTANCE: ' + distance)
+            $.when(
+                   calculateDistances(currentLocation, date[i].DateGps)
+                ).done(function () {
+                alert('DISTANCE: ' + distance);
                 dateLi += '<li class="dataItem">' +
                             '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
                             '<div>' +
