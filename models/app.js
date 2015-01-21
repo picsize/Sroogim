@@ -275,8 +275,9 @@ function getLoginStatus() {
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
-    alert('facebook res: ' + JSON.stringify(response));
-    $.mobile.changePage('index.html#mainScreen');
+    //alert('facebook res: ' + JSON.stringify(response));
+    $('.circular').css('background-image', 'url("http://graph.facebook.com/' + response.id + '/picture")');
+    $.mobile.changePage('index.html#mainScreen'); 
 }
 
 //trigger to facebookLogin()
@@ -309,7 +310,7 @@ function facebookLogin() {
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
-    }, { scope: 'user_location, picture' }); //{ scope: 'email, user_birthday, user_location' });
+    }, { scope: 'user_location' }); //{ scope: 'email, user_birthday, user_location' });
 }
 
 //if user alredy log in
