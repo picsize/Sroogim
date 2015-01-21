@@ -12,8 +12,9 @@
     <link href="essential/jQuery/jquery.mobile.structure-1.4.3.min.css" rel="stylesheet" />
     <link href="essential/css/font.css" rel="stylesheet" />
     <link href="essential/css/sroogim.css" rel="stylesheet" />
+    <link href="Essential/css/animation.css" rel="stylesheet" />
     <!-- Google Map -->
-    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>-->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
 </head>
 <body>
     <!-- Phonegap -->
@@ -25,11 +26,11 @@
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
     <script src="essential/jQuery/jquery.marquee.js"></script>
     <script src="models/app.js"></script>
-   <!-- <script src="models/loginAndRegister.js"></script>-->
-<!--    <script src="models/uploadImages.js"></script>
+     <script src="models/loginAndRegister.js"></script>
+        <script src="models/uploadImages.js"></script>
     <script src="models/addDateOrPresent.js"></script>
-    <script src="models/social.js"></script>-->
-    <script src="models/map.js"></script>
+    <script src="models/social.js"></script>
+    <!--<script src="models/map.js"></script>-->
 
     <div id="fb-root"></div>
     <div id="loadImages"></div>
@@ -75,7 +76,7 @@
 
         <!-- Version -->
         <section>
-            <small>גרסת אלפא</small>
+            <small>גרסת ביטא</small>
         </section>
     </div>
 
@@ -212,7 +213,8 @@
                 <!-- Dates -->
                 <div class="ideas" id="dates">
                     <div class="ideasBox">
-                        <a data-ajax="false" href="index.html#datesPage"><img src="essential/images/Home/dates.png" /></a>
+                        <a data-ajax="false" href="index.html#datesPage">
+                            <img src="essential/images/Home/dates.png" /></a>
                         <section>
                             <h2>רעיונות לדייטים</h2>
                             <p>
@@ -246,7 +248,8 @@
                 <!-- Presents -->
                 <div class="ideas" id="presents">
                     <div class="ideasBox">
-                        <a data-ajax="false" href="index.html#presentsCategories"><img src="essential/images/Home/presents.png" /></a>
+                        <a data-ajax="false" href="index.html#presentsCategories">
+                            <img src="essential/images/Home/presents.png" /></a>
                         <section>
                             <h2>רעיונות למתנות</h2>
                             <p>
@@ -530,23 +533,9 @@
         <!-- Main -->
         <div class="ui-content" role="main">
             <div class="wrapper">
-                <form>
+                <form id="addDateForm">
                     <img src="essential/images/Add/addImages.png" />
                     <div class="inputContainer">
-                        <!--<div class="ui-grid-a">
-                            <div class="ui-block-a">
-                                <input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" />
-                            </div>
-                            <div class="ui-block-b">
-                                <input type="url" id="dateSite" name="dateSite" data-role="none" data-mini="true" value="כתובת אתר המקום" />
-                            </div>
-                            <div class="ui-block-a">
-                                <input type="text" id="dateAddress" name="dateAddress" data-role="none" data-mini="true" value="מיקום הדייט" />
-                            </div>
-                            <div class="ui-block-b">
-                                <input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" />
-                            </div>
-                        </div>-->
                         <table class="ui-table ui-responsive">
                             <tr>
                                 <td>
@@ -586,7 +575,7 @@
                         </div>
                     </div>
                     <div class="submitHolder">
-                        <input type="submit" value="שלח" id="dateSend" data-role="none" />
+                        <input type="button" value="שלח" id="dateSend" data-role="none" />
                     </div>
                 </form>
             </div>
@@ -655,7 +644,7 @@
                         </div>
                     </div>
                     <div class="submitHolder">
-                        <input type="submit" value="שלח" id="presentSend" data-role="none" />
+                        <input type="button" value="שלח" id="presentSend" data-role="none" />
                     </div>
                 </form>
             </div>
@@ -1029,7 +1018,7 @@
                             <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
                         </div>
                         <!--Arrow-->
-                        <div> 
+                        <div>
                             <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
                                 <img src="essential/images/Favroites/arrow_gray.png" /></a>
                         </div>
@@ -1363,13 +1352,13 @@
                     </div>
                     <div class="ui-grid-b">
                         <div class="ui-block-a">
-                            <img src="essential/images/Presents/mognolia.png"/>
+                            <img src="essential/images/Presents/mognolia.png" />
                         </div>
                         <div class="ui-block-b">
-                            <img src="essential/images/Presents/royalty.png"/>
+                            <img src="essential/images/Presents/royalty.png" />
                         </div>
                         <div class="ui-block-c">
-                            <img src="essential/images/Presents/padani.png"/>
+                            <img src="essential/images/Presents/padani.png" />
                         </div>
                     </div>
 
@@ -1382,6 +1371,60 @@
                         <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-date">דייטים</button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Choose Location -->
+    <div id="location" data-role="page" data-theme="c">
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation active ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2 class="allDates">כל הארץ</h2>
+                </div>
+                <ul class="locationsList">
+                    <li class="area"><label>השרון</label>
+                        <ul>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                        </ul>
+                    </li>
+                    <li class="area"><label>השרון</label>
+                        <ul>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
 
