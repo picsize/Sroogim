@@ -6,9 +6,9 @@ var subCategories = [], gpsAddress = [];
 
 document.addEventListener("deviceready", initApp, false);
 
-$(function () {
-    initApp();
-});
+//$(function () {
+//    initApp();
+//});
 
 function initApp() {
     $.when(
@@ -183,7 +183,8 @@ function createDatePage(json) {
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
-    $('#gpsButton').attr('date-gps', 'geo:' + gps);
+    //$('#gpsButton').attr('date-gps', 'geo:' + gps);
+    $('#gpsButton').attr('href', 'waze://q=' + json.DateGps);
     $('#singleDate_dateDesc').text(json.DateDescription);
     if (json.ShowDateTip == 'Y') {
         $('#singleDate_dateTip').text(json.DateTip);
@@ -238,8 +239,9 @@ $(document).on('click', '.goToDateList', function () {
         if (date[i].DateCategory == categoryID) {
             var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
             alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, date[i].DateGps);
-            dateLi += '<li class="dataItem">' +
+            calculateDistances(currentLocation, date[i].DateGps).done(function () {
+                alert('DISTANCE: ' + distance)
+                dateLi += '<li class="dataItem">' +
                             '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
                             '<div>' +
                                 '<h3>' + date[i].DateHeader + '</h3>' +
@@ -277,12 +279,13 @@ $(document).on('click', '.goToDateList', function () {
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
                             '</li>';
+            });
         }
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
     }
-    alert('DISTANCE: ' + distance)
+    
     $('.dataList').html(dateLi);
 });
 
