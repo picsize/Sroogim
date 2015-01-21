@@ -460,7 +460,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 .ui-icon-expert:after
 {
     background-image: url(../images/Icons/help.png);
-    background-size: 26px 24px;
+    background-size: 20px 20px;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -1132,7 +1132,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 .ideasBox section p
 {
     font-size: 70%;
-    color: #a5a3aa;
+    color: #3a3a3a;
 }
 
 /*#endregion*/
@@ -1347,7 +1347,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin-top: 3%;
 }
 
-.submitHolder
+.submitHolder:not(#expertHolder)
 {
     text-align: center;
     /* border-top: 1px solid #000; */
@@ -1471,7 +1471,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #experts [role="main"] .wrapper form .inputContainer p
     {
         font-size: 77%;
-        color: #b9b9b9;
+        color: #3a3a3a;
         margin-bottom: 8%;
     }
 
@@ -1619,7 +1619,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         margin-bottom: 18%;
     }
 
-    .dateWebsiteHolder label #singleDate_dateWebsite
+    .dateWebsiteHolder label #singleDate_dateWebsite, #singleDate_dateTel
     {
         font-size: 85%;
         margin-bottom: 1%;
@@ -1630,14 +1630,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     color: #158798;
 }
 
-#singleDate_dateTel
-{
-    text-decoration: none;
-}
-
 #singleDate_dateDesc, #singleDate_dateSteps
 {
-    color: #c0bec3;
+    color: #3a3a3a;
     font-size: 85%;
     font-weight: normal;
     margin-top: 3%;

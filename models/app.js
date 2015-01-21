@@ -5,16 +5,16 @@ var dates, presents, categories, locations, lat, lng, thisDate;
 var subCategories = [], gpsAddress = [], distance = [];
 var userEmail = 'zlihi6@gmail.com';
 
-document.addEventListener("deviceready", initApp, false);
+//document.addEventListener("deviceready", initApp, false);
 
-//$(function () {
-//    initApp();
-//});
+$(function () {
+    initApp();
+});
 
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin(),
     $('#newsContainer p').marquee(),
-    //checkPhonegap(),
+    checkPhonegap(),
     getAllDates(),
     getAllPresents(),
     getAllCategories(),
@@ -274,7 +274,7 @@ function getLoginStatus() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
-    alert('hello ' + response.first_name + ' ' + response.last_name);
+    alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     $.mobile.changePage('index.html#mainScreen');
 }
 
@@ -305,17 +305,17 @@ function facebookLogin() {
                     loginToSroogim(response);
                 }
             });
-            FB.api('/me/picture', {
-                'redirect': false,
-                'height': '200',
-                'type': 'normal',
-                'width': '200'
-            }, function (response) {
-                if (response && !response.error) {
-                    alert('f url: ' + response.url);
-                }
-                else { alert('no image'); }
-            });
+            //FB.api('/me/picture', {
+            //    'redirect': false,
+            //    'height': '200',
+            //    'type': 'normal',
+            //    'width': '200'
+            //}, function (response) {
+            //    if (response && !response.error) {
+            //        alert('f url: ' + response.url);
+            //    }
+            //    else { alert('no image'); }
+            //});
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
@@ -329,17 +329,17 @@ FB.Event.subscribe('auth.login', function (response) {
             loginToSroogim(a_response);
         }
     });
-    FB.api('/me/picture', {
-        'redirect': false,
-        'height': '200',
-        'type': 'normal',
-        'width': '200'
-    }, function (response) {
-        if (response && !response.error) {
-            alert('f url: ' + response.url);
-        }
-        else { alert('no image'); }
-    });
+    //FB.api('/me/picture', {
+    //    'redirect': false,
+    //    'height': '200',
+    //    'type': 'normal',
+    //    'width': '200'
+    //}, function (response) {
+    //    if (response && !response.error) {
+    //        alert('f url: ' + response.url);
+    //    }
+    //    else { alert('no image'); }
+    //});
 });
 
 $(document).on('click', '#facebookLogin', function () {
