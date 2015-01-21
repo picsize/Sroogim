@@ -276,7 +276,7 @@ function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
-    $('.circular').css('background-image', 'url("http://graph.facebook.com/' + response.id + '/picture")');
+    $('.circular').css('background-image', 'url("http://graph.facebook.com/' + response.id + '/picture?width=171&height=171")');
     $.mobile.changePage('index.html#mainScreen'); 
 }
 
