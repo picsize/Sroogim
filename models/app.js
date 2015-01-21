@@ -5,11 +5,11 @@ var dates, presents, categories, locations, lat, lng, thisDate;
 var subCategories = [], gpsAddress = [], distance = [];
 var userEmail = 'zlihi6@gmail.com';
 
-//document.addEventListener("deviceready", initApp, false);
+document.addEventListener("deviceready", initApp, false);
 
-$(function () {
-    initApp();
-});
+//$(function () {
+//    initApp();
+//});
 
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin(),
