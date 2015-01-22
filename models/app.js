@@ -277,6 +277,7 @@ function loginToSroogim(response) {
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
     $('.circular').css('background-image', 'url("http://graph.facebook.com/' + response.id + '/picture?width=171&height=171")');
+    $('#userName').text(response.first_name + ' ' + response.last_name);
     $.mobile.changePage('index.html#mainScreen'); 
 }
 
