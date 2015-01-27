@@ -3,7 +3,9 @@ api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
 var dates, presents, categories, locations, lat, lng, thisDate;
 var subCategories = [], gpsAddress = [], distance = [];
-var userEmail = 'zlihi6@gmail.com';
+var categoriesHTML = '';
+var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender;
+
 
 document.addEventListener("deviceready", initApp, false);
 
@@ -47,7 +49,7 @@ function getAllDates() {
         dates = JSON.parse(result.d);
         //alert('DATES: ' + JSON.stringify(dates));
         for (var i = 0; i < dates.length; i++) {
-           // alert('i=' + i);
+            // alert('i=' + i);
             codeAddress(dates[i].DateGps, dates[i].DateID);
         }
         //alert('done: ' + JSON.stringify(gpsAddress));
@@ -276,9 +278,77 @@ function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
-    $('.circular').css('background-image', 'url("http://graph.facebook.com/' + response.id + '/picture?width=171&height=171")');
+
+    //get user birthday 
+    try {
+        userBirthDay = response.birthday;
+    } catch (e) {
+        userBirthday = '';
+    }
+
+    //get user email
+    try {
+        userEmail = response.email;
+        if (userEmail == undefined) {
+            userEmail = 'private';
+        }
+    } catch (e) {
+        userEmail = 'private';
+    }
+
+    //get user gender
+    try {
+        userGender = response.gender;
+        if (userGender == undefined) {
+            userGender = 'private';
+        }
+    } catch (e) {
+        userGender = 'private';
+    }
+
+    //get user full name
+    try {
+        userFullName = response.first_name + ' ' + response.last_name;
+        if (userFullName == '') {
+            userFullName = 'private';
+        }
+    } catch (e) {
+        userFullName = 'private';
+    }
+
+    //get user profile image
+    try {
+        userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
+        if (userProfilePic == '') {
+            userProfilePic = 'private';
+        }
+        $('.circular').css('background-image', 'url("' + userProfilePic + '")');
+    } catch (e) {
+        userProfilePic = 'private';
+    }
+
+    //get user cover image
+    try {
+        alert('try to get user cover');
+        FB.api(response.id, function (pageRes) {
+            if (pageRes && !pageRes.error) {
+                userCoverPic = pageRes.cover.source;
+            }
+        });
+    } catch (e) {
+
+    }
+
+    alert('cover = ' + userCoverPic);
+    alert('userBirthDay = ' + userBirthDay);
+    alert('userEmail = ' + userEmail);
+    alert('userGender = ' + userGender);
+    alert('userProfilePic = ' + userProfilePic);
+    alert('userFullName = ' + userFullName);
+    userPassword = 0;
+
     $('#userName').text(response.first_name + ' ' + response.last_name);
-    $.mobile.changePage('index.html#mainScreen'); 
+    $.mobile.changePage('index.html#mainScreen');
 }
 
 //trigger to facebookLogin()
@@ -378,17 +448,19 @@ function createLocationPage() {
 
 //create date categories
 $(document).on('click', '[href="index.html#datesPage"]', function () {
-    var html = '';
+    categoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
-        html += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="essential/images/Dates/Category/outside.jpg" /> </h4><ul data-role="listview">';
+        categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="essential/images/Dates/Category/outside.jpg" /> </h4><ul data-role="listview">';
         for (var j = 0; j < categories[i].SubList.length; j++) {
-            html += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
+            categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
         }
-        html += '</ul></div>';
+        categoriesHTML += '</ul></div>';
     };
     //alert(html);
-    $('#datesPage .wrapper').html(html);
+
 });
+
+$(document).on('pagebeforecreate', '#datesPage', function () { $('#datesPage .wrapper').html(categoriesHTML); });
 
 //create dates list
 $(document).on('click', '.goToDateList', function () {
