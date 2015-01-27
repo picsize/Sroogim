@@ -223,7 +223,7 @@ function initFacebook() {
         useCachedDialogs: false,
         oauth: true
     });
-    facebookLogin();
+    //facebookLogin();
 }
 
 function facebookDismissed() {
@@ -316,21 +316,22 @@ function loginToSroogim(response) {
     //get user cover image
     try {
         alert('https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover');
-        $.ajax({
-            type: 'GET',
-            url:  'https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover', //'https://graph.facebook.com/' + response.id +'?fields=cover',
-            data: '',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('fe: ' + textStatus);
-            },
-            success: function (result) {
-                //var r = JSON.parse(result);
-                //alert('r: ' + r.source);
-                alert('fs: ' + JSON.stringify(result));
-            }
-        });
+        alert(response.link);
+        //$.ajax({
+        //    type: 'GET',
+        //    url:  'https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover', //'https://graph.facebook.com/' + response.id +'?fields=cover',
+        //    data: '',
+        //    contentType: 'application/json; charset=utf-8',
+        //    dataType: 'json',
+        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //        alert('fe: ' + textStatus);
+        //    },
+        //    success: function (result) {
+        //        //var r = JSON.parse(result);
+        //        //alert('r: ' + r.source);
+        //        alert('fs: ' + JSON.stringify(result));
+        //    }
+        //});
     } catch (e) {
         alert('r error')
     }
