@@ -216,33 +216,38 @@ function setDistance(response, status) {
 //init facebook
 function initFacebook() {
     alert('init facebook');
-    //var count = 7;
-    //loadFacebook();
+    var count = 7;
+    FB.init({
+        appId: "988309234528102",
+        nativeInterface: CDV.FB,
+        useCachedDialogs: false,
+        oauth: true
+    });
 
-    //if (!window.jQuery) {
-    //    //deviceOffline();
-    //}
-    //else {
-    //    var check = function () {
-    //        if (count <= 0) {
-    //            $.mobile.loading('hide');
-    //            loadFacebook();
-    //        }
-    //        else {
-    //            count--;
+    if (!window.jQuery) {
+        //deviceOffline();
+    }
+    else {
+        var check = function () {
+            if (count <= 0) {
+                $.mobile.loading('hide');
+                getLoginStatus();
+            }
+            else {
+                count--;
 
-    //            $.mobile.loading('show', {
-    //                text: count,
-    //                textVisible: true,
-    //                theme: 'a',
-    //                textonly: false
-    //            });
+                $.mobile.loading('show', {
+                    text: count,
+                    textVisible: true,
+                    theme: 'a',
+                    textonly: false
+                });
 
-    //            setTimeout(check, 1000); // check again in a second
-    //        }
-    //    };
-    //    check();
-    //}
+                setTimeout(check, 1000); // check again in a second
+            }
+        };
+        check();
+    }
     //FB.init({
     //    appId: "988309234528102",
     //    nativeInterface: CDV.FB,
@@ -254,19 +259,14 @@ function initFacebook() {
 
 
 
-    FB.init({
-        appId: "988309234528102",
-        nativeInterface: CDV.FB,
-        useCachedDialogs: false,
-        oauth: true
-    });
-    FB.getLoginStatus(function (oResponse) {
-        if (oResponse.status === 'connected') {
-            loginToSroogim(oResponse);
-        } else {
-            $.mobile.changePage('index.html');
-        }
-    });
+    
+    //FB.getLoginStatus(function (oResponse) {
+    //    if (oResponse.status === 'connected') {
+    //        loginToSroogim(oResponse);
+    //    } else {
+    //        $.mobile.changePage('index.html');
+    //    }
+    //});
 
 }
 
@@ -370,7 +370,7 @@ function loginToSroogim(response) {
             },
             success: function (result) {
                 var r = JSON.parse(result);
-                alert(r.cover.source);
+                alert('r: ' + r.source);
                 alert('fs: ' + JSON.stringify(result));
             }
         });
