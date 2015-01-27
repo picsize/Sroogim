@@ -216,7 +216,6 @@ function setDistance(response, status) {
 
 //init facebook
 function initFacebook() {
-    alert('init facebook');
     var count = 7;
     FB.init({
         appId: "988309234528102",
@@ -231,25 +230,8 @@ function facebookDismissed() {
     //do nothing
 }
 
-//load facebook plugin
-//function loadFacebook() {
-//    //alert('load facebook');
-//    try {
-//        FB.init({
-//            appId: "988309234528102",
-//            nativeInterface: CDV.FB,
-//            useCachedDialogs: false,
-//            oauth: true
-//        });
-//        facebookLogin();
-//    } catch (e) {
-//        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'SROOGIM', 'אישור');
-//    }
-//}
-
 //check if user is already log in
 function getLoginStatus() {
-    alert('login status');
     FB.getLoginStatus(function (response) {
         if (response.status == 'connected') {
             loginToSroogim(response);
@@ -318,19 +300,13 @@ function loginToSroogim(response) {
     try {
         FB.api('/me?fields=cover', function (uCover) {
             if (uCover && !uCover.error) {
-                alert('uCover: ' + uCover.cover.source)
+                userCoverPic = uCover.cover.source;
+                $('#sidebarCoverImg').attr('src', userCoverPic)
             }
         });
     } catch (e) {
-        alert('r error')
+        userCoverPic = 'private';
     }
-
-    alert('cover = ' + userCoverPic);
-    //alert('userBirthDay = ' + userBirthDay);
-    //alert('userEmail = ' + userEmail);
-    //alert('userGender = ' + userGender);
-    //alert('userProfilePic = ' + userProfilePic);
-    //alert('userFullName = ' + userFullName);
     userPassword = 0;
 
     $('#userName').text(response.first_name + ' ' + response.last_name);

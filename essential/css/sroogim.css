@@ -582,14 +582,14 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     #menuSidebar #sidebarCoverImg
     {
-        height: 140px;
+        height: 130px;
         width: 100%;
     }
 
     #menuSidebar #sidebarProfileImg
     {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         margin: -17% auto;
         z-index: 9;
         position: relative;
