@@ -231,7 +231,7 @@ function initFacebook() {
         var check = function () {
             if (count <= 0) {
                 $.mobile.loading('hide');
-                //getLoginStatus();
+                facebookLogin();
             }
             else {
                 count--;
