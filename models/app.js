@@ -243,18 +243,30 @@ function initFacebook() {
     //    };
     //    check();
     //}
-    window.fbAsyncInit = function () {
-        alert('init fb')
-        // init the FB JS SDK
-        FB.init({
-            appId: "988309234528102",
-            nativeInterface: CDV.FB,
-            useCachedDialogs: false,
-            oauth: true
-        });
-        getLoginStatus();
-        // Additional initialization code such as adding Event Listeners goes here
-    };
+    //FB.init({
+    //    appId: "988309234528102",
+    //    nativeInterface: CDV.FB,
+    //    useCachedDialogs: false,
+    //    oauth: true
+    //});
+    //getLoginStatus();
+
+
+
+
+    FB.init({
+        appId: "988309234528102",
+        nativeInterface: CDV.FB,
+        useCachedDialogs: false,
+        oauth: true
+    });
+    FB.getLoginStatus(function (oResponse) {
+        if (oResponse.status === 'connected') {
+            loginToSroogim(oResponse);
+        } else {
+            $.mobile.changePage('index.html');
+        }
+    });
 
 }
 
