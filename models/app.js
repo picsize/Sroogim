@@ -224,31 +224,6 @@ function initFacebook() {
         oauth: true
     });
     facebookLogin();
-
-    //if (!window.jQuery) {
-    //    //deviceOffline();
-    //}
-    //else {
-    //    var check = function () {
-    //        if (count <= 0) {
-    //            $.mobile.loading('hide');
-                
-    //        }
-    //        else {
-    //            count--;
-
-    //            $.mobile.loading('show', {
-    //                text: count,
-    //                textVisible: true,
-    //                theme: 'a',
-    //                textonly: false
-    //            });
-
-    //            setTimeout(check, 1000); // check again in a second
-    //        }
-    //    };
-    //    check();
-    //}
 }
 
 function facebookDismissed() {
@@ -343,7 +318,7 @@ function loginToSroogim(response) {
 
         $.ajax({
             type: 'GET',
-            url: 'https://graph.facebook.com/100004614932344?fields=cover',
+            url: 'https://graph.facebook.com/' + response.id +'?fields=cover',
             data: '',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -351,7 +326,7 @@ function loginToSroogim(response) {
                 alert('fe: ' + textStatus);
             },
             success: function (result) {
-                var r = JSON.parse(result);
+                //var r = JSON.parse(result);
                 //alert('r: ' + r.source);
                 alert('fs: ' + JSON.stringify(result));
             }
