@@ -331,6 +331,7 @@ function loginToSroogim(response) {
     try {
         alert('try to get user cover');
         FB.api(response.id, function (pageRes) {
+            alert(JSON.stringify(pageRes));
             if (pageRes && !pageRes.error) {
                 userCoverPic = pageRes.cover.source;
             }
@@ -381,7 +382,7 @@ function facebookLogin() {
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
-    }, { scope: 'user_location' }); //{ scope: 'email, user_birthday, user_location' });
+    },{ scope: 'email, user_birthday, user_location' });
 }
 
 //if user alredy log in
