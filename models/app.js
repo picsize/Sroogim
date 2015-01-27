@@ -213,19 +213,9 @@ function setDistance(response, status) {
 
 //#region Facebook
 
-
-
-
-
-
-
-
-
-
-
-
 //init facebook
 function initFacebook() {
+    alert('init facebook');
     //var count = 7;
     //loadFacebook();
 
@@ -254,6 +244,7 @@ function initFacebook() {
     //    check();
     //}
     window.fbAsyncInit = function () {
+        alert('init fb')
         // init the FB JS SDK
         FB.init({
             appId: "988309234528102",
@@ -264,15 +255,6 @@ function initFacebook() {
         getLoginStatus();
         // Additional initialization code such as adding Event Listeners goes here
     };
-
-    //// Load the SDK asynchronously
-    //(function (d, s, id) {
-    //    var js, fjs = d.getElementsByTagName(s)[0];
-    //    if (d.getElementById(id)) { return; }
-    //    js = d.createElement(s); js.id = id;
-    //    js.src = "//connect.facebook.net/en_US/all.js";
-    //    fjs.parentNode.insertBefore(js, fjs);
-    //}(document, 'script', 'facebook-jssdk'));
 
 }
 
@@ -298,6 +280,7 @@ function loadFacebook() {
 
 //check if user is already log in
 function getLoginStatus() {
+    alert('login status');
     FB.getLoginStatus(function (response) {
         if (response.status == 'connected') {
             loginToSroogim(response);
