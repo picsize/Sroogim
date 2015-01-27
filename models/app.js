@@ -22,6 +22,13 @@ function initApp() {
     getAllCategories();
     getAllLocations();
     initFacebook();
+
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
 }
 
 //#region Init
@@ -206,40 +213,69 @@ function setDistance(response, status) {
 
 //#region Facebook
 
+
+
+
+
+
+
+
+
+
+
+
 //init facebook
 function initFacebook() {
-    var count = 7;
-    var devicePlatform = device.platform;
-    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-            StatusBar.hide();
-        }
-    }
+    //var count = 7;
+    //loadFacebook();
 
-    if (!window.jQuery) {
-        //deviceOffline();
-    }
-    else {
-        var check = function () {
-            if (count <= 0) {
-                $.mobile.loading('hide');
-                loadFacebook();
-            }
-            else {
-                count--;
+    //if (!window.jQuery) {
+    //    //deviceOffline();
+    //}
+    //else {
+    //    var check = function () {
+    //        if (count <= 0) {
+    //            $.mobile.loading('hide');
+    //            loadFacebook();
+    //        }
+    //        else {
+    //            count--;
 
-                $.mobile.loading('show', {
-                    text: count,
-                    textVisible: true,
-                    theme: 'a',
-                    textonly: false
-                });
+    //            $.mobile.loading('show', {
+    //                text: count,
+    //                textVisible: true,
+    //                theme: 'a',
+    //                textonly: false
+    //            });
 
-                setTimeout(check, 1000); // check again in a second
-            }
-        };
-        check();
-    }
+    //            setTimeout(check, 1000); // check again in a second
+    //        }
+    //    };
+    //    check();
+    //}
+    window.fbAsyncInit = function () {
+        // init the FB JS SDK
+        FB.init({
+            appId: "988309234528102",
+            nativeInterface: CDV.FB,
+            useCachedDialogs: false,
+            oauth: true,
+            status: true,                                 // Check Facebook Login status
+            xfbml: true                                  // Look for social plugins on the page
+        });
+        getLoginStatus();
+        // Additional initialization code such as adding Event Listeners goes here
+    };
+
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
 }
 
 function facebookDismissed() {
@@ -329,7 +365,7 @@ function loginToSroogim(response) {
 
     //get user cover image
     try {
-        
+
         $.ajax({
             type: 'GET',
             url: 'https://graph.facebook.com/100004614932344?fields=cover',
@@ -340,7 +376,8 @@ function loginToSroogim(response) {
                 alert('fe: ' + textStatus);
             },
             success: function (result) {
-                //presents = JSON.parse(result.d);
+                var r = JSON.parse(result);
+                alert(r.cover.source);
                 alert('fs: ' + JSON.stringify(result));
             }
         });
@@ -399,7 +436,7 @@ function facebookLogin() {
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
-    },{ scope: 'email, user_birthday, user_location' });
+    }, { scope: 'email, user_birthday, user_location' });
 }
 
 //if user alredy log in
