@@ -223,7 +223,7 @@ function initFacebook() {
         useCachedDialogs: false,
         oauth: true
     });
-    //facebookLogin();
+    getLoginStatus();
 }
 
 function facebookDismissed() {
@@ -231,20 +231,20 @@ function facebookDismissed() {
 }
 
 //load facebook plugin
-function loadFacebook() {
-    //alert('load facebook');
-    try {
-        FB.init({
-            appId: "988309234528102",
-            nativeInterface: CDV.FB,
-            useCachedDialogs: false,
-            oauth: true
-        });
-        facebookLogin();
-    } catch (e) {
-        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'SROOGIM', 'אישור');
-    }
-}
+//function loadFacebook() {
+//    //alert('load facebook');
+//    try {
+//        FB.init({
+//            appId: "988309234528102",
+//            nativeInterface: CDV.FB,
+//            useCachedDialogs: false,
+//            oauth: true
+//        });
+//        facebookLogin();
+//    } catch (e) {
+//        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'SROOGIM', 'אישור');
+//    }
+//}
 
 //check if user is already log in
 function getLoginStatus() {
@@ -315,8 +315,13 @@ function loginToSroogim(response) {
 
     //get user cover image
     try {
-        alert('https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover');
-        alert(response.link);
+        FB.api('/me?fields=cover', function (uCover) {
+            //console.log('Good to see you, ' + response.name + '.');
+            if (uCover && !uCover.error) {
+                //alert('res: ' + JSON.stringify(response));
+                alert('uCover: ' + uCover)
+            }
+        });
         //$.ajax({
         //    type: 'GET',
         //    url:  'https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover', //'https://graph.facebook.com/' + response.id +'?fields=cover',
