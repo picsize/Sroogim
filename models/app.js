@@ -264,7 +264,7 @@ function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
-
+    alert(response.username);
     //get user birthday 
     try {
         userBirthDay = response.birthday;
@@ -371,7 +371,7 @@ function facebookLogin() {
             FB.api('/me', function (response) {
                 //console.log('Good to see you, ' + response.name + '.');
                 if (response && !response.error) {
-                    alert('res: ' + JSON.stringify(response));
+                    //alert('res: ' + JSON.stringify(response));
                     loginToSroogim(response);
                 }
             });
