@@ -22,6 +22,7 @@ function initApp() {
     getAllCategories();
     getAllLocations();
     initFacebook();
+    getcurrentlatlong();
 
     var devicePlatform = device.platform;
     if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
@@ -316,38 +317,20 @@ function loginToSroogim(response) {
     //get user cover image
     try {
         FB.api('/me?fields=cover', function (uCover) {
-            //console.log('Good to see you, ' + response.name + '.');
             if (uCover && !uCover.error) {
-                //alert('res: ' + JSON.stringify(response));
-                alert('uCover: ' + uCover)
+                alert('uCover: ' + uCover.cover.source)
             }
         });
-        //$.ajax({
-        //    type: 'GET',
-        //    url:  'https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover', //'https://graph.facebook.com/' + response.id +'?fields=cover',
-        //    data: '',
-        //    contentType: 'application/json; charset=utf-8',
-        //    dataType: 'json',
-        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //        alert('fe: ' + textStatus);
-        //    },
-        //    success: function (result) {
-        //        //var r = JSON.parse(result);
-        //        //alert('r: ' + r.source);
-        //        alert('fs: ' + JSON.stringify(result));
-        //    }
-        //});
     } catch (e) {
         alert('r error')
     }
 
     alert('cover = ' + userCoverPic);
-    alert('userBirthDay = ' + userBirthDay);
-    alert('userEmail = ' + userEmail);
-    alert('userGender = ' + userGender);
-    alert('userProfilePic = ' + userProfilePic);
-    alert('userFullName = ' + userFullName);
-    alert(response.cover.source);
+    //alert('userBirthDay = ' + userBirthDay);
+    //alert('userEmail = ' + userEmail);
+    //alert('userGender = ' + userGender);
+    //alert('userProfilePic = ' + userProfilePic);
+    //alert('userFullName = ' + userFullName);
     userPassword = 0;
 
     $('#userName').text(response.first_name + ' ' + response.last_name);
@@ -469,7 +452,6 @@ $(document).on('pagebeforecreate', '#datesPage', function () { $('#datesPage .wr
 
 //create dates list
 $(document).on('click', '.goToDateList', function () {
-    getcurrentlatlong();
     var categoryID = parseInt($(this).attr('data-category-id'));
     //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
