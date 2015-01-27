@@ -223,7 +223,7 @@ function initFacebook() {
         useCachedDialogs: false,
         oauth: true
     });
-    getLoginStatus();
+    facebookLogin();
 }
 
 function facebookDismissed() {
@@ -240,7 +240,7 @@ function loadFacebook() {
             useCachedDialogs: false,
             oauth: true
         });
-        getLoginStatus();
+        facebookLogin();
     } catch (e) {
         navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', facebookDismissed, 'SROOGIM', 'אישור');
     }
@@ -315,10 +315,10 @@ function loginToSroogim(response) {
 
     //get user cover image
     try {
-
+        alert('https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover');
         $.ajax({
             type: 'GET',
-            url: 'https://graph.facebook.com/' + response.id +'?fields=cover',
+            url:  'https://graph.facebook.com/' + response.link.split('//')[1].split('/')[1] + '?fields=cover', //'https://graph.facebook.com/' + response.id +'?fields=cover',
             data: '',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -388,6 +388,7 @@ FB.Event.subscribe('auth.login', function (response) {
         if (a_response && !a_response.error) {
             loginToSroogim(a_response);
         }
+        else { facebookLogin(); }
     });
 });
 
