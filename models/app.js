@@ -330,20 +330,20 @@ function loginToSroogim(response) {
     //get user cover image
     try {
         
-        //$.ajax({
-        //    type: 'POST',
-        //    url: 'https://graph.facebook.com/100004614932344?fields=cover',
-        //    data: '',
-        //    contentType: 'application/json; charset=utf-8',
-        //    dataType: 'json',
-        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
-        //        alert(textStatus);
-        //    },
-        //    success: function (result) {
-        //        //presents = JSON.parse(result.d);
-        //        alert('f: ' + JSON.stringify(result));
-        //    }
-        //});
+        $.ajax({
+            type: 'GET',
+            url: 'https://graph.facebook.com/100004614932344?fields=cover',
+            data: '',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('fe: ' + textStatus);
+            },
+            success: function (result) {
+                //presents = JSON.parse(result.d);
+                alert('fs: ' + JSON.stringify(result));
+            }
+        });
     } catch (e) {
 
     }
@@ -384,17 +384,18 @@ function facebookLogin() {
             FB.api('/me', function (response) {
                 //console.log('Good to see you, ' + response.name + '.');
                 if (response && !response.error) {
+                    alert('res: ' + JSON.stringify(response));
                     loginToSroogim(response);
                 }
             });
-            alert('try to get user cover');
-            FB.api('/100004614932344', function (pageRes) {
-                alert('f: ' + JSON.stringify(pageRes));
-                if (pageRes && !pageRes.error) {
-                    userCoverPic = pageRes.cover.source;
-                    alert('in cover function')
-                }
-            });
+            //alert('try to get user cover');
+            //FB.api('/100004614932344', function (pageRes) {
+            //    alert('f: ' + JSON.stringify(pageRes));
+            //    if (pageRes && !pageRes.error) {
+            //        userCoverPic = pageRes.cover.source;
+            //        alert('in cover function')
+            //    }
+            //});
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
