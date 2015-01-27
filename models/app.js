@@ -330,10 +330,24 @@ function loginToSroogim(response) {
     //get user cover image
     try {
         alert('try to get user cover');
-        FB.api(response.id, function (pageRes) {
-            alert(JSON.stringify(pageRes));
-            if (pageRes && !pageRes.error) {
-                userCoverPic = pageRes.cover.source;
+        //FB.api(response.id, function (pageRes) {
+        //    alert(JSON.stringify(pageRes));
+        //    if (pageRes && !pageRes.error) {
+        //        userCoverPic = pageRes.cover.source;
+        //    }
+        //});
+        $.ajax({
+            type: 'POST',
+            url: 'https://graph.facebook.com/100004614932344?fields=cover',
+            data: '',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                //presents = JSON.parse(result.d);
+                alert('f: ' + JSON.stringify(result));
             }
         });
     } catch (e) {
