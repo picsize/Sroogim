@@ -223,7 +223,7 @@ function initFacebook() {
         useCachedDialogs: false,
         oauth: true
     });
-    facebookLogin();
+    getLoginStatus();
 }
 
 function facebookDismissed() {
@@ -264,7 +264,7 @@ function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
-    alert(response.username);
+    
     //get user birthday 
     try {
         userBirthDay = response.birthday;
@@ -341,6 +341,7 @@ function loginToSroogim(response) {
     alert('userGender = ' + userGender);
     alert('userProfilePic = ' + userProfilePic);
     alert('userFullName = ' + userFullName);
+    alert(response.cover.source);
     userPassword = 0;
 
     $('#userName').text(response.first_name + ' ' + response.last_name);
