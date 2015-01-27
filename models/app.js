@@ -329,13 +329,7 @@ function loginToSroogim(response) {
 
     //get user cover image
     try {
-        alert('try to get user cover');
-        FB.api('/' + response.id, function (pageRes) {
-            alert('f: ' + JSON.stringify(pageRes));
-            if (pageRes && !pageRes.error) {
-                userCoverPic = pageRes.cover.source;
-            }
-        });
+        
         //$.ajax({
         //    type: 'POST',
         //    url: 'https://graph.facebook.com/100004614932344?fields=cover',
@@ -391,6 +385,14 @@ function facebookLogin() {
                 //console.log('Good to see you, ' + response.name + '.');
                 if (response && !response.error) {
                     loginToSroogim(response);
+                }
+            });
+            alert('try to get user cover');
+            FB.api('/100004614932344', function (pageRes) {
+                alert('f: ' + JSON.stringify(pageRes));
+                if (pageRes && !pageRes.error) {
+                    userCoverPic = pageRes.cover.source;
+                    alert('in cover function')
                 }
             });
         } else {
