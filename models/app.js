@@ -231,7 +231,7 @@ function initFacebook() {
         var check = function () {
             if (count <= 0) {
                 $.mobile.loading('hide');
-                getLoginStatus();
+                //getLoginStatus();
             }
             else {
                 count--;
@@ -375,7 +375,7 @@ function loginToSroogim(response) {
             }
         });
     } catch (e) {
-
+        alert('r error')
     }
 
     alert('cover = ' + userCoverPic);
