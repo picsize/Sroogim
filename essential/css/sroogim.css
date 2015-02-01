@@ -104,6 +104,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     top: 0;
     left: 0;
     width: 100%;
+    z-index:999;
 }
 
     [data-role="header"].bigHeader
@@ -265,32 +266,27 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             width: 72% !important;
         }
 
-    .socialHolder .social ul li:last-child
+    .socialHolder .social ul li:last-child p
     {
-        /*float: left;*/
+        display: inline-block;
+        color: #fff;
     }
 
-        .socialHolder .social ul li:last-child p
+    .socialHolder .social ul li:last-child .rating
+    {
+        display: inline-block;
+    }
+
+        .socialHolder .social ul li:last-child .rating span img
         {
-            display: inline-block;
-            color: #fff;
+            width: 1.2em !important;
+            margin-bottom: 0 !important;
         }
 
-        .socialHolder .social ul li:last-child .rating
+        .socialHolder .social ul li:last-child .rating span[data-empty="true"] img
         {
-            display: inline-block;
+            content: url(../images/General/whiteStar.png);
         }
-
-            .socialHolder .social ul li:last-child .rating span img
-            {
-                width: 1.2em !important;
-                margin-bottom: 0 !important;
-            }
-
-            .socialHolder .social ul li:last-child .rating span[data-empty="true"] img
-            {
-                content: url(../images/General/whiteStar.png);
-            }
 
 /*#endregion*/
 
@@ -369,9 +365,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .city
 {
-    color: #c0bec3;
+    color: #3a3a3a;
     border-bottom: 1px solid #c0bec3;
-    padding: 1% 0;
+    padding: 3% 0;
 }
 
 /*#endregion*/
@@ -383,15 +379,19 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     float: right;
 }
 
+[role="main"]
+{
+    padding-bottom: 27% !important;
+}
+
 .ui-content
 {
-    /*padding: 11% 0 5% 0;*/
     padding: 11% 0 12% 0;
 }
 
     .ui-content.hasBigHeader
     {
-        padding: 24% 0 12% 0;
+        padding-top: 26%;
     }
 
 .ui-panel-inner
@@ -582,7 +582,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     #menuSidebar #sidebarCoverImg
     {
-        height: 130px;
+        height: 160px;
         width: 100%;
     }
 
@@ -595,79 +595,85 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         position: relative;
     }
 
-    #menuSidebar section:nth-child(2)
-    {
-        margin-top: 20%;
-    }
+#panelHolder
+{
+    height: 36em;
+    overflow-y: auto;
+}
 
-    #menuSidebar section:nth-child(3), #menuSidebar section:last-child
-    {
-        margin-top: 5%;
-    }
+#menuSidebar section:nth-child(2)
+{
+    margin-top: 20%;
+}
 
-    #menuSidebar section:last-child
-    {
-        text-align: left;
-    }
+#menuSidebar section:nth-child(3), #menuSidebar section:last-child
+{
+    margin-top: 5%;
+}
 
-    #menuSidebar #userName
-    {
-        text-align: center;
-        color: #fff;
-        font-weight: normal;
-        text-shadow: none;
-        margin-bottom: 5%;
-    }
+#menuSidebar section:last-child
+{
+    text-align: left;
+}
 
-    #menuSidebar .ui-block-a
-    {
-        background-color: #f13d6d;
-    }
+#menuSidebar #userName
+{
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    text-shadow: none;
+    margin-bottom: 5%;
+}
 
-    #menuSidebar .ui-block-b
-    {
-        background-color: #b63c6b;
-    }
+#menuSidebar .ui-block-a
+{
+    background-color: #f13d6d;
+}
 
-    #menuSidebar [class*="ui-block"] button, #menuSidebar #panelLinks .ui-btn
-    {
-        background-color: transparent !important;
-        border: none;
-        color: #fff;
-        font-weight: normal;
-        font-size: 72%;
-    }
+#menuSidebar .ui-block-b
+{
+    background-color: #b63c6b;
+}
 
-    #menuSidebar #panelLinks .ui-btn
-    {
-        text-align: right;
-        text-indent: 6%;
-        border-bottom: 1px solid #878788;
-        font-size: 97%;
-        padding-right: 20%;
-        margin: 0;
-        padding-top: 6%;
-    }
+#menuSidebar [class*="ui-block"] button, #menuSidebar #panelLinks .ui-btn
+{
+    background-color: transparent !important;
+    border: none;
+    color: #fff;
+    font-weight: normal;
+    font-size: 72%;
+}
 
-    #menuSidebar #panelLinks a.ui-btn:active
-    {
-        background-color: #0d7b92 !important;
-    }
+#menuSidebar #panelLinks .ui-btn
+{
+    text-align: right;
+    text-indent: 6%;
+    border-bottom: 1px solid #878788;
+    font-size: 97%;
+    padding-right: 20%;
+    margin: 0;
+    padding-top: 6%;
+}
 
-    #menuSidebar #panelLinks a.ui-btn-icon-right:after
-    {
-        margin-right: 5%;
-        margin-top: -4%;
-    }
+#menuSidebar #panelLinks a.ui-btn:active
+{
+    background-color: #0d7b92 !important;
+}
 
-    #menuSidebar section:last-child small
-    {
-        padding: 0;
-        margin: 0;
-        color: #fff;
-        font: menu;
-        margin-left: 4%;
-    }
+#menuSidebar #panelLinks a.ui-btn-icon-right:after
+{
+    margin-right: 5%;
+    margin-top: -4%;
+}
+
+#menuSidebar section:last-child small
+{
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    font: menu;
+    margin-left: 4%;
+}
 
 /*#endregion*/
 
@@ -836,6 +842,53 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#endregion*/
 
+/*#region Popup*/
+
+#popup-popup
+{
+    width: 70% !important;
+    max-width: 70% !important;
+}
+
+#popup
+{
+    border: 2px solid rgba(182,75,99,.55);
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: rgba(122,20,55,.7);
+    /*-moz-box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);
+    -webkit-box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);
+    box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);*/
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ5MGMyMSIgc3RvcC1vcGFjaXR5PSIwLjczIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2FmNzI4NyIgc3RvcC1vcGFjaXR5PSIwLjczIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+);
+    background-image: -moz-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
+    background-image: -o-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
+    background-image: linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
+    padding: 5%;
+}
+
+.ui-overlay-shadow
+{
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#popupContent h2
+{
+    color: #fff;
+    text-shadow: none !important;
+    font-size: 113%;
+    font-weight: normal;
+    text-align: center;
+}
+
+/*#endregion*/
+
 /*#region Register*/
 
 #registerForm [role="main"] form div:nth-child(2):not(.inputContainer)
@@ -949,15 +1002,6 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#region Main Screen*/
 
-/*#region Main*/
-
-#mainScreen .ui-content
-{
-    /*padding: 23% 0 5% 0;*/
-}
-
-/*#endregion*/
-
 /*#region News*/
 
 #news
@@ -1043,7 +1087,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #top5 img:not(.arrow)
     {
         width: 100%;
-        height: 11em;
+        height: 13em;
     }
 
 /*#endregion*/
@@ -1281,7 +1325,6 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         font-size: 100%;
     }
 
-
 #addDate [role="main"] .wrapper form img
 {
     width: 100%;
@@ -1476,61 +1519,61 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     #experts [role="main"] .wrapper form .inputContainer label
     {
-        font-size: 77%;
+        font-size: 100%;
         color: #3a3a3a;
     }
 
 #experts input
 {
-    height:1.5em;
+    height: 1.5em;
 }
 
-        #experts [role="main"] .wrapper form .inputContainer label[data-required="true"]:after
-        {
-            content: " *";
-            color: #f00;
-        }
+#experts [role="main"] .wrapper form .inputContainer label[data-required="true"]:after
+{
+    content: " *";
+    color: #f00;
+}
 
-    #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a
+#experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a
+{
+    text-align: center;
+}
+
+    #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input:focus:invalid, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea:focus:invalid
     {
-        text-align: center;
+        background-color: #fff6f6;
+        -moz-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+        -webkit-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
+        box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
     }
 
-        #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a input:focus:invalid, #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea:focus:invalid
-        {
-            background-color: #fff6f6;
-            -moz-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-            -webkit-box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-            box-shadow: 0 0 6px rgba(218,0,0,.63), inset 0 4px 4px rgba(206,0,0,.08), inset 0 0 0 1px rgba(255,0,0,.07);
-        }
-
-        #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea
-        {
-            height: 5em;
-        }
-
-    #experts [role="main"] .wrapper form .inputContainer .submitHolder
+    #experts [role="main"] .wrapper form .inputContainer .ui-grid-solo .ui-block-a textarea
     {
-        text-align: left;
+        height: 5em;
+    }
+
+#experts [role="main"] .wrapper form .inputContainer .submitHolder
+{
+    text-align: left;
+    border: none;
+}
+
+    #experts [role="main"] .wrapper form .inputContainer .submitHolder #expertsSend
+    {
         border: none;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        background-color: #ff9562;
+        -moz-box-shadow: 0 3px 0 #e9763d;
+        -webkit-box-shadow: 0 3px 0 #e9763d;
+        box-shadow: 0 3px 0 #e9763d;
+        padding: 1.5% 8%;
+        color: #fff;
     }
-
-        #experts [role="main"] .wrapper form .inputContainer .submitHolder #expertsSend
-        {
-            border: none;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            -moz-background-clip: padding;
-            -webkit-background-clip: padding-box;
-            background-clip: padding-box;
-            background-color: #ff9562;
-            -moz-box-shadow: 0 3px 0 #e9763d;
-            -webkit-box-shadow: 0 3px 0 #e9763d;
-            box-shadow: 0 3px 0 #e9763d;
-            padding: 1.5% 8%;
-            color: #fff;
-        }
 
 /*#endregion*/
 
@@ -1599,6 +1642,27 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin-bottom: 3%;
 }
 
+    #singleDate [role="main"] .wrapper img.dateIcons
+    {
+        width: 80%;
+    }
+
+#singleDate .socialHolder .social ul li:last-child
+{
+    float: left;
+    margin-left: 7%;
+}
+
+#singleDate .rating
+{
+    padding: 2% 0%;
+}
+
+#singleDate .socialHolder .social ul li:first-child
+{
+    margin-left: 0%;
+}
+
 #singleDate [role="main"] .wrapper div.inputContainer
 {
     width: 93%;
@@ -1649,11 +1713,10 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     background: #ae263f url('../images/Add/lamp.png') no-repeat;
     border: none;
     background-position: 98% 33%;
-    padding: 3% 2%;
-    width: 98%;
+    padding: 3% 10% 3% 2%;
     background-size: 5%;
-    text-indent: 8%;
     margin-top: 10%;
+    width: 90%;
 }
 
 #singleDate_dateStepsHeader
@@ -1676,6 +1739,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     -webkit-box-shadow: 3px 1px 20px #888;
     box-shadow: 3px 1px 20px #888;
     padding: 0.8% 0;
+    background-color: #fff;
 }
 
     .singleDate_buttons button
@@ -1687,7 +1751,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     .singleDate_buttons .ui-block-a button
     {
-        background-color: #ae263f !important;
+        /*background-color: #ae263f !important;*/
+        background-color: #0152a1 !important;
     }
 
     .singleDate_buttons .ui-block-b button

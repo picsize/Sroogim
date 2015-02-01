@@ -21,13 +21,14 @@
     <script src="phonegap.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
     <script src="facebook-js-sdk.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
     <!-- Javascript -->
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
     <script src="essential/jQuery/jquery.marquee.js"></script>
     <script src="models/app.js"></script>
-     <script src="models/loginAndRegister.js"></script>
-        <script src="models/uploadImages.js"></script>
+    <script src="models/loginAndRegister.js"></script>
+    <script src="models/uploadImages.js"></script>
     <script src="models/addDateOrPresent.js"></script>
     <script src="models/social.js"></script>
     <!--<script src="models/map.js"></script>-->
@@ -37,47 +38,46 @@
 
     <!-- Menu Sidebar -->
     <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel" data-position-fixed="true">
-        <!-- Profile & Cover -->
-        <section>
-            <!-- Cover Image -->
-            <div>
-                <img id="sidebarCoverImg" src="essential/images/Register/cover.png" />
-            </div>
-            <!-- Profile Image -->
-            <div>
-                <div id="sidebarProfileImg" class="circular"></div>
-            </div>
-        </section>
-
-        <!-- Personal Info -->
-        <section>
-            <h4 id="userName">שם משתמש</h4>
-            <fieldset class="ui-grid-a">
-                <legend></legend>
-                <div class="ui-block-a">
-                    <button class="ui-btn ui-shadow ui-btn-icon-right">עדכן תמונת פרופיל</button>
+        <div id="panelHolder">
+            <!-- Profile & Cover -->
+            <section>
+                <!-- Cover Image -->
+                <div>
+                    <img id="sidebarCoverImg" src="essential/images/Register/cover.png" />
                 </div>
-                <div class="ui-block-b">
-                    <button class="ui-btn ui-shadow ui-btn-icon-right">עדכן תמונת נושא</button>
+                <!-- Profile Image -->
+                <div>
+                    <div id="sidebarProfileImg" class="circular"></div>
                 </div>
-            </fieldset>
-        </section>
+            </section>
 
-        <!-- Links -->
-        <section>
-            <div id="panelLinks">
-                <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
-                <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon">העדפות שלי</a>
-                <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
-                <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
-                <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
-            </div>
-        </section>
+            <!-- Personal Info -->
+            <section>
+                <h4 id="userName">שם משתמש</h4>
+            </section>
 
-        <!-- Version -->
-        <section>
-            <small>גרסת ביטא</small>
-        </section>
+            <!-- Links -->
+            <section>
+                <div id="panelLinks">
+                    <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon">העדפות שלי</a>
+                    <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
+                    <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
+                    <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
+                </div>
+            </section>
+
+            <!-- Version -->
+            <section>
+                <small>גרסת ביטא</small>
+            </section>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup">
+        <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <div id="popupContent"></div>
     </div>
 
     <!-- Intro Screen -->
@@ -853,17 +853,22 @@
                     <section class="social">
                         <ul>
                             <li>
-                                <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+                                <img src="essential/images/Icons/hearh.png" class="favorite dateIcons addToFav" alt=" הוספה למועדפים" />
 
                             </li>
                             <li>
-                                <img src="essential/images/General/comments.png" class="addComment" alt="הוסף תגובה" />
+                                <img src="essential/images/General/share.png" class="share dateIcons" alt="שיתוף" />
+
                             </li>
                             <li>
-                                <span>
-                                    <p>דרג/י</p>
-                                </span>
-                                <section class="rating clickable">
+                                <img src="essential/images/Icons/present.png" class="present dateIcons" alt="מתנה" />
+
+                            </li>
+                            <li>
+                                <img src="essential/images/General/comments.png" class="addComment dateIcons" alt="הוסף תגובה" />
+                            </li>
+                            <li>
+                                <section class="rating">
                                     <span data-value="5" data-empty="true">
                                         <img src="essential/images/General/blankStar.png" />
                                     </span>
@@ -928,17 +933,22 @@
                     </div>
 
                 </div>
-                <div class="ui-grid-b singleDate_buttons">
+                <div class="ui-grid-solo singleDate_buttons">
+                    <div class="ui-block-a">
+                        <button id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</button>
+                    </div>
+                </div>
+                <!--<div class="ui-grid-b ">
                     <div class="ui-block-a">
                         <button id="favDate" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
                     </div>
                     <div class="ui-block-b">
-                        <button id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</button>
+                        
                     </div>
                     <div class="ui-block-c">
                         <button id="goToPresent" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift">מתנה</button>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -962,10 +972,10 @@
             <div class="location">
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
-                        <button class="findGps active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
+                        <button class="women active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
                     </div>
                     <div class="ui-block-b">
-                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
+                        <button class="men ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
                     </div>
                 </div>
             </div>
@@ -1063,10 +1073,10 @@
             <div class="location">
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
-                        <button class="findGps active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
+                        <button class="women active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
                     </div>
                     <div class="ui-block-b">
-                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
+                        <button class="men ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
                     </div>
                 </div>
             </div>
@@ -1410,14 +1420,16 @@
                     <h2 class="allDates">כל הארץ</h2>
                 </div>
                 <ul class="locationsList">
-                    <li class="area"><label>השרון</label>
+                    <li class="area">
+                        <label>השרון</label>
                         <ul>
                             <li class="city">נתניה</li>
                             <li class="city">נתניה</li>
                             <li class="city">נתניה</li>
                         </ul>
                     </li>
-                    <li class="area"><label>השרון</label>
+                    <li class="area">
+                        <label>השרון</label>
                         <ul>
                             <li class="city">נתניה</li>
                             <li class="city">נתניה</li>

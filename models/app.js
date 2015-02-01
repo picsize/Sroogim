@@ -1,7 +1,7 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var dates, presents, categories, locations, lat, lng, thisDate;
+var dates, presents, categories, locations, lat, lng, thisDate, thisPresent;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
 var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender;
@@ -15,6 +15,7 @@ document.addEventListener("deviceready", initApp, false);
 
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
+    $('#popup').enhanceWithin().popup();
     $('#newsContainer p').marquee();
     checkPhonegap();
     getAllDates();
@@ -247,7 +248,7 @@ function loginToSroogim(response) {
     //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
     //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
     //alert('facebook res: ' + JSON.stringify(response));
-    
+
     //get user birthday 
     try {
         userBirthDay = response.birthday;
@@ -377,8 +378,8 @@ function createDatePage(json) {
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
-    //$('#gpsButton').attr('date-gps', 'geo:' + gps);
-    $('#gpsButton').attr('date-gps', 'waze://q=' + json.DateGps);
+    $('#gpsButton').attr('date-gps', 'geo:' + gps);
+    //$('#gpsButton').attr('date-gps', 'waze://q=' + json.DateGps);
     $('#singleDate_dateDesc').text(json.DateDescription);
     if (json.ShowDateTip == 'Y') {
         $('#singleDate_dateTip').text(json.DateTip);
@@ -394,6 +395,8 @@ function createDatePage(json) {
         $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
         $('#singleDate_dateSteps').html(json.MoreInfoText);
     }
+    $('#singleDate .share').attr('data-share', 'date');
+    $('#singleDate .share').attr('data-id', json.DateID);
 }
 
 //create locations page
@@ -414,14 +417,16 @@ function createLocationPage() {
 $(document).on('click', '[href="index.html#datesPage"]', function () {
     categoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
-        categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="essential/images/Dates/Category/outside.jpg" /> </h4><ul data-role="listview">';
-        for (var j = 0; j < categories[i].SubList.length; j++) {
-            categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
+        if (categories[i].CategoryType == "Date") {
+            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="essential/images/Dates/Category/outside.jpg" /> </h4><ul data-role="listview">';
+            for (var j = 0; j < categories[i].SubList.length; j++) {
+                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
+            }
+            categoriesHTML += '</ul></div>';
         }
-        categoriesHTML += '</ul></div>';
+
     };
     //alert(html);
-
 });
 
 $(document).on('pagebeforecreate', '#datesPage', function () { $('#datesPage .wrapper').html(categoriesHTML); });
@@ -445,7 +450,7 @@ $(document).on('click', '.goToDateList', function () {
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" date-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' +
                                                 '<span data-value="5" data-empty="true">' +
                                                     '<img src="essential/images/General/blankStar.png" />' +
@@ -640,52 +645,89 @@ $(document).on('click', '#gpsButton', function () {
     window.location.replace($(this).attr('data-gps'));
 });
 
+//open rating popup
+$(document).on('click', '#singleDate .rating', function () {
+    $('#popupContent').html('<h2>פופאפ</h2>');
+    $('#popup').popup('open');
+});
 
 //#endregion
 
 //#region Presents
 
 //create present list
-$(document).on('pagebeforecreate', '#presentsList', function () {
+$(document).on('click', '[href="index.html#presentsCategories"]', function () {
+    createPresentsCategoriesPage('Women');
+});
+
+$(document).on('pagebeforecreate', '#presentsCategories', function () {
+    $('#presentsCategories .wrapper').html(categoriesHTML);
+});
+
+//go to presents list
+$(document).on('click', '.goToPresentsList', function () {
+    var categoryID = parseInt($(this).attr('data-category-id'));
+    $('#presentsList .wrapper .title h2').text($(this).text());
     var presentLi = '';
     for (var i = 0; i < presents.length; i++) {
-        presentLi += '<li class="dataItem">' +
-                        '<div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
-                        '<div>' +
-                            '<h3>' + presents[i].PresentHeader + '</h3>' +
-                            '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
-                            '<section class="social">' +
-                                '<ul>' +
-                                    '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                    '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
-                                    '<li><section class="rating">' +
-                                            '<span data-value="5" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="4" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="3" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="2" data-empty="false">' +
-                                                '<img src="essential/images/General/goldenStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="1" data-empty="false">' +
-                                                '<img src="essential/images/General/goldenStar.png" />' +
-                                            '</span>' +
-                                        '</section>' +
-                                    '</li>' +
-                                '</ul>' +
-                            '</section>' +
-                        '</div>' +
-                        '<div>' +
-                            '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
-                                '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                        '</div>' +
-                        '</li>';
+        if (presents[i].PresentCategory == categoryID) {
+            presentLi = '<li class="dataItem">' +
+                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                            '<div>' +
+                                '<h3>' + presents[i].PresentHeader + '</h3>' +
+                                '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                '<section class="social">' +
+                                    '<ul>' +
+                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
+                                        '<li><section class="rating">' +
+                                                '<span data-value="5" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="4" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="3" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="2" data-empty="false">' +
+                                                    '<img src="essential/images/General/goldenStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="1" data-empty="false">' +
+                                                    '<img src="essential/images/General/goldenStar.png" />' +
+                                                '</span>' +
+                                            '</section>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                '</section>' +
+                            '</div>' +
+                            '<div>' +
+                                '<a data-ajax="false" href="index.html#singleDate" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
+                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                            '</div>' +
+                            '</li>';
+        }
     }
-    $('.dataList').html(presentLi);
+    if (presentLi == '') {
+        presentLi = 'אין מתנות בקטגוריה זו';
+    }
+
+    $('#presentsList .dataList').html(presentLi);
+});
+
+//filter categories by gender
+$(document).on('click', '.women, .men', function () {
+    if ($(this).hasClass('women')) {
+        createPresentsCategoriesPage('Women');
+        $(this).addClass('active');
+        $('.men').removeClass('active');
+    }
+    else {
+        createPresentsCategoriesPage('Men');
+        $(this).addClass('active');
+        $('.women').removeClass('active');
+    }
+    $('#presentsCategories .wrapper').html(categoriesHTML);
 });
 
 //show present page
@@ -697,7 +739,6 @@ $(document).on('click', '.goToPresent', function () {
         }
     }
 });
-
 
 //send present offer
 $(document).on('click', '#presentSend', function () {
@@ -746,8 +787,70 @@ function createPresentPage(json) {
     else {
         $('#singlePeresent_presentTip').parent().parent().hide();
     }
+    $('#singlePresent .share').attr('data-share', 'present');
+    $('#singlePresent .share').attr('data-id', json.PresentID);
 }
 
+function createPresentsCategoriesPage(gender) {
+    categoriesHTML = '<ul class="dataList">';
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
+            categoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
+              '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
+              '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
+        }
+    }
+    categoriesHTML += '</ul>';
+}
 
 //#endregion
 
+//#region Popup
+
+function openPopup() {
+    $('#popup').popup('open', { transition: 'slidedown' });
+}
+
+function closePopup() {
+    $('#popup').popup('close', { transition: 'slideup' });
+}
+
+//#endregion
+
+//#region Share
+
+$(document).on('click', '.share', function () {
+    var share = '';
+    if ($(this).attr('date-share') == 'date') {
+        share = getDateForShare(parseInt($(this).attr('data-id')));
+    }
+    else {
+        share = getPresentForShare(parseInt($(this).attr('data-id')));
+    }
+    window.plugins.socialsharing.share(share);
+});
+
+function getDateForShare(dateID) {
+    var dateString = '';
+    for (var i = 0; i < dates.length; i++) {
+        if (dates[i].DateID == dateID) {
+            dateString += 'שם הדייט: ' + dates[i].DateHeader + '\n';
+            dateString += 'מיקום הדייט: ' + dates[i].DateLocation + '\n';
+            dateString += 'תיאור הדייט: ' + dates[i].DateDescription + '\n';
+        }
+    }
+    return dateString;
+}
+
+function getPresentForShare(presentID) {
+    var presentString = '';
+    for (var i = 0; i < presents.length; i++) {
+        if (presents[i].PresentID == presentID) {
+            presentString += 'שם המתנה: ' + presents[i].PresentHeader + '\n';
+            presentString += 'תיאור המתנה: ' + presents[i].PresentDescription + '\n';
+        }
+    }
+    return presentString;
+}
+
+//#endregion

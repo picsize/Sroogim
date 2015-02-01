@@ -74,11 +74,7 @@
     <param name="APP_NAME" value="sroogim_app" />
   </gap:plugin>
   <gap:plugin name="com.phonegap.plugin.statusbar" />
-
-  <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
-  <!-- 
-        <gap:plugin name="com.phonegap.plugins.barcodescanner" />
-    -->
+  <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0" />
 
   <!-- Define app icon for each platform. -->
   <icon src="essential/images/app_icon/ios/Icon.png" />
