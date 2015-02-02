@@ -14,10 +14,10 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
-    var count = 7;
+    var count = 5;
     var loadComponents = function () {
         if (count <= 0) {
-
+            initFacebook();
             $.mobile.loading('hide');
         }
         else {
@@ -43,7 +43,6 @@ function initApp() {
     getAllPresents();
     getAllCategories();
     getAllLocations();
-    initFacebook();
     getcurrentlatlong();
 
     var devicePlatform = device.platform;
