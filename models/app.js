@@ -14,24 +14,6 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
-    $('#menuSidebar').panel().enhanceWithin();
-    $('#popup').enhanceWithin().popup();
-    $('#newsContainer p').marquee();
-    checkPhonegap();
-    getAllDates();
-    getAllPresents();
-    getAllCategories();
-    getAllLocations();
-    initFacebook();
-    getcurrentlatlong();
-
-    var devicePlatform = device.platform;
-    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-            StatusBar.hide();
-        }
-    }
-
     var count = 7;
     var loadingText = {
         '6': 'טוען רכיבים',
@@ -62,6 +44,25 @@ function initApp() {
         }
     }
     loadComponents();
+
+    $('#menuSidebar').panel().enhanceWithin();
+    $('#popup').enhanceWithin().popup();
+    $('#newsContainer p').marquee();
+    checkPhonegap();
+    getAllDates();
+    getAllPresents();
+    getAllCategories();
+    getAllLocations();
+    initFacebook();
+    getcurrentlatlong();
+
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
+
 }
 
 //#region Init
