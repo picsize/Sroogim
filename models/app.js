@@ -31,6 +31,37 @@ function initApp() {
             StatusBar.hide();
         }
     }
+
+    var count = 7;
+    var loadingText = {
+        '6': 'טוען רכיבים',
+        '5': 'טוען בילויים',
+        '4': 'טוען מתנות',
+        '3': 'טוען פייסבוק',
+        '2': 'טוען בילויים',
+        '1': 'טוען מתנות',
+        '0': 'טוען פייסבוק'
+    };
+
+    var loadComponents = function () {
+        if (count <= 0) {
+
+            $.mobile.loading('hide');
+        }
+        else {
+            count--;
+
+            $.mobile.loading('show', {
+                text: loadingText[count],
+                textVisible: true,
+                theme: 'a',
+                textonly: false
+            });
+
+            setTimeout(loadComponents, 1000);
+        }
+    }
+    loadComponents();
 }
 
 //#region Init
@@ -53,17 +84,17 @@ function getAllDates() {
         dataType: 'json',
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
+        },
+        success: function (result) {
+            dates = JSON.parse(result.d);
+            //alert('DATES: ' + JSON.stringify(dates));
+            for (var i = 0; i < dates.length; i++) {
+                // alert('i=' + i);
+                codeAddress(dates[i].DateGps, dates[i].DateID);
+            }
+            //alert('done: ' + JSON.stringify(gpsAddress));
         }
-    }).done(function (result) {
-        dates = JSON.parse(result.d);
-        //alert('DATES: ' + JSON.stringify(dates));
-        for (var i = 0; i < dates.length; i++) {
-            // alert('i=' + i);
-            codeAddress(dates[i].DateGps, dates[i].DateID);
-        }
-        //alert('done: ' + JSON.stringify(gpsAddress));
     });
-
 }
 
 //get all presents
@@ -450,7 +481,7 @@ $(document).on('click', '.goToDateList', function () {
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" date-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' +
                                                 '<span data-value="5" data-empty="true">' +
                                                     '<img src="essential/images/General/blankStar.png" />' +
@@ -821,12 +852,13 @@ function closePopup() {
 
 $(document).on('click', '.share', function () {
     var share = '';
-    if ($(this).attr('date-share') == 'date') {
+    if ($(this).attr('data-share') == 'date') {
         share = getDateForShare(parseInt($(this).attr('data-id')));
     }
     else {
         share = getPresentForShare(parseInt($(this).attr('data-id')));
     }
+    //alert('share: ' + share);
     window.plugins.socialsharing.share(share);
 });
 
