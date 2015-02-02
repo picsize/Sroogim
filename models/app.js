@@ -14,6 +14,27 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
+    var count = 7;
+    var loadComponents = function () {
+        if (count <= 0) {
+
+            $.mobile.loading('hide');
+        }
+        else {
+            count--;
+
+            $.mobile.loading('show', {
+                text: 'טוען... ' + count,
+                textVisible: true,
+                theme: 'a',
+                textonly: false
+            });
+
+            setTimeout(loadComponents, 1000);
+        }
+    }
+    loadComponents();
+
     $('#menuSidebar').panel().enhanceWithin();
     $('#popup').enhanceWithin().popup();
     $('#newsContainer p').marquee();
@@ -31,37 +52,6 @@ function initApp() {
             StatusBar.hide();
         }
     }
-
-    var count = 7;
-    var loadingText = {
-        '6': 'טוען רכיבים',
-        '5': 'טוען בילויים',
-        '4': 'טוען מתנות',
-        '3': 'טוען פייסבוק',
-        '2': 'טוען בילויים',
-        '1': 'טוען מתנות',
-        '0': 'טוען פייסבוק'
-    };
-
-    var loadComponents = function () {
-        if (count <= 0) {
-
-            $.mobile.loading('hide');
-        }
-        else {
-            count--;
-
-            $.mobile.loading('show', {
-                text: loadingText[count],
-                textVisible: true,
-                theme: 'a',
-                textonly: false
-            });
-
-            setTimeout(loadComponents, 1000);
-        }
-    }
-    loadComponents();
 
 }
 
@@ -860,16 +850,16 @@ $(document).on('click', '.share', function () {
         share = getPresentForShare(parseInt($(this).attr('data-id')));
     }
     //alert('share: ' + share);
-    window.plugins.socialsharing.share(share);
+    window.plugins.socialsharing.share(share + 'נשלח מאפליקציית SROOGIM');
 });
 
 function getDateForShare(dateID) {
     var dateString = '';
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateID == dateID) {
-            dateString += 'שם הדייט: ' + dates[i].DateHeader + '\n';
-            dateString += 'מיקום הדייט: ' + dates[i].DateLocation + '\n';
-            dateString += 'תיאור הדייט: ' + dates[i].DateDescription + '\n';
+            dateString += 'שם הדייט: ' + dates[i].DateHeader + '\n' +
+            'מיקום הדייט: ' + dates[i].DateLocation + '\n' +
+            'תיאור הדייט: ' + dates[i].DateDescription + '\n';
         }
     }
     return dateString;
@@ -879,8 +869,9 @@ function getPresentForShare(presentID) {
     var presentString = '';
     for (var i = 0; i < presents.length; i++) {
         if (presents[i].PresentID == presentID) {
-            presentString += 'שם המתנה: ' + presents[i].PresentHeader + '\n';
-            presentString += 'תיאור המתנה: ' + presents[i].PresentDescription + '\n';
+            presentString += 'שם המתנה: ' + presents[i].PresentHeader + '\n' +
+            'תיאור המתנה: ' + presents[i].PresentDescription + '\n';
+
         }
     }
     return presentString;
