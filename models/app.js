@@ -1,10 +1,10 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-var dates, presents, categories, locations, lat, lng, thisDate, thisPresent;
+var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
-var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender;
+var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender, userDeviceID;
 
 
 document.addEventListener("deviceready", initApp, false);
@@ -17,7 +17,8 @@ function initApp() {
     var count = 5;
     var loadComponents = function () {
         if (count <= 0) {
-            initFacebook();
+            //initFacebook();
+            //userDeviceID = device.uuid;
             $.mobile.loading('hide');
         }
         else {
@@ -43,7 +44,8 @@ function initApp() {
     getAllPresents();
     getAllCategories();
     getAllLocations();
-    getcurrentlatlong();
+    getCurrentlatlong();
+    getAllNews();
 
     var devicePlatform = device.platform;
     if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
@@ -142,12 +144,32 @@ function getAllLocations() {
     });
 }
 
+//get all news
+function getAllNews() {
+    $.ajax({
+        type: 'POST',
+        url: api + 'getAllNews',
+        data: '',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            news = JSON.parse(result.d);
+            setNewsMarquee(news);
+            createNewsPage(news);
+            //alert('NEWS: ' + JSON.stringify(news));
+        }
+    });
+}
+
 //#endregion
 
 //#region GPS & Location
 
 //get my current location
-function getcurrentlatlong() {
+function getCurrentlatlong() {
 
     if (navigator.geolocation) {
         //alert("navigator.geolocation is supported");
@@ -266,9 +288,6 @@ function getLoginStatus() {
 
 //login to sroogim via facebook
 function loginToSroogim(response) {
-    //navigator.notification.alert('התחברת בהצלחה.', facebookDismissed, 'Sroogim', 'אישור');
-    //alert('hello ' + response.first_name + ' ' + response.last_name + '. url = ' + response.picture.data.url);
-    //alert('facebook res: ' + JSON.stringify(response));
 
     //get user birthday 
     try {
@@ -399,7 +418,7 @@ function createDatePage(json) {
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
-    $('#gpsButton').attr('date-gps', 'geo:' + gps);
+    $('#gpsButton').attr('href', 'geo:' + gps);
     //$('#gpsButton').attr('date-gps', 'waze://q=' + json.DateGps);
     $('#singleDate_dateDesc').text(json.DateDescription);
     if (json.ShowDateTip == 'Y') {
@@ -512,23 +531,27 @@ $(document).on('click', '.goToDateList', function () {
 
 //set distance to places
 $(document).on('pageshow', '#datesList', function () {
-    var num = 5;
-    var clacGPS = function () {
+    var num = 7;
+    var calcGPS = function () {
         if (num <= 0) {
-            $.mobile.loading('hide');
-            $('.distance').each(function () {
-                var j = 0;
-                $(this).text(distance[j]);
-                j++;
-            });
-            //$('.findGps').addClass('active');
+            //alert($('.distance').length);
+            for (var i = 0; i < $('.distance').length; i++) {
+                $('.distance')[i].innerHTML = distance[i]
+            }
+            //$.mobile.loading('hide');
+            //disCount = 0;
+            //$('.distance').each(function () {
+            //    $(this).text(distance[disCount]);
+            //    disCount++;
+            //});
+            $('.findGps').addClass('active');
         }
         else {
             num--;
-            setTimeout(clacGPS, 1000);
+            setTimeout(calcGPS, 1000);
         }
     };
-    clacGPS();
+    calcGPS();
 
 });
 
@@ -662,9 +685,9 @@ $(document).on('click', '#goToPresent', function () {
 });
 
 //date-gps
-$(document).on('click', '#gpsButton', function () {
-    window.location.replace($(this).attr('data-gps'));
-});
+//$(document).on('click', '#gpsButton', function () {
+//    window.location.replace($(this).attr('data-gps'));
+//});
 
 //open rating popup
 $(document).on('click', '#singleDate .rating', function () {
@@ -723,7 +746,7 @@ $(document).on('click', '.goToPresentsList', function () {
                                 '</section>' +
                             '</div>' +
                             '<div>' +
-                                '<a data-ajax="false" href="index.html#singleDate" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
+                                '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
                             '</li>';
@@ -740,15 +763,17 @@ $(document).on('click', '.goToPresentsList', function () {
 $(document).on('click', '.women, .men', function () {
     if ($(this).hasClass('women')) {
         createPresentsCategoriesPage('Women');
-        $(this).addClass('active');
+        $('.women').addClass('active');
         $('.men').removeClass('active');
     }
     else {
         createPresentsCategoriesPage('Men');
-        $(this).addClass('active');
+        $('.men').addClass('active');
         $('.women').removeClass('active');
     }
+
     $('#presentsCategories .wrapper').html(categoriesHTML);
+    $.mobile.changePage('#presentsCategories');
 });
 
 //show present page
@@ -848,7 +873,7 @@ $(document).on('click', '.share', function () {
     else {
         share = getPresentForShare(parseInt($(this).attr('data-id')));
     }
-    //alert('share: ' + share);
+    alert('share: ' + share);
     window.plugins.socialsharing.share(share + 'נשלח מאפליקציית SROOGIM');
 });
 
@@ -874,6 +899,41 @@ function getPresentForShare(presentID) {
         }
     }
     return presentString;
+}
+
+//#endregion
+
+//#region News
+
+function setNewsMarquee(json) {
+    var newsLi = '';
+    for (var i = 0; i < json.length; i++) {
+        newsLi += '<a data-ajax="false" href="index.html#newsPage" class="ui-link">' + json[i].Header + '</a>';
+    }
+
+    $('#news #newsContainer div div').html(newsLi);
+}
+
+function createNewsPage(json) {
+    var newsDiv = '';
+    for (var i = 0; i < json.length; i++) {
+        newsDiv += '<div class="newsContent">' +
+                        '<div class="newsDate">' +
+                            '<p>' + json[i].NewsDate.split('T')[0].split('-')[2] + '</p>' +
+                            '<p>' + json[i].NewsDate.split('T')[0].split('-')[1] + '/' + json[i].NewsDate.split('T')[0].split('-')[0] + '</p>' + 
+                        '</div>' + 
+                        '<div class="newsInfo">' +
+                            '<article>' +
+                                '<header>' +
+                                    '<h3>' + json[i].Header + '</h3>' +
+                                '</header>' +
+                                '<p>' + json[i].Description + '</p>' +
+                           '</article>' +
+                       '</div>' +
+                    '</div>'
+    }
+
+    $('#newsPage .wrapper').html(newsDiv);
 }
 
 //#endregion

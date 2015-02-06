@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5, h6
 
 body
 {
-    overflow-y: hidden !important;
+    /*overflow-y: hidden !important;*/
 }
 
 #loadImages
@@ -104,7 +104,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     top: 0;
     left: 0;
     width: 100%;
-    z-index:999;
+    z-index: 999;
 }
 
     [data-role="header"].bigHeader
@@ -381,7 +381,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 [role="main"]
 {
-    padding-bottom: 27% !important;
+    padding-bottom: 40% !important;
 }
 
 .ui-content
@@ -1094,7 +1094,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#region Ideas*/
 
-.ideas
+.ideas, .newsContent
 {
     background-color: #fff;
     -moz-box-shadow: 0 2px 4px rgba(0,0,0,.1);
@@ -1859,6 +1859,50 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     {
         background-color: #6471b3 !important;
     }
+
+/*#endregion*/
+
+/*#region News*/
+
+.newsContent
+{
+    max-height: 20em !important;
+    overflow-y:auto;
+    margin-top: 6%;
+    padding:1% 1% 5% 1%;
+}
+
+.newsDate
+{
+    width:20%;
+    float:right;
+}
+
+.newsDate p
+{
+    margin:0;
+    padding:0;
+    color:#fff;
+    text-align:center;
+}
+
+    .newsDate p:first-child
+    {
+        background-color:#B63C6B;
+        font-size:220%;
+    }
+
+    .newsDate p:last-child
+    {
+        background-color:#F16A64;
+    }
+
+.newsInfo
+{
+    width: 78%;
+float: right;
+padding-right: 2%;
+}
 
 /*#endregion*/
 

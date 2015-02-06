@@ -18,11 +18,9 @@
 </head>
 <body>
     <!-- Phonegap -->
-    <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script src="phonegap.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
     <script src="facebook-js-sdk.js"></script>
-    <!--<script type="text/javascript" src="cordova.js"></script>-->
     <!-- Javascript -->
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
@@ -193,12 +191,6 @@
             <div id="news">
                 <div id="newsContainer">
                     <p data-direction="right" data-loop="infinite" data-scrollamount="1" data-width="100%" data-height="100%" data-behavior="scroll">
-                        <a data-ajax="false" href="#">חדשה מס' 1</a>
-                        <a data-ajax="false" href="#">חדשה מס' 2</a>
-                        <a data-ajax="false" href="#">חדשה מס' 3</a>
-                        <a data-ajax="false" href="#">חדשה מס' 4</a>
-                        <a data-ajax="false" href="#">חדשה מס' 5</a>
-                        <a data-ajax="false" href="#">חדשה מס' 6</a>
                     </p>
                 </div>
             </div>
@@ -936,7 +928,7 @@
                 </div>
                 <div class="ui-grid-solo singleDate_buttons">
                     <div class="ui-block-a">
-                        <button id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</button>
+                        <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
                     </div>
                 </div>
                 <!--<div class="ui-grid-b ">
@@ -1438,6 +1430,51 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- News -->
+    <div data-role="page" id="newsPage" data-theme="b">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+               <div class="newsContent" id="">
+                   <div class="newsDate">
+                       <p>15</p>
+                       <p>09/2014</p>
+                   </div>
+                   <div class="newsInfo">
+                       <article>
+                       <header>
+                           <h3>כותרת החדשה</h3>
+                       </header>
+                       <p>fdgfhn sgh sgh srth sdgb sdg sdg sdgb sgdb sgb </p>
+                   </article> 
+                   </div>
+               </div>
+                <div class="newsContent" id="Div1">
+
+               </div>
+                <div class="newsContent" id="Div2">
+
+               </div>
             </div>
         </div>
 
