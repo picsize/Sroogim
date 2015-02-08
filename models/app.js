@@ -1,12 +1,18 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
-dateImgSrc = '../SroogimCMS/content/dates/';
-presentImgSrc = '../SroogimCMS/content/presents/';
+dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
+presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
+top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
+//dateImgSrc = '../SroogimCMS/content/dates/';
+//presentImgSrc = '../SroogimCMS/content/presents/';
+//top5ImgSrc = '../SroogimCMS/content/top5/'
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent;
+var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
 var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender, userDeviceID;
+var userPermision = '';
 
 
 document.addEventListener("deviceready", initApp, false);
@@ -20,7 +26,12 @@ function initApp() {
     var loadComponents = function () {
         if (count <= 0) {
             initFacebook();
-            userDeviceID = device.uuid;
+            try {
+                userDeviceID = device.uuid;
+            } catch (e) {
+                userDeviceID = 'private';
+            }
+
             $.mobile.loading('hide');
         }
         else {
@@ -48,6 +59,9 @@ function initApp() {
     getAllLocations();
     getCurrentlatlong();
     getAllNews();
+    getDateText();
+    getPresentText();
+    getTop5App();
 
     var devicePlatform = device.platform;
     if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
@@ -162,6 +176,82 @@ function getAllNews() {
             setNewsMarquee(news);
             createNewsPage(news);
             //alert('NEWS: ' + JSON.stringify(news));
+        }
+    });
+}
+
+//get main date text
+function getDateText() {
+    $.ajax({
+        type: "POST",
+        url: api + "getDateText",
+        data: "",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                
+                $('#dates p').html(result.d);
+            }
+        }
+    });
+}
+
+//get main present text
+function getPresentText() {
+    $.ajax({
+        type: "POST",
+        url: api + "getPresentText",
+        data: "",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                $('#presents p').html(result.d);
+            }
+        }
+    });
+}
+
+//top 5
+function getTop5App() {
+    $.ajax({
+        type: "POST",
+        url: api + "getTop5App",
+        data: "",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                var imagesString = result.d.split(',');
+                for (var i = 0; i < imagesString.length; i++) {
+                    $('#top5').append('<img src="' + top5ImgSrc + imagesString[i] + '" />');
+                }
+                var c = 5 - imagesString.length;
+                if (c > 0) {
+                    for (var j = 0; j < c; j++) {
+                        $('#top5').append('<img src="' + top5ImgSrc + imagesString[0] + '" />');
+                    }
+                }
+            }
         }
     });
 }
@@ -334,7 +424,7 @@ function loginToSroogim(response) {
         if (userProfilePic == '') {
             userProfilePic = 'private';
         }
-        $('.circular').css('background-image', 'url("' + userProfilePic + '")');
+        $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
     } catch (e) {
         userProfilePic = 'private';
     }
@@ -352,8 +442,42 @@ function loginToSroogim(response) {
     }
     userPassword = 0;
 
-    $('#userName').text(response.first_name + ' ' + response.last_name);
-    $.mobile.changePage('index.html#mainScreen');
+    var cfu = chekcFacebookUser();
+    if (cfu == 0) {
+        registerUserFromFacebook();
+        $('#userName').text(response.first_name + ' ' + response.last_name);
+        $.mobile.changePage('index.html#mainScreen');
+    }
+    else if (cfu == 2) {
+        $('#popupContent').html('<h2>נרשמת כבר בעבר. שכחת סיסמה? אם כן, אנא צור עימנו קשר</h2>');
+        popupOpen();
+    }
+
+}
+
+function chekcFacebookUser() {
+    var json = createUserJsonFromFacebook();
+    if (json != '') {
+        $.ajax({
+            type: "POST",
+            url: api + "chekcFacebookUser",
+            data: "{userJson: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    alert(result.d);
+                }
+                else {
+                    return result.d;
+                }
+            }
+        });
+    }
+
 }
 
 //trigger to facebookLogin()
@@ -402,11 +526,12 @@ FB.Event.subscribe('auth.login', function (response) {
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
+    userPermision = 'access';
 });
 
 $(document).on('click', '.addComment', function () {
     $('#popupContent').html($('#comments-holder').html());
-    $('.fb-comments').css('display','block !important');
+    $('.fb-comments').css('display', 'block !important');
     openPopup();
 });
 
@@ -558,15 +683,15 @@ $(document).on('pageshow', '#datesList', function () {
     var calcGPS = function () {
         if (num <= 0) {
             //alert($('.distance').length);
-            for (var i = 0; i < $('.distance').length; i++) {
-                $('.distance')[i].innerHTML = distance[i]
-            }
+            //for (var i = 0; i < $('.distance').length; i++) {
+            //    $('.distance')[i].innerHTML = distance[i]
+            //}
             //$.mobile.loading('hide');
-            //disCount = 0;
-            //$('.distance').each(function () {
-            //    $(this).text(distance[disCount]);
-            //    disCount++;
-            //});
+            disCount = 0;
+            $('.distance').each(function () {
+                $(this).text(distance[disCount]);
+                disCount++;
+            });
             $('.findGps').addClass('active');
         }
         else {
@@ -874,7 +999,7 @@ function createPresentPage(json) {
     var sellerLi = '';
     for (var i = 0; i < json.PresentSeller.length; i++) {
         sellerLi += '<div><img src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url + '" /></div>';
-   }
+    }
     $('#presentsSeller').html(sellerLi);
 }
 
@@ -957,12 +1082,26 @@ function setNewsMarquee(json) {
 
 function createNewsPage(json) {
     var newsDiv = '';
+    var months = {
+        '01': 'ינואר',
+        '02': 'פברואר',
+        '03': 'מרץ',
+        '04': 'אפריל',
+        '05': 'מאי',
+        '06': 'יוני',
+        '07': 'יולי',
+        '08': 'אוגוסט',
+        '09': 'ספטמבר',
+        '10': 'אוטובר',
+        '11': 'נובמבר',
+        '12': 'דצמבר'
+    };
     for (var i = 0; i < json.length; i++) {
         newsDiv += '<div class="newsContent">' +
                         '<div class="newsDate">' +
                             '<p>' + json[i].NewsDate.split('T')[0].split('-')[2] + '</p>' +
-                            '<p>' + json[i].NewsDate.split('T')[0].split('-')[1] + '/' + json[i].NewsDate.split('T')[0].split('-')[0] + '</p>' + 
-                        '</div>' + 
+                            '<p>' + months[json[i].NewsDate.split('T')[0].split('-')[1]] + '</p>' +
+                        '</div>' +
                         '<div class="newsInfo">' +
                             '<article>' +
                                 '<header>' +
@@ -975,6 +1114,355 @@ function createNewsPage(json) {
     }
 
     $('#newsPage .wrapper').html(newsDiv);
+}
+
+//#endregion
+
+//#region Permission
+
+function showPermission() {
+    if (userPermision == '') {
+        event.preventDefault();
+        $('#popupContent').html('<h2>לצפייה באפשרות זו, יש לבצע הרשמה</h2>');
+        openPopup();
+    }
+}
+
+$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"]', function () {
+    showPermission();
+});
+
+
+//#endregion
+
+//#region Register
+
+//register to sroogim
+$(document).on('click', '#register-button', function () {
+    var json = createUserJson();
+    if (json != '') {
+        $.ajax({
+            type: "POST",
+            url: api + "registerUser",
+            data: "{userJson: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    alert(result.d);
+                }
+                else {
+                    userPermision = 'access';
+                    var n = 3;
+                    var f = function () {
+                        if (n <= 0) {
+                            $.mobile.loading('hide');
+                            $.mobile.changePage('index.html#mainScreen');
+                        }
+                        else {
+                            n--;
+                            $.mobile.loading('show', {
+                                text: 'נרשמת בהצלחה. כבר עוברים לדף הבא...',
+                                textVisible: true,
+                                theme: 'a',
+                                textonly: false
+                            });
+                            setTimeout(f, 1000);
+                        }
+                    }
+                    f();
+                }
+            }
+        });
+    }
+});
+
+function createUserJson() {
+    var images = new Object();
+    images.name = new Array();
+    images.data = new Array();
+
+    if ($('#uploadCoverImg').attr('src') != '') {
+        images.data.push($('#uploadCoverImg').attr('src'));
+        if ($('#uploadCoverImg').next().val() == '') {
+            var array = $('#uploadCoverImg').attr('src').split('/');
+            var last = array[array.length - 1];
+            images.name.push(last);
+        }
+        else {
+            images.name.push($('#uploadCoverImg').next()[0].files[0].name);
+        }
+    }
+
+    if ($('#uploadProfileImg').css('background-image') != '') {
+        images.data.push($('#uploadProfileImg').css('background-image'));
+        if ($('#uploadProfileImg').next().val() == '') {
+            var array = $('#uploadProfileImg').css('background-image').split('/');
+            var last = array[array.length - 1];
+            images.name.push(last);
+        }
+        else {
+            images.name.push($('#uploadProfileImg').next()[0].files[0].name);
+        }
+    }
+
+    var user = {
+        'userFullName': $('#userFullName').val(),
+        'userEmail': $('#userEmail').val(),
+        'userPassword': $('#userPassword').val(),
+        'facebookUser': 0,
+        'userDeviceID': userDeviceID,
+        'images': images
+    };
+
+    userEmail = $('#userEmail').val();
+    userFullName = $('#userFullName').val();
+    userPassword = $('#userPassword').val();
+    userProfilePic = images.name[1];
+    userCoverPic = images.name[0];
+
+    return user;
+}
+
+function registerUserFromFacebook() {
+    var json = createUserJsonFromFacebook();
+    if (json != '') {
+        $.ajax({
+            type: "POST",
+            url: api + "registerUser",
+            data: "{userJson: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    alert(result.d);
+                }
+                else {
+                    userPermision = 'access';
+                    var n = 3;
+                    var f = function () {
+                        if (n <= 0) {
+                            $.mobile.loading('hide');
+                            $.mobile.changePage('index.html#mainScreen');
+                        }
+                        else {
+                            n--;
+                            $.mobile.loading('show', {
+                                text: 'נרשמת בהצלחה. כבר עוברים לדף הבא...',
+                                textVisible: true,
+                                theme: 'a',
+                                textonly: false
+                            });
+                            setTimeout(f, 1000);
+                        }
+                    }
+                    f();
+                }
+            }
+        });
+    }
+}
+
+function createUserJsonFromFacebook() {
+    var images = new Object();
+    images.name = new Array();
+    images.data = new Array();
+
+    images.name.push(userCoverPic);
+    images.name.push(userProfilePic);
+
+    var user = {
+        'userFullName': userFullName,
+        'userEmail': userEmail,
+        'userPassword': userPassword,
+        'facebookUser': 1,
+        'userDeviceID': userDeviceID,
+        'images': images
+    };
+
+    return user;
+}
+
+$(document).on('click', '[href="index.html#profilePage"]', function () {
+    $('#profileEmail').val(userEmail);
+    $('#profileFullName').val(userFullName);
+    if (userCoverPic != '') {
+        $('#profile_coverImg').attr('src', userCoverPic);
+    }
+    if (userProfilePic != '') {
+        $('#profile_profileImg').css('background-image', 'url(' + userProfilePic + ')')
+    }
+});
+
+//#endregion
+
+//#region Favorits
+
+//clisk on fav icon
+$(document).on('click', '[data-fav]', function () {
+    if ($(this).attr('data-fav') == 'dates') {
+        getUserFavoritsDates();
+    }
+    else {
+        getUserFavoritsPresents();
+    }
+});
+
+function getUserFavoritsDates() {
+    var json = { 'userEmail': userEmail };
+    $.ajax({
+        type: "POST",
+        url: api + "getUserFavoritsDates",
+        data: "{userJson: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                favDates = JSON.parse(result.d);
+                createFavDatePage(favDates);
+            }
+        }
+    });
+}
+
+function createFavDatePage(json) {
+    var dateLi = '';
+    try {
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].DateID == json[i].DateID) {
+                dateLi += '<li class="dataItem">' +
+                                '<div>' +
+                                    '<h3>' + thisDate.DateHeader + '</h3>' +
+                                    '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                                    '<section class="social">' +
+                                        '<ul>' +
+                                            '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                            '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                            '<li><section class="rating">' +
+                                                    '<span data-value="5" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="4" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="3" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="2" data-empty="false">' +
+                                                        '<img src="essential/images/General/goldenStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="1" data-empty="false">' +
+                                                        '<img src="essential/images/General/goldenStar.png" />' +
+                                                    '</span>' +
+                                                '</section>' +
+                                            '</li>' +
+                                        '</ul>' +
+                                    '</section>' +
+                                '</div>' +
+                                '<div>' +
+                                    '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                        '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                                '</div>' +
+                                '</li>';
+            }
+        }
+    } catch (e) {
+
+    }
+
+    if (dateLi == '') {
+        dateLi = 'אין מקומות בילוי מועדפים';
+    }
+
+    $('#favList').html(dateLi);
+}
+
+function getUserFavoritsPresents() {
+    var json = { 'userEmail': userEmail };
+    $.ajax({
+        type: "POST",
+        url: api + "getUserFavoritsPresents",
+        data: "{userJson: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                favPresents = JSON.parse(result.d);
+                createFavPresentPage(favPresents);
+            }
+        }
+    });
+}
+
+function createFavPresentPage(json) {
+    var presentLi = '';
+    try {
+        for (var i = 0; i < presents.length; i++) {
+            if (presents[i].PresentID == json[i].PresentID) {
+                presentLi = '<li class="dataItem">' +
+                                '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                                '<div>' +
+                                    '<h3>' + presents[i].PresentHeader + '</h3>' +
+                                    '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                    '<section class="social">' +
+                                        '<ul>' +
+                                            '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                            '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
+                                            '<li><section class="rating">' +
+                                                    '<span data-value="5" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="4" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="3" data-empty="true">' +
+                                                        '<img src="essential/images/General/blankStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="2" data-empty="false">' +
+                                                        '<img src="essential/images/General/goldenStar.png" />' +
+                                                    '</span>' +
+                                                    '<span data-value="1" data-empty="false">' +
+                                                        '<img src="essential/images/General/goldenStar.png" />' +
+                                                    '</span>' +
+                                                '</section>' +
+                                            '</li>' +
+                                        '</ul>' +
+                                    '</section>' +
+                                '</div>' +
+                                '<div>' +
+                                    '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
+                                        '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                                '</div>' +
+                                '</li>';
+            }
+        }
+    } catch (e) {
+
+    }
+
+    if (presentLi == '') {
+        presentLi = 'אין מתנות מועדפות';
+    }
+
+    $('#favList').html(presentLi);
 }
 
 //#endregion

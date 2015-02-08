@@ -166,7 +166,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     direction: rtl !important;
     background-color: transparent !important;
     border: none;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     /*position: absolute !important;
     top: auto !important;*/
@@ -391,7 +391,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 [role="main"]
 {
-    padding-bottom: 40% !important;
+    padding-bottom: 25% !important;
 }
 
 .ui-content
@@ -424,6 +424,11 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 {
     background-color: transparent !important;
     border: none !important;
+}
+
+#singleDate [role="main"], #singlePresent [role="main"]
+{
+    padding-bottom:40% !important;
 }
 
 /*#endregion*/
@@ -607,8 +612,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 #panelHolder
 {
-    height: 36em;
-    overflow-y: auto;
+    /*height: 36em;
+    overflow-y: auto;*/
 }
 
 #menuSidebar section:nth-child(2)
@@ -743,8 +748,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
             #loginForm form div.ui-input-text input:not([type="submit"])
             {
-                font-size: 84%;
-                padding: 3%;
+                font-size: 100%;
+                padding: 1.5%;
             }
 
     #loginForm form div.ui-btn
@@ -913,8 +918,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 {
     width: 100%;
     outline: none;
-    height: 150px;
-    max-height: 169px;
+    height: 180px;
+    max-height: 180px;
 }
 
 #uploadProfileImg
@@ -928,12 +933,12 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     display: none;
 }
 
-#userDetails
+#userDetails, #profileFields
 {
     margin-top: -15%;
 }
 
-    #userDetails .inputContainer
+    #userDetails .inputContainer, #profileFields .inputContainer
     {
         width: 90%;
         height: 40px;
@@ -950,26 +955,38 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         box-shadow: 0 2px 4px rgba(0,0,0,.1);
     }
 
-        #userDetails .inputContainer label, #userDetails .inputContainer input
+        #userDetails .inputContainer label, #userDetails .inputContainer input,
+        #profileFields .inputContainer label, #profileFields .inputContainer input
         {
             float: right;
             margin: 2%;
         }
 
-        #userDetails .inputContainer label
+        #userDetails .inputContainer label,
+        #profileFields .inputContainer label
         {
             width: 30%;
             padding-top: 2%;
             font-size: 85%;
         }
 
-        #userDetails .inputContainer input
+        #userDetails .inputContainer input,
+         #profileFields .inputContainer input
         {
             width: 60%;
             border: none;
             border-bottom: 1px dotted #959595;
             color: #3A3A3A;
             outline: none;
+            background-color: transparent !important;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        #profileFields .inputContainer input
+        {
+            border-bottom:none !important;
         }
 
     #userDetails span
@@ -981,25 +998,26 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 #registerForm [role="main"] form .ui-btn
 {
-    width: 100px;
-    height: 20px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    background-color: #7e3085;
-    -moz-box-shadow: 0 3px 0 #650e61;
-    -webkit-box-shadow: 0 3px 0 #650e61;
-    box-shadow: 0 3px 0 #650e61;
-    border: none;
-    color: #fff;
-    text-shadow: none;
-    margin-top: 6%;
-    font-weight: normal;
-    float: left;
-    margin-left: 6%;
+width: 66px;
+height: 10px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+-moz-background-clip: padding;
+-webkit-background-clip: padding-box;
+background-clip: padding-box;
+background-color: #7e3085;
+-moz-box-shadow: 0 3px 0 #650e61;
+-webkit-box-shadow: 0 3px 0 #650e61;
+box-shadow: 0 3px 0 #650e61;
+border: none;
+color: #fff;
+text-shadow: none;
+margin-top: 6%;
+font-weight: normal;
+float: left;
+margin-left: 6%;
+line-height: 11px;
 }
 
     #registerForm [role="main"] form .ui-btn:active
@@ -1747,16 +1765,21 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .singleDate_buttons
 {
-    margin-top: 5%;
-    position: fixed;
+    /*margin-top: 5%;*/
+    /*position: fixed;*/
     width: 100%;
-    bottom: 2.8em;
+    /*bottom: 2.8em;*/
     -moz-box-shadow: 3px 1px 20px #888;
     -webkit-box-shadow: 3px 1px 20px #888;
     box-shadow: 3px 1px 20px #888;
     padding: 0.8% 0;
     background-color: #fff;
 }
+
+    .singleDate_buttons a
+    {
+        width:85%;
+    }
 
     .singleDate_buttons button
     {
@@ -1923,7 +1946,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     .newsDate p:first-child
     {
         background-color:#B63C6B;
-        font-size:220%;
+        font-size:156%;
     }
 
     .newsDate p:last-child

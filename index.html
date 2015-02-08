@@ -46,7 +46,7 @@
     <div id="loadImages"></div>
 
     <!-- Menu Sidebar -->
-    <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel" data-position-fixed="true">
+    <div data-role="panel" id="menuSidebar" data-position="left" data-position-fixed="true" data-display="overlay" class="ui-responsive-panel">
         <div id="panelHolder">
             <!-- Profile & Cover -->
             <section>
@@ -69,7 +69,8 @@
             <section>
                 <div id="panelLinks">
                     <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
-                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon">העדפות שלי</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-fav="dates">דייטים מועדפים</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-fav="presents">מתנות מועדפות</a>
                     <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
                     <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
                     <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
@@ -114,7 +115,7 @@
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
                             <a data-ajax="false" href="index.html#mainScreen">
-                                <label>דלג/י</label></a>
+                                <label id="skip">דלג/י</label></a>
                         </div>
                     </div>
                 </div>
@@ -174,7 +175,7 @@
                         </div>
                         <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
                     </div>
-                    <input type="submit" value="הרשמה" data-show="register" />
+                    <input type="button" value="הרשמה" data-show="register" id="register-button" />
                 </form>
             </div>
         </div>
@@ -210,7 +211,7 @@
             <div class="wrapper">
                 <!-- top 5 -->
                 <div id="top5">
-                    <img src="essential/images/Home/1.png" alt="" />
+                    <!--<img src="essential/images/Home/1.png" alt="" />-->
                 </div>
                 <!-- Dates -->
                 <div class="ideas" id="dates">
@@ -236,7 +237,7 @@
                             </li>
                             <li>
                                 <a data-ajax="false" href="index.html#favorites">
-                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" />
+                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" data-fav="dates"/>
                                 </a>
                             </li>
                             <li>
@@ -270,8 +271,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a data-ajax="false" href="index.html#favorites">
-                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" />
+                                <a data-ajax="false" href="index.html#favorites" >
+                                    <img src="essential/images/General/fav.png" alt="מתנות מועדפות" data-fav="presents"/>
                                 </a>
                             </li>
                             <li>
@@ -314,6 +315,18 @@
                     <!-- Profile Image -->
                     <div id="profile_profileImg" class="circular"></div>
                 </div>
+                <div id="profileFields">
+                        <!-- Full Name -->
+                        <div class="inputContainer">
+                            <label for="userFullName">שם מלא</label>
+                            <input id="profileFullName" name="userFullName" type="text" data-role="none" />
+                        </div>
+                        <!-- Email -->
+                        <div class="inputContainer">
+                            <label for="userEmail">דואר אלקטרוני</label>
+                            <input id="profileEmail" name="userEmail" type="email" data-role="none" />
+                        </div>
+                    </div>
             </div>
         </div>
 
@@ -342,7 +355,7 @@
                 <div class="title">
                     <h2>העדפות שלי</h2>
                 </div>
-                <ul class="dataList">
+                <ul class="dataList" id="favList">
                     <li class="dataItem">
                         <!--Image-->
                         <div>
@@ -937,11 +950,7 @@
                     </div>
 
                 </div>
-                <div class="ui-grid-solo singleDate_buttons">
-                    <div class="ui-block-a">
-                        <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
-                    </div>
-                </div>
+                
                 <!--<div class="ui-grid-b ">
                     <div class="ui-block-a">
                         <button id="favDate" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
@@ -958,6 +967,11 @@
 
         <!-- Footer -->
         <div data-role="footer">
+            <div class="ui-grid-solo singleDate_buttons">
+                    <div class="ui-block-a">
+                        <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
+                    </div>
+                </div>
             <div class="advertisement"></div>
         </div>
     </div>
