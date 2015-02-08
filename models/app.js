@@ -807,9 +807,9 @@ $(document).on('click', '#dateSend', function () {
             data: {
                 key: 'D-GkCQO5NO741XnIUPbXXQ',
                 message: {
-                    from_email: userEmail,
+                    from_email: 'harel6666@gmail.com',
                     to: [{
-                        email: 'zlihi6@gmail.com',
+                        email: 'harel6666@gmail.com',
                         type: 'to'
                     }
                     ],
@@ -951,9 +951,9 @@ $(document).on('click', '#presentSend', function () {
             data: {
                 key: 'D-GkCQO5NO741XnIUPbXXQ',
                 message: {
-                    from_email: userEmail,
+                    from_email: 'harel6666@gmail.com',
                     to: [{
-                        email: 'zlihi6@gmail.com',
+                        email: 'harel6666@gmail.com',
                         type: 'to'
                     }
                     ],
