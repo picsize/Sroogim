@@ -13,6 +13,7 @@
     <link href="essential/css/font.css" rel="stylesheet" />
     <link href="essential/css/sroogim.css" rel="stylesheet" />
     <link href="Essential/css/animation.css" rel="stylesheet" />
+   <!-- <link href="Essential/jQuery/pgwslideshow_light.min.css" rel="stylesheet" />-->
     <!-- Google Map -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
 </head>
@@ -25,6 +26,7 @@
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
     <script src="essential/jQuery/jquery.marquee.js"></script>
+    <!--<script src="Essential/jQuery/pgwslideshow.min.js"></script>-->
     <script src="models/app.js"></script>
     <script src="models/loginAndRegister.js"></script>
     <script src="models/uploadImages.js"></script>
@@ -210,8 +212,8 @@
         <div role="main" class="ui-content hasBigHeader">
             <div class="wrapper">
                 <!-- top 5 -->
-                <div id="top5">
-                    <!--<img src="essential/images/Home/1.png" alt="" />-->
+                <div id="top5" class="pgwSlideshow">
+                    
                 </div>
                 <!-- Dates -->
                 <div class="ideas" id="dates">
@@ -237,7 +239,7 @@
                             </li>
                             <li>
                                 <a data-ajax="false" href="index.html#favorites">
-                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" data-fav="dates"/>
+                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" data-fav="dates" />
                                 </a>
                             </li>
                             <li>
@@ -271,8 +273,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a data-ajax="false" href="index.html#favorites" >
-                                    <img src="essential/images/General/fav.png" alt="מתנות מועדפות" data-fav="presents"/>
+                                <a data-ajax="false" href="index.html#favorites">
+                                    <img src="essential/images/General/fav.png" alt="מתנות מועדפות" data-fav="presents" />
                                 </a>
                             </li>
                             <li>
@@ -316,17 +318,17 @@
                     <div id="profile_profileImg" class="circular"></div>
                 </div>
                 <div id="profileFields">
-                        <!-- Full Name -->
-                        <div class="inputContainer">
-                            <label for="userFullName">שם מלא</label>
-                            <input id="profileFullName" name="userFullName" type="text" data-role="none" />
-                        </div>
-                        <!-- Email -->
-                        <div class="inputContainer">
-                            <label for="userEmail">דואר אלקטרוני</label>
-                            <input id="profileEmail" name="userEmail" type="email" data-role="none" />
-                        </div>
+                    <!-- Full Name -->
+                    <div class="inputContainer">
+                        <label for="userFullName">שם מלא</label>
+                        <input id="profileFullName" name="userFullName" type="text" data-role="none" />
                     </div>
+                    <!-- Email -->
+                    <div class="inputContainer">
+                        <label for="userEmail">דואר אלקטרוני</label>
+                        <input id="profileEmail" name="userEmail" type="email" data-role="none" />
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -950,7 +952,7 @@
                     </div>
 
                 </div>
-                
+
                 <!--<div class="ui-grid-b ">
                     <div class="ui-block-a">
                         <button id="favDate" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
@@ -968,10 +970,10 @@
         <!-- Footer -->
         <div data-role="footer">
             <div class="ui-grid-solo singleDate_buttons">
-                    <div class="ui-block-a">
-                        <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
-                    </div>
+                <div class="ui-block-a">
+                    <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
                 </div>
+            </div>
             <div class="advertisement"></div>
         </div>
     </div>

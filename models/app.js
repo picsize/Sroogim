@@ -1,9 +1,9 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
-//api = '../SroogimCMS/app/api/Default.aspx/';
 dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
 top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
+//api = '../SroogimCMS/app/api/Default.aspx/';
 //dateImgSrc = '../SroogimCMS/content/dates/';
 //presentImgSrc = '../SroogimCMS/content/presents/';
 //top5ImgSrc = '../SroogimCMS/content/top5/'
@@ -22,7 +22,7 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
-    var count = 5;
+    var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
             initFacebook();
