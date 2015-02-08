@@ -1,4 +1,6 @@
-﻿.one
+﻿
+/*#region Gps Animation*/
+.one
 {
     opacity: 0;
     -webkit-animation: dot 1.3s infinite;
@@ -37,26 +39,249 @@
     animation-delay: 0.3s;
 }
 
-@-webkit-keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
+@-webkit-keyframes dot
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    50%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
 }
 
-@-moz-keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
+@-moz-keyframes dot
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    50%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
 }
 
-@-ms-keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
+@-ms-keyframes dot
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    50%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
 }
 
-@keyframes dot {
-      0% { opacity: 0; }
-     50% { opacity: 0; }
-    100% { opacity: 1; }
+@keyframes dot
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    50%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
 }
+
+/*#endregion*/
+
+/*#region Slides*/
+
+@keyframes cf4FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes cf4FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+
+}
+
+@-moz-keyframes cf4FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes cf4FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+.cf4a img
+{
+    -webkit-animation-name: cf4FadeInOut;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 8s;
+    -moz-animation-name: cf4FadeInOut;
+    -moz-animation-timing-function: ease-in-out;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 8s;
+    -o-animation-name: cf4FadeInOut;
+    -o-animation-timing-function: ease-in-out;
+    -o-animation-iteration-count: infinite;
+    -o-animation-duration: 8s;
+    animation-name: cf4FadeInOut;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    position:absolute;
+    left:0;
+    width:100%;
+    height:159px;
+}
+
+    .cf4a img:nth-of-type(1)
+    {
+        -moz-animation-delay: 6s;
+        -o-animation-delay: 6s;
+        -webkit-animation-delay: 6s;
+        animation-delay: 6s;
+    }
+
+    .cf4a img:nth-of-type(2)
+    {
+        -moz-animation-delay: 4s;
+        -o-animation-delay: 4s;
+        -webkit-animation-delay: 4s;
+        animation-delay: 4s;
+    }
+
+    .cf4a img:nth-of-type(3)
+    {
+        -moz-animation-delay: 2s;
+        -o-animation-delay: 2s;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+
+    .cf4a img:nth-of-type(4)
+    {
+        -moz-animation-delay: 0s;
+        -o-animation-delay: 0s;
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+    }
+
+/*#endregion*/

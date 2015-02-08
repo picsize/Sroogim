@@ -91,6 +91,16 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin-bottom: 4%;
 }
 
+#comments-holder
+{
+    display:none;
+}
+
+.fb-comments > span
+    {
+        height:115px !important;
+    }
+
 /*#endregion*/
 
 /*#region Header*/
@@ -1636,11 +1646,17 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#region Single Date*/
 
-#singleDate [role="main"] .wrapper img
+#singleDate [role="main"] .wrapper .cf4a
 {
     width: 100%;
+    height:159px;
     margin-bottom: 3%;
 }
+
+    #singleDate [role="main"] .wrapper .cf4a > img
+    {
+        width:100%;
+    }
 
     #singleDate [role="main"] .wrapper img.dateIcons
     {
@@ -1769,11 +1785,29 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#region Single Present*/
 
-#singlePresent [role="main"] .wrapper img
+#singlePresent [role="main"] .wrapper .cf4a
 {
     width: 100%;
+    height:159px;
     margin-bottom: 3%;
 }
+
+    #singlePresent [role="main"] .wrapper .cf4a > img
+    {
+        width:100%;
+    }
+
+#presentsSeller div
+{
+    width:33%;
+    float:right;
+    text-align:center;
+}
+
+    #presentsSeller div img
+    {
+        width:100%;
+    }
 
 #singlePresent [role="main"] .wrapper div.inputContainer
 {
@@ -1781,10 +1815,10 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin: 0 auto;
 }
 
-#singlePresent .socialHolder
+/*#singlePresent .socialHolder
 {
     top: 11.4em;
-}
+}*/
 
 #singlePresent_presentHeader
 {

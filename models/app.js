@@ -1,6 +1,8 @@
 ﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
+dateImgSrc = '../SroogimCMS/content/dates/';
+presentImgSrc = '../SroogimCMS/content/presents/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
@@ -17,8 +19,8 @@ function initApp() {
     var count = 5;
     var loadComponents = function () {
         if (count <= 0) {
-            //initFacebook();
-            //userDeviceID = device.uuid;
+            initFacebook();
+            userDeviceID = device.uuid;
             $.mobile.loading('hide');
         }
         else {
@@ -402,12 +404,33 @@ $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
 });
 
+$(document).on('click', '.addComment', function () {
+    $('#popupContent').html($('#comments-holder').html());
+    $('.fb-comments').css('display','block !important');
+    openPopup();
+});
+
+/*<div class="fb-comments" data-numposts="5" data-colorscheme="light"></div>*/
+
 //#endregion
 
 //#region Dates
 
 //create date page
 function createDatePage(json) {
+    if (json.ShowVideo == 'Y') {
+        $('#dateImages').html('<iframe width="100%" height="159" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+    }
+    else {
+        $('#dateImages').html('');
+        for (var i = 0; i < json.DateImages.length; i++) {
+            $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[i].Url + '" />');
+        }
+        if ($('#dateImages img').length < 4) {
+            $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
+        }
+    }
+
     var gps = '';
     for (var i = 0; i < gpsAddress.length; i++) {
         if (json.DateID == gpsAddress[i].dateID) {
@@ -825,6 +848,19 @@ $(document).on('click', '#presentSend', function () {
 
 //create present page
 function createPresentPage(json) {
+    if (json.ShowVideo == 'Y') {
+        $('#presentImages').html('<iframe width="100%" height="159" src="' + json.PresentVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+    }
+    else {
+        $('#presentImages').html('');
+        for (var i = 0; i < json.DateImages.length; i++) {
+            $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[i].Url + '" />');
+        }
+        if ($('#presentImages img').length < 4) {
+            $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
+        }
+    }
+
     $('#singlePresent_presentHeader').text(json.PresentHeader);
     $('#singlePresent_presentDesc').text(json.PresentDescription);
     if (json.PresentTip != '') {
@@ -835,6 +871,11 @@ function createPresentPage(json) {
     }
     $('#singlePresent .share').attr('data-share', 'present');
     $('#singlePresent .share').attr('data-id', json.PresentID);
+    var sellerLi = '';
+    for (var i = 0; i < json.PresentSeller.length; i++) {
+        sellerLi += '<div><img src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url + '" /></div>';
+   }
+    $('#presentsSeller').html(sellerLi);
 }
 
 function createPresentsCategoriesPage(gender) {
@@ -873,7 +914,7 @@ $(document).on('click', '.share', function () {
     else {
         share = getPresentForShare(parseInt($(this).attr('data-id')));
     }
-    alert('share: ' + share);
+    //alert('share: ' + share);
     window.plugins.socialsharing.share(share + 'נשלח מאפליקציית SROOGIM');
 });
 
