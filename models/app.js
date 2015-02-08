@@ -445,13 +445,15 @@ function loginToSroogim(response) {
     //var cfu = chekcFacebookUser();
     //if (cfu == 0) {
     //    registerUserFromFacebook();
-    //    $('#userName').text(response.first_name + ' ' + response.last_name);
-    //    $.mobile.changePage('index.html#mainScreen');
+
     //}
     //else if (cfu == 2) {
     //    $('#popupContent').html('<h2>נרשמת כבר בעבר. שכחת סיסמה? אם כן, אנא צור עימנו קשר</h2>');
     //    popupOpen();
     //}
+
+        $('#userName').text(response.first_name + ' ' + response.last_name);
+        $.mobile.changePage('index.html#mainScreen');
 
 }
 
