@@ -75,7 +75,6 @@
   </gap:plugin>
   <gap:plugin name="com.phonegap.plugin.statusbar" />
   <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.0" />
-  <gap:plugin name="org.li8.inappbrowser" version="0.1" />
 
   <!-- Define app icon for each platform. -->
   <icon src="essential/images/app_icon/ios/Icon.png" />
