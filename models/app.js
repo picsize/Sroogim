@@ -28,8 +28,9 @@ function initApp() {
             initFacebook();
             try {
                 userDeviceID = device.uuid;
+                alert('uuid: ' + userDeviceID);
             } catch (e) {
-                userDeviceID = 'private';
+                //userDeviceID = 'private';
             }
 
             $.mobile.loading('hide');
@@ -830,7 +831,7 @@ $(document).on('click', '#dateSend', function () {
 });
 
 //go to presents
-$(document).on('click', '#goToPresent', function () {
+$(document).on('click', '.present.dateIcons', function () {
     $.mobile.changePage('index.html#presentsCategories');
 });
 
@@ -843,6 +844,12 @@ $(document).on('click', '#goToPresent', function () {
 $(document).on('click', '#singleDate .rating', function () {
     $('#popupContent').html('<h2>פופאפ</h2>');
     $('#popup').popup('open');
+});
+
+//click on date link
+$(document).on('click', '#singleDate_dateWebsite', function () {
+    event.preventDefault();
+    window.open("'" + $(this).attr(href) + "'", '_system');
 });
 
 //#endregion
