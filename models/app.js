@@ -451,7 +451,10 @@ function loginToSroogim(response) {
         FB.api('/me?fields=cover', function (uCover) {
             if (uCover && !uCover.error) {
                 userCoverPic = uCover.cover.source;
-                $('#sidebarCoverImg').attr('src', userCoverPic)
+                $('#sidebarCoverImg').attr('src', userCoverPic);
+                if (userCoverPic == '' || userCoverPic == undefined) {
+                    userCoverPic = 'private';
+                }
             }
             else {
                 userCoverPic = 'private';
@@ -460,6 +463,7 @@ function loginToSroogim(response) {
     } catch (e) {
         userCoverPic = 'private';
     }
+    alert('uCover: ' + userCoverPic);
     userPassword = 0;
 
     checkFacebookUser();
@@ -875,11 +879,12 @@ $(document).on('click', '#singleDate .rating', function () {
 });
 
 //click on date link
-//$(document).on('click', '#singleDate_dateWebsite', function () {
-//    event.preventDefault();
-//    alert('click on date link');
-//    window.open("'" + $(this).attr('href') + "'", '_system');
-//});
+$(document).on('click', '#singleDate_dateWebsite', function () {
+    event.preventDefault();
+    alert('click on date link');
+    alert('link: ' + "'" + $(this).attr('href') + "'");
+    navigator.app.loadUrl("'" + $(this).attr('href') + "'", { openExternal: true });
+});
 
 //#endregion
 
