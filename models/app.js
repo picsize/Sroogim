@@ -7,7 +7,7 @@ top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
 //dateImgSrc = '../SroogimCMS/content/dates/';
 //presentImgSrc = '../SroogimCMS/content/presents/';
 //top5ImgSrc = '../SroogimCMS/content/top5/'
-var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent;
+var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
@@ -30,7 +30,7 @@ function initApp() {
                 userDeviceID = device.uuid;
                 //alert('uuid: ' + userDeviceID);
             } catch (e) {
-                userDeviceID = 'private';
+                userDeviceID = 'private_' + Math.floor((Math.random() * 9999999999) + 1);;
             }
 
             $.mobile.loading('hide');
@@ -279,31 +279,32 @@ function getTop5App() {
 function getCurrentlatlong() {
 
     if (navigator.geolocation) {
-        //alert("navigator.geolocation is supported");
+        alert("navigator.geolocation is supported");
         navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
     }
     else {
-        //alert("navigator.geolocation not supported");
+        alert("navigator.geolocation not supported");
     }
 }
 
 //success to get my location
 function onSuccess(position) {
-    //alert("onSuccess called");
+    alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
+    alert('lat: ' + lat + '/nlng: ' + lng);
 }
 
 //error while getting my location
 function onError(error) {
-    //alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
+    alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
 }
 
 //convert date location to lat & lng
 function codeAddress(address, dateID) {
-    //alert('codeAddress');
+    alert('codeAddress');
     var geocoder = new google.maps.Geocoder();
-    //alert('g: ' + geocoder);
+    alert('g: ' + geocoder);
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
@@ -311,7 +312,7 @@ function codeAddress(address, dateID) {
                 'lat': results[0].geometry.location.k,
                 'lng': results[0].geometry.location.D
             };
-            //alert('dGps: ' + JSON.stringify(dGps));
+            alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
         } else {
             return address
@@ -337,7 +338,7 @@ function calculateDistances(myLocation, dateJson) {
 
 //set the distance in the app
 function setDistance(response, status) {
-    //alert('sss: ' + JSON.stringify(thisDate));
+    alert('sss: ' + JSON.stringify(thisDate));
     if (status != google.maps.DistanceMatrixStatus.OK) {
         console.log('Error was: ' + status);
     } else {
@@ -355,6 +356,7 @@ function setDistance(response, status) {
                 }
 
                 distance.push(d);
+                alert(JSON.stringify(distance));
             }
 
         }
@@ -436,7 +438,7 @@ function loginToSroogim(response) {
     //get user profile image
     try {
         userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
-        if (userProfilePic == '') {
+        if (response.id == undefined) {
             userProfilePic = 'private';
         }
         $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
@@ -451,33 +453,24 @@ function loginToSroogim(response) {
                 userCoverPic = uCover.cover.source;
                 $('#sidebarCoverImg').attr('src', userCoverPic)
             }
+            else {
+                userCoverPic = 'private';
+            }
         });
     } catch (e) {
         userCoverPic = 'private';
     }
     userPassword = 0;
 
-    var cfu = chekcFacebookUser();
-    if (cfu == '0') {
-        registerUserFromFacebook();
-        $('#userName').text(response.first_name + ' ' + response.last_name);
-    }
-    else if (cfu == '2') {
-        $('#popupContent').html('<h2>נרשמת כבר בעבר. שכחת סיסמה? אם כן, אנא צור עימנו קשר</h2>');
-        popupOpen();
-    }
-    else {
-        $('#userName').text(response.first_name + ' ' + response.last_name);
-        $.mobile.changePage('index.html#mainScreen');
-    }
+    checkFacebookUser();
 }
 
-function chekcFacebookUser() {
+function checkFacebookUser() {
     var json = createUserJsonFromFacebook();
     if (json != '') {
         $.ajax({
             type: "POST",
-            url: api + "chekcFacebookUser",
+            url: api + "checkFacebookUser",
             data: "{userJson: '" + JSON.stringify(json) + "'}",
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -489,7 +482,19 @@ function chekcFacebookUser() {
                     alert(result.d);
                 }
                 else {
-                    return result.d;
+                    alert('result.d: ' + result.d);
+                    if (result.d == '0') {
+                        registerUserFromFacebook();
+                        $('#userName').text(response.first_name + ' ' + response.last_name);
+                    }
+                    else if (result.d == '2') {
+                        $('#popupContent').html('<h2>נרשמת כבר דרך פייסבוק. כנראה שאתה לא משתמש במכשירך</h2>');
+                        openPopup();
+                    }
+                    else {
+                        $('#userName').text(json.userFullName);
+                        $.mobile.changePage('index.html#mainScreen');
+                    }
                 }
             }
         });
@@ -543,6 +548,7 @@ FB.Event.subscribe('auth.login', function (response) {
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
+    //loginToSroogim('response');
     userPermision = 'access';
 });
 
@@ -714,6 +720,7 @@ $(document).on('pageshow', '#datesList', function () {
 //show date page
 $(document).on('click', '.goToDate', function () {
     var dateID = parseInt($(this).attr('data-date-id'));
+    currentDateId = parseInt($(this).attr('data-date-id'));
     for (var i = 0; i < dates.length; i++) {
         if (dateID == dates[i].DateID) {
             createDatePage(dates[i]);
@@ -1344,7 +1351,7 @@ $(document).on('click', '[href="index.html#profilePage"]', function () {
     }
 });
 
-$(document).on('click', '#loginForm input[type="button"]', function () {
+$(document).on('click', '#loginForm form input[type="button"]', function () {
     var json = {
         'userEmail': $('#loginEmail').val(),
         'userPassword': $('#loginPassword').val()
