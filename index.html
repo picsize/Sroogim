@@ -6,6 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Google Map -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
 </head>
 <body>
      <!-- Css -->
@@ -15,8 +17,6 @@
     <link href="essential/css/font.css" rel="stylesheet" />
     <link href="essential/css/sroogim.css" rel="stylesheet" />
     <link href="essential/css/animation.css" rel="stylesheet" />
-    <!-- Google Map -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
     <!-- Phonegap -->
     <script src="phonegap.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
@@ -868,15 +868,7 @@
                     <section class="social">
                         <ul>
                             <li>
-                                <img src="essential/images/Icons/hearh.png" class="favorite dateIcons addToFav" alt=" הוספה למועדפים" />
-
-                            </li>
-                            <li>
                                 <img src="essential/images/General/share.png" class="share dateIcons" alt="שיתוף" />
-
-                            </li>
-                            <li>
-                                <img src="essential/images/Icons/present.png" class="present dateIcons" alt="מתנה" />
 
                             </li>
                             <li>
@@ -965,9 +957,15 @@
 
         <!-- Footer -->
         <div data-role="footer">
-            <div class="ui-grid-solo singleDate_buttons">
+            <div class="ui-grid-b singleDate_buttons">
                 <div class="ui-block-a">
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav favorite dateIcons addToFav">דייט מועדף</a>
+                </div>
+                <div class="ui-block-b">
                     <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
+                </div>
+                <div class="ui-block-c">
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift present dateIcons" >מתנה</a>
                 </div>
             </div>
             <div class="advertisement"></div>

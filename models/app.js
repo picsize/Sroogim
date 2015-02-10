@@ -565,7 +565,6 @@ $(document).on('click', '.addComment', function () {
     openPopup();
 });
 
-/*<div class="fb-comments" data-numposts="5" data-colorscheme="light"></div>*/
 
 //#endregion
 
@@ -619,7 +618,7 @@ function createDatePage(json) {
     }
     $('#singleDate .share').attr('data-share', 'date');
     $('#singleDate .share').attr('data-id', json.DateID);
-    
+
 }
 
 //create locations page
@@ -859,23 +858,23 @@ $(document).on('click', '.present.dateIcons', function () {
 
 //open rating popup
 $(document).on('click', '#singleDate .rating', function () {
-    var ratingHTML = '<section class="rating clickable">' + 
-                                    '<span data-value="5">'+
-                                        '<img src="essential/images/General/blankStar.png" />'+
-                                    '</span>'+
+    var ratingHTML = '<h2 style="margin-bottom: 2%;">דרג/י את הדייט</h2><section class="rating clickable">' +
+                                    '<span data-value="5">' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
+                                    '</span>' +
                                     '<span data-value="4">' +
-                                        '<img src="essential/images/General/blankStar.png" />'+
-                                    '</span>'+
+                                        '<img src="essential/images/General/whiteStar.png" />' +
+                                    '</span>' +
                                     '<span data-value="3">' +
-                                        '<img src="essential/images/General/blankStar.png" />'+
-                                    '</span>'+
+                                        '<img src="essential/images/General/whiteStar.png" />' +
+                                    '</span>' +
                                     '<span data-value="2">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
-                                    '</span>'+
+                                        '<img src="essential/images/General/whiteStar.png" />' +
+                                    '</span>' +
                                     '<span data-value="1">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
-                                    '</span>'+
-                                '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="date">דרג/י</button>';
+                                        '<img src="essential/images/General/whiteStar.png" />' +
+                                    '</span>' +
+                                '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="date">אישור</button>';
     $('#popupContent').html(ratingHTML);
     openPopup();
 });
@@ -1048,23 +1047,23 @@ $(document).on('click', '#presentSend', function () {
 
 //open rating popup
 $(document).on('click', '#singlePresent .rating', function () {
-    var ratingHTML = ' <section class="rating clickable">' +
+    var ratingHTML = '<h2 style="margin-bottom: 2%;">דרג/י את המתנה</h2><section class="rating clickable">' +
                                     '<span data-value="5">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
                                     '</span>' +
                                     '<span data-value="4">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
                                     '</span>' +
                                     '<span data-value="3">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
                                     '</span>' +
                                     '<span data-value="2">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
                                     '</span>' +
                                     '<span data-value="1">' +
-                                        '<img src="essential/images/General/blankStar.png" />' +
+                                        '<img src="essential/images/General/whiteStar.png" />' +
                                     '</span>' +
-                                '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="present">דרג/י</button>';
+                                '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="present">אישור</button>';
     $('#popupContent').html(ratingHTML);
     openPopup();
 });
@@ -1077,9 +1076,12 @@ function openPopup() {
     $('#popup').popup({
         positionTo: 'window',
         transition: 'slidedown'
+    })
+    .on('popupafteropen', function () {
+        $('#popup').popup('reposition', { positionTo: 'window' });
     });
 
-    setTimeout($('#popup').popup('open'),50);
+    setTimeout($('#popup').popup('open'), 100);
 }
 
 function closePopup() {
@@ -1680,7 +1682,7 @@ function updatePresentRating(value) {
 function createRating(value) {
     var html = '';
     switch (value) {
-        case 0:{
+        case 0: {
             html = '<span data-value="5">' +
                         '<img src="essential/images/General/blankStar.png" />' +
                     '</span>' +
@@ -1696,7 +1698,7 @@ function createRating(value) {
                     '<span data-value="1">' +
                         '<img src="essential/images/General/blankStar.png" />' +
                     '</span>';
-        }break;
+        } break;
         case 1: {
             html = '<span data-value="5">' +
                         '<img src="essential/images/General/blankStar.png" />' +
