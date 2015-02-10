@@ -577,7 +577,7 @@ function createDatePage(json) {
     $('#singleDate .rating').html(dateRatingHTML);
 
     if (json.ShowVideo == 'Y') {
-        $('#dateImages').html('<iframe width="100%" height="159" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+        $('#dateImages').html('<iframe width="100%" height="205" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
     }
     else {
         $('#dateImages').html('');
@@ -859,7 +859,7 @@ $(document).on('click', '.present.dateIcons', function () {
 
 //open rating popup
 $(document).on('click', '#singleDate .rating', function () {
-    var ratingHTML = '<h2>דרג/י</h2><section class="rating clickable">' + 
+    var ratingHTML = '<section class="rating clickable">' + 
                                     '<span data-value="5">'+
                                         '<img src="essential/images/General/blankStar.png" />'+
                                     '</span>'+
@@ -877,14 +877,12 @@ $(document).on('click', '#singleDate .rating', function () {
                                     '</span>'+
                                 '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="date">דרג/י</button>';
     $('#popupContent').html(ratingHTML);
-    $('#popup').popup('open');
+    openPopup();
 });
 
 //click on date link
 $(document).on('click', '#singleDate_dateWebsite', function () {
     event.preventDefault();
-    alert('click on date link');
-    alert('link: ' + "'" + $(this).attr('href') + "'");
     navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
 });
 
@@ -895,7 +893,7 @@ $(document).on('click', '#singleDate_dateWebsite', function () {
 //create present page
 function createPresentPage(json) {
     if (json.ShowVideo == 'Y') {
-        $('#presentImages').html('<iframe width="100%" height="159" src="' + json.PresentVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+        $('#presentImages').html('<iframe width="100%" height="205" src="' + json.PresentVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
     }
     else {
         $('#presentImages').html('');
@@ -1068,7 +1066,7 @@ $(document).on('click', '#singlePresent .rating', function () {
                                     '</span>' +
                                 '</section>' + '<button class="ui-btn ui-shadow rating-button" data-theme="a" data-action="rating" data-rating="present">דרג/י</button>';
     $('#popupContent').html(ratingHTML);
-    $('#popup').popup('open');
+    openPopup();
 });
 
 //#endregion
