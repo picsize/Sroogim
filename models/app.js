@@ -481,6 +481,8 @@ function checkFacebookUser() {
             dataType: 'json',
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(textStatus);
+                alert(JSON.stringify(XMLHttpRequest));
+                alert(JSON.stringify(errorThrown));
             },
             success: function (result) {
                 if (result.d.indexOf('שגיאה') != -1) {
@@ -883,7 +885,7 @@ $(document).on('click', '#singleDate_dateWebsite', function () {
     event.preventDefault();
     alert('click on date link');
     alert('link: ' + "'" + $(this).attr('href') + "'");
-    navigator.app.loadUrl("'" + $(this).attr('href') + "'", { openExternal: true });
+    navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
 });
 
 //#endregion
