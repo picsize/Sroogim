@@ -1,0 +1,66 @@
+﻿header
+{
+    background-color: #0d7b92;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 50px;
+    width: 100%;
+    z-index: 9;
+}
+
+    header div.header
+    {
+        display: inline-block;
+        float: right;
+        height: 65%;
+        margin-top: 2.8%;
+    }
+
+    header div.backBtn, header div.menuBtn
+    {
+        width: 15%;
+        text-align: center;
+    }
+
+        header div.backBtn img, header div.menuBtn img
+        {
+            margin-left: 16%;
+        }
+
+    header div.backBtn
+    {
+        margin-top: 3%;
+    }
+
+        header div.backBtn img
+        {
+            width: 28%;
+        }
+
+    header div.menuBtn
+    {
+        margin-top: 4.5%;
+    }
+
+        header div.menuBtn img
+        {
+            width: 65%;
+        }
+
+    header div.header:nth-child(2)
+    {
+        width: 70%;
+    }
+
+        header div.header:nth-child(2) h1
+        {
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: none;
+            font-family: 'sroogimHeader' !important;
+            font-weight: normal;
+            letter-spacing: 3px;
+            text-align: center;
+            font-size: 140%;
+        }
