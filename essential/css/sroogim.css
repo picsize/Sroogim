@@ -1794,10 +1794,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .singleDate_buttons
 {
-    /*margin-top: 5%;*/
-    /*position: fixed;*/
+    margin-top: 5%;
     width: 100%;
-    /*bottom: 2.8em;*/
+    left:0;
     -moz-box-shadow: 3px 1px 20px #888;
     -webkit-box-shadow: 3px 1px 20px #888;
     box-shadow: 3px 1px 20px #888;
@@ -1920,9 +1919,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 #singlePresent .singleDate_buttons
 {
     margin-top: 5%;
-    position: fixed;
     width: 100%;
-    bottom: 2.8em;
     -moz-box-shadow: 3px 1px 20px #888;
     -webkit-box-shadow: 3px 1px 20px #888;
     box-shadow: 3px 1px 20px #888;

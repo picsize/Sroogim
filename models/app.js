@@ -1074,10 +1074,12 @@ $(document).on('click', '#singlePresent .rating', function () {
 //#region Popup
 
 function openPopup() {
-    $('#popup').popup('open', {
-        transition: 'slidedown',
-        positionTo: 'window'
+    $('#popup').popup({
+        positionTo: 'window',
+        transition: 'slidedown'
     });
+
+    setTimeout($('#popup').popup('open'),50);
 }
 
 function closePopup() {
