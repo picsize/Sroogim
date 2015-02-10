@@ -53,7 +53,7 @@ function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#popup').enhanceWithin().popup();
     $('#newsContainer p').marquee();
-    //checkPhonegap();
+    checkPhonegap();
     getAllDates();
     getAllPresents();
     getAllCategories();
@@ -64,12 +64,12 @@ function initApp() {
     getPresentText();
     getTop5App();
 
-    //var devicePlatform = device.platform;
-    //if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-    //    if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-    //        StatusBar.hide();
-    //    }
-    //}
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -467,6 +467,7 @@ function loginToSroogim(response) {
 
 function checkFacebookUser() {
     var json = createUserJsonFromFacebook();
+    alert('userJson: ' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -874,11 +875,11 @@ $(document).on('click', '#singleDate .rating', function () {
 });
 
 //click on date link
-$(document).on('click', '#singleDate_dateWebsite', function () {
-    event.preventDefault();
-    alert('click on date link');
-    window.open("'" + $(this).attr('href') + "'", '_system');
-});
+//$(document).on('click', '#singleDate_dateWebsite', function () {
+//    event.preventDefault();
+//    alert('click on date link');
+//    window.open("'" + $(this).attr('href') + "'", '_system');
+//});
 
 //#endregion
 
