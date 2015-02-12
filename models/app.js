@@ -36,7 +36,7 @@ function initApp() {
                         facebookResponse = a_response;
                         loginToSroogim(a_response);
                     }
-                    //else { facebookLogin(); }
+                    else { facebookLogin(); }
                 });
             });
             try {
@@ -404,7 +404,7 @@ function getLoginStatus() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     alert('loginToSroogim func');
-    alert(JSON.stringify(response));
+    //alert(JSON.stringify(response));
     $.when({})
         .then(function () {
             //get user birthday 
@@ -463,6 +463,7 @@ function loginToSroogim(response) {
             //get user cover image
             try {
                 FB.api('/me?fields=cover', function (uCover) {
+                    alert('cover: ' + uCover);
                     if (uCover && !uCover.error) {
                         userCoverPic = uCover.cover.source;
                         $('#sidebarCoverImg').attr('src', userCoverPic);
@@ -761,7 +762,7 @@ $(document).on('click', '.findGps, .selectLocation', function () {
 
 //show dates in city
 $(document).on('click', '.city', function () {
-    getcurrentlatlong();
+    getCurrentlatlong();
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
