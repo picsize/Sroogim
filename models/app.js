@@ -25,12 +25,12 @@ function initApp() {
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
-            initFacebook();
+            getLoginStatus();
             try {
                 userDeviceID = device.uuid;
                 //alert('uuid: ' + userDeviceID);
             } catch (e) {
-                userDeviceID = 'private_' + Math.floor((Math.random() * 9999999999) + 1);;
+                userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
             }
 
             $.mobile.loading('hide');
@@ -54,6 +54,7 @@ function initApp() {
     $('#popup').enhanceWithin().popup();
     $('#newsContainer p').marquee();
     checkPhonegap();
+    initFacebook();
     getAllDates();
     getAllPresents();
     getAllCategories();
@@ -369,12 +370,12 @@ function setDistance(response, status) {
 
 //init facebook
 function initFacebook() {
-    $.when(FB.init({
+  FB.init({
         appId: "988309234528102",
         nativeInterface: CDV.FB,
         useCachedDialogs: false,
         oauth: true
-    })).then(getLoginStatus);
+    });
 }
 
 function facebookDismissed() {
@@ -383,82 +384,107 @@ function facebookDismissed() {
 
 //check if user is already log in
 function getLoginStatus() {
-    $.when(FB.getLoginStatus(function (response) {
-        if (response.status == 'connected') {
-            loginToSroogim(response)
-        }
-    })).then(checkFacebookUser);
+   $.when(FB.getLoginStatus(function (response) {
+   })).then(function (response) {
+       alert(JSON.stringify(response));
+       if (response.status == 'connected') {
+           loginToSroogim(response)
+       }
+   });
 }
 
 //login to sroogim via facebook
 function loginToSroogim(response) {
-    //get user birthday 
-    try {
-        userBirthDay = response.birthday;
-    } catch (e) {
-        userBirthday = '';
-    }
-
-    //get user email
-    try {
-        userEmail = response.email;
-        if (userEmail == undefined) {
-            userEmail = 'private';
-        }
-    } catch (e) {
-        userEmail = 'private';
-    }
-
-    //get user gender
-    try {
-        userGender = response.gender;
-        if (userGender == undefined) {
-            userGender = 'private';
-        }
-    } catch (e) {
-        userGender = 'private';
-    }
-
-    //get user full name
-    try {
-        userFullName = response.first_name + ' ' + response.last_name;
-        if (userFullName == '') {
-            userFullName = 'private';
-        }
-    } catch (e) {
-        userFullName = 'private';
-    }
-
-    //get user profile image
-    try {
-        userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
-        if (response.id == undefined) {
-            userProfilePic = 'private';
-        }
-        $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
-    } catch (e) {
-        userProfilePic = 'private';
-    }
-
-    //get user cover image
-    try {
-        FB.api('/me?fields=cover', function (uCover) {
-            if (uCover && !uCover.error) {
-                userCoverPic = uCover.cover.source;
-                $('#sidebarCoverImg').attr('src', userCoverPic);
-                if (userCoverPic == '' || userCoverPic == undefined) {
-                    userCoverPic = 'private';
-                }
+    $.when(
+        function () {
+            //get user birthday 
+            try {
+                userBirthDay = response.birthday;
+            } catch (e) {
+                userBirthday = '';
             }
-            else {
+        },
+        function () {
+            //get user email
+            try {
+                userEmail = response.email;
+                if (userEmail == undefined) {
+                    userEmail = 'private';
+                }
+            } catch (e) {
+                userEmail = 'private';
+            }
+        },
+        function () {
+            //get user gender
+            try {
+                userGender = response.gender;
+                if (userGender == undefined) {
+                    userGender = 'private';
+                }
+            } catch (e) {
+                userGender = 'private';
+            }
+        },
+        function () {
+            //get user full name
+            try {
+                userFullName = response.first_name + ' ' + response.last_name;
+                if (userFullName == '') {
+                    userFullName = 'private';
+                }
+            } catch (e) {
+                userFullName = 'private';
+            }
+        },
+        function () {
+            //get user profile image
+            try {
+                userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
+                if (response.id == undefined) {
+                    userProfilePic = 'private';
+                }
+                $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
+            } catch (e) {
+                userProfilePic = 'private';
+            }
+        },
+        function () {
+            //get user cover image
+            try {
+                FB.api('/me?fields=cover', function (uCover) {
+                    if (uCover && !uCover.error) {
+                        userCoverPic = uCover.cover.source;
+                        $('#sidebarCoverImg').attr('src', userCoverPic);
+                        if (userCoverPic == '' || userCoverPic == undefined) {
+                            userCoverPic = 'private';
+                        }
+                    }
+                    else {
+                        userCoverPic = 'private';
+                    }
+                });
+            } catch (e) {
                 userCoverPic = 'private';
             }
-        });
-    } catch (e) {
-        userCoverPic = 'private';
-    }
+        },
+        function () {
+            userPassword = 0;
+        }
+        ).then(checkFacebookUser);
+
+
+
+
+   
+
+
+
+    
+
+
     //alert('uCover: ' + userCoverPic);
-    userPassword = 0;
+
 
     //checkFacebookUser();
 }
@@ -466,7 +492,7 @@ function loginToSroogim(response) {
 function checkFacebookUser() {
     var json = createUserJsonFromFacebook();
     alert('userJson from CFU: ' + JSON.stringify(json));
-    if (json != '') {
+    if (json.images.name[0] != null) {
         $.ajax({
             type: "POST",
             url: api + "checkFacebookUser",
@@ -500,7 +526,9 @@ function checkFacebookUser() {
             }
         });
     }
-
+    else {
+        setInterval(checkFacebookUser, 1000);
+    }
 }
 
 //trigger to facebookLogin()
