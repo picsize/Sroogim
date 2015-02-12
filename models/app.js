@@ -385,7 +385,7 @@ function facebookDismissed() {
 
 //check if user is already log in
 function getLoginStatus() {
-    FB.getLoginStatus(function (response, loginToSroogim) {
+    FB.getLoginStatus(function (response) {
             if (response.status == 'connected') {
                 loginToSroogim(response);
         }
@@ -542,7 +542,7 @@ function facebookLogin() {
     FB.login(function (response) {
         if (response.authResponse) {
             console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response, loginToSroogim) {
+            FB.api('/me', function (response) {
                 if (response.status == 'connected') {
                     loginToSroogim(response)
                 }
@@ -555,7 +555,7 @@ function facebookLogin() {
 
 //if user alredy log in
 FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response, loginToSroogim) {
+    FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
             loginToSroogim(a_response);
         }
