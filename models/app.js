@@ -452,25 +452,23 @@ function loginToSroogim(response) {
         })
         .then(function () {
             $.when(function () {
-                if (userCoverPic == null || userCoverPic == undefined || userCoverPic == '') {
-                    //get user cover image
-                    try {
-                        FB.api('/me?fields=cover', function (uCover) {
-                            alert('cover: ' + uCover);
-                            if (uCover && !uCover.error) {
-                                userCoverPic = uCover.cover.source;
-                                $('#sidebarCoverImg').attr('src', userCoverPic);
-                                if (userCoverPic == '' || userCoverPic == undefined) {
-                                    userCoverPic = 'private';
-                                }
-                            }
-                            else {
+                //get user cover image
+                try {
+                    FB.api('/me?fields=cover', function (uCover) {
+                        alert('cover: ' + uCover);
+                        if (uCover && !uCover.error) {
+                            userCoverPic = uCover.cover.source;
+                            $('#sidebarCoverImg').attr('src', userCoverPic);
+                            if (userCoverPic == '' || userCoverPic == undefined) {
                                 userCoverPic = 'private';
                             }
-                        });
-                    } catch (e) {
-                        userCoverPic = 'private';
-                    }
+                        }
+                        else {
+                            userCoverPic = 'private';
+                        }
+                    });
+                } catch (e) {
+                    userCoverPic = 'private';
                 }
             }).then(function () {
                 alert('last then()');
