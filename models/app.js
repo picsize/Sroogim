@@ -387,17 +387,17 @@ function facebookDismissed() {
 function getLoginStatus() {
     FB.getLoginStatus(function (response) {
         if (response.status == 'connected') {
-            loginToSroogim(response);
-        } else {
-            //$.mobile.changePage('index.html');
-            facebookLogin();
+            $.when(loginToSroogim(response)).then(checkFacebookUser);
         }
+        //else {
+            //$.mobile.changePage('index.html');
+            //facebookLogin();
+        //}
     });
 }
 
 //login to sroogim via facebook
 function loginToSroogim(response) {
-
     //get user birthday 
     try {
         userBirthDay = response.birthday;
@@ -463,15 +463,15 @@ function loginToSroogim(response) {
     } catch (e) {
         userCoverPic = 'private';
     }
-    alert('uCover: ' + userCoverPic);
+    //alert('uCover: ' + userCoverPic);
     userPassword = 0;
 
-    checkFacebookUser();
+    //checkFacebookUser();
 }
 
 function checkFacebookUser() {
     var json = createUserJsonFromFacebook();
-    alert('userJson: ' + JSON.stringify(json));
+    alert('userJson from CFU: ' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -534,7 +534,7 @@ function facebookLogin() {
                 //console.log('Good to see you, ' + response.name + '.');
                 if (response && !response.error) {
                     //alert('res: ' + JSON.stringify(response));
-                    loginToSroogim(response);
+                    $.when(loginToSroogim(response)).then(checkFacebookUser);
                 }
             });
         } else {
@@ -547,16 +547,16 @@ function facebookLogin() {
 FB.Event.subscribe('auth.login', function (response) {
     FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
+            $.when(loginToSroogim(a_response)).then(checkFacebookUser);
         }
-        else { facebookLogin(); }
+        //else { facebookLogin(); }
     });
 });
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
     //loginToSroogim('response');
-    userPermision = 'access';
+    //userPermision = 'access';
 });
 
 $(document).on('click', '.addComment', function () {
