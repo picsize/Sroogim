@@ -23,9 +23,13 @@ document.addEventListener("deviceready", initApp, false);
 //});
 
 function initApp() {
+    $('#menuSidebar').panel().enhanceWithin();
+    $('#popup').enhanceWithin().popup();
+    $('#newsContainer p').marquee();
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
+            //initFacebook();
             getLoginStatus();
             try {
                 userDeviceID = device.uuid;
@@ -50,10 +54,6 @@ function initApp() {
         }
     }
     loadComponents();
-
-    $('#menuSidebar').panel().enhanceWithin();
-    $('#popup').enhanceWithin().popup();
-    $('#newsContainer p').marquee();
     checkPhonegap();
     initFacebook();
     getAllDates();
@@ -557,15 +557,15 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            facebookResponse = a_response;
-            loginToSroogim(a_response);
-        }
-        //else { facebookLogin(); }
-    });
-});
+//FB.Event.subscribe('auth.login', function (response) {
+//    FB.api('/me', function (a_response) {
+//        if (a_response && !a_response.error) {
+//            facebookResponse = a_response;
+//            loginToSroogim(a_response);
+//        }
+//        else { facebookLogin(); }
+//    });
+//});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
