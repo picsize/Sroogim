@@ -452,6 +452,7 @@ function loginToSroogim(response) {
         })
         .then(function () {
             $.when(function () {
+                alert('cover then()');
                 //get user cover image
                 try {
                     FB.api('/me?fields=cover', function (uCover) {
