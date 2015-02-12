@@ -11,7 +11,7 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
-var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender, userDeviceID;
+var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic, userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0;
 var facebookResponse;
 
@@ -29,16 +29,7 @@ function initApp() {
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
-            //if user alredy log in
-            FB.Event.subscribe('auth.login', function (response) {
-                FB.api('/me', function (a_response) {
-                    if (a_response && !a_response.error) {
-                        facebookResponse = a_response;
-                        loginToSroogim(a_response);
-                    }
-                    else { facebookLogin(); }
-                });
-            });
+
             try {
                 userDeviceID = device.uuid;
                 //alert('uuid: ' + userDeviceID);
@@ -460,28 +451,32 @@ function loginToSroogim(response) {
             }
         })
         .then(function () {
-            //get user cover image
-            try {
-                FB.api('/me?fields=cover', function (uCover) {
-                    alert('cover: ' + uCover);
-                    if (uCover && !uCover.error) {
-                        userCoverPic = uCover.cover.source;
-                        $('#sidebarCoverImg').attr('src', userCoverPic);
-                        if (userCoverPic == '' || userCoverPic == undefined) {
-                            userCoverPic = 'private';
-                        }
-                    }
-                    else {
+            $.when(function () {
+                if (userCoverPic == null || userCoverPic == undefined || userCoverPic == '') {
+                    //get user cover image
+                    try {
+                        FB.api('/me?fields=cover', function (uCover) {
+                            alert('cover: ' + uCover);
+                            if (uCover && !uCover.error) {
+                                userCoverPic = uCover.cover.source;
+                                $('#sidebarCoverImg').attr('src', userCoverPic);
+                                if (userCoverPic == '' || userCoverPic == undefined) {
+                                    userCoverPic = 'private';
+                                }
+                            }
+                            else {
+                                userCoverPic = 'private';
+                            }
+                        });
+                    } catch (e) {
                         userCoverPic = 'private';
                     }
-                });
-            } catch (e) {
-                userCoverPic = 'private';
-            }
-        })
-    .then(function () {
-        userPassword = 0;
-    }).then(checkFacebookUser);
+                }
+            }).then(function () {
+                alert('last then()');
+                checkFacebookUser();
+            });
+        });
 
     //alert('uCover: ' + userCoverPic);
 
@@ -564,6 +559,17 @@ function facebookLogin() {
         }
     }, { scope: 'email, user_birthday, user_location' });
 }
+
+//if user alredy log in
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            facebookResponse = a_response;
+            loginToSroogim(a_response);
+        }
+        else { facebookLogin(); }
+    });
+});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
