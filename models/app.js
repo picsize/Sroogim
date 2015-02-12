@@ -369,14 +369,12 @@ function setDistance(response, status) {
 
 //init facebook
 function initFacebook() {
-    var count = 7;
-    FB.init({
+    $.when(FB.init({
         appId: "988309234528102",
         nativeInterface: CDV.FB,
         useCachedDialogs: false,
         oauth: true
-    });
-    getLoginStatus();
+    })).then(getLoginStatus);
 }
 
 function facebookDismissed() {
@@ -385,15 +383,11 @@ function facebookDismissed() {
 
 //check if user is already log in
 function getLoginStatus() {
-    FB.getLoginStatus(function (response) {
+    $.when(FB.getLoginStatus(function (response) {
         if (response.status == 'connected') {
-            $.when(loginToSroogim(response)).then(checkFacebookUser);
+            loginToSroogim(response)
         }
-        //else {
-            //$.mobile.changePage('index.html');
-            //facebookLogin();
-        //}
-    });
+    })).then(checkFacebookUser);
 }
 
 //login to sroogim via facebook
