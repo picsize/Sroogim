@@ -29,8 +29,16 @@ function initApp() {
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
-            //initFacebook();
-            getLoginStatus();
+            //if user alredy log in
+            FB.Event.subscribe('auth.login', function (response) {
+                FB.api('/me', function (a_response) {
+                    if (a_response && !a_response.error) {
+                        facebookResponse = a_response;
+                        loginToSroogim(a_response);
+                    }
+                    //else { facebookLogin(); }
+                });
+            });
             try {
                 userDeviceID = device.uuid;
                 //alert('uuid: ' + userDeviceID);
@@ -547,7 +555,7 @@ function facebookLogin() {
             FB.api('/me', function (response) {
                 if (response.status == 'connected') {
                     facebookResponse = response;
-                    loginToSroogim(response)
+                    loginToSroogim(response);
                 }
             });
         } else {
@@ -555,17 +563,6 @@ function facebookLogin() {
         }
     }, { scope: 'email, user_birthday, user_location' });
 }
-
-//if user alredy log in
-//FB.Event.subscribe('auth.login', function (response) {
-//    FB.api('/me', function (a_response) {
-//        if (a_response && !a_response.error) {
-//            facebookResponse = a_response;
-//            loginToSroogim(a_response);
-//        }
-//        else { facebookLogin(); }
-//    });
-//});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
