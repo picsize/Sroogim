@@ -394,6 +394,7 @@ function getLoginStatus() {
 
 //login to sroogim via facebook
 function loginToSroogim(response) {
+    alert('loginToSroogim func');
     $.when(
         function () {
             //get user birthday 
@@ -516,7 +517,7 @@ function checkFacebookUser() {
         });
     }
     else {
-        setInterval(checkFacebookUser, 10000);
+        setInterval(checkFacebookUser, 7000);
     }
 }
 
