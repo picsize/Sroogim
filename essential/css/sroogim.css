@@ -91,15 +91,6 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin-bottom: 4%;
 }
 
-#comments-holder
-{
-    display: none;
-}
-
-.fb-comments > span
-{
-    height: 115px !important;
-}
 
 /*#endregion*/
 

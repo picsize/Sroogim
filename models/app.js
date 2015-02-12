@@ -538,13 +538,27 @@ function facebookLogin() {
             FB.api('/me', function (response) {
                 if (response.status == 'connected') {
                     facebookResponse = response;
-                    loginToSroogim(response);
                 }
             });
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
     }, { scope: 'email, user_birthday, user_location' });
+
+    FB.api('/me?fields=cover', function (uCover) {
+        alert('cover: ' + uCover);
+        if (uCover && !uCover.error) {
+            userCoverPic = uCover.cover.source;
+            loginToSroogim(facebookResponse);
+            $('#sidebarCoverImg').attr('src', userCoverPic);
+            if (userCoverPic == '' || userCoverPic == undefined) {
+                userCoverPic = 'private';
+            }
+        }
+        else {
+            userCoverPic = 'private';
+        }
+    });
 }
 
 //if user alredy log in
@@ -552,22 +566,23 @@ FB.Event.subscribe('auth.login', function (response) {
     FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
             facebookResponse = a_response;
-            FB.api('/me?fields=cover', function (uCover) {
-                alert('cover: ' + uCover);
-                if (uCover && !uCover.error) {
-                    userCoverPic = uCover.cover.source;
-                    loginToSroogim(facebookResponse);
-                    $('#sidebarCoverImg').attr('src', userCoverPic);
-                    if (userCoverPic == '' || userCoverPic == undefined) {
-                        userCoverPic = 'private';
-                    }
-                }
-                else {
-                    userCoverPic = 'private';
-                }
-            });
         }
         else { facebookLogin(); }
+    });
+
+    FB.api('/me?fields=cover', function (uCover) {
+        alert('cover: ' + uCover);
+        if (uCover && !uCover.error) {
+            userCoverPic = uCover.cover.source;
+            loginToSroogim(facebookResponse);
+            $('#sidebarCoverImg').attr('src', userCoverPic);
+            if (userCoverPic == '' || userCoverPic == undefined) {
+                userCoverPic = 'private';
+            }
+        }
+        else {
+            userCoverPic = 'private';
+        }
     });
 });
 
@@ -578,8 +593,7 @@ $(document).on('click', '#facebookLogin', function () {
 });
 
 $(document).on('click', '.addComment', function () {
-    $('#popupContent').html($('#comments-holder').html());
-    $('.fb-comments').css('display', 'block !important');
+    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" height="115" style="border:none;"></iframe>');
     openPopup();
 });
 
