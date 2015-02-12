@@ -480,45 +480,46 @@ function loginToSroogim(response) {
 }
 
 function checkFacebookUser() {
+    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
     alert('userJson from CFU: ' + JSON.stringify(json));
-    if (json.images.name[0] != null) {
-        $.ajax({
-            type: "POST",
-            url: api + "checkFacebookUser",
-            data: "{userJson: '" + JSON.stringify(json) + "'}",
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(textStatus);
-                alert(JSON.stringify(XMLHttpRequest));
-                alert(JSON.stringify(errorThrown));
-            },
-            success: function (result) {
-                if (result.d.indexOf('שגיאה') != -1) {
-                    alert(result.d);
-                }
-                else {
-                    alert('result.d: ' + result.d);
-                    if (result.d == '0') {
-                        registerUserFromFacebook();
-                        $('#userName').text(response.first_name + ' ' + response.last_name);
-                    }
-                    else if (result.d == '2') {
-                        $('#popupContent').html('<h2>נרשמת כבר דרך פייסבוק. כנראה שאתה לא משתמש במכשירך</h2>');
-                        openPopup();
-                    }
-                    else {
-                        $('#userName').text(json.userFullName);
-                        $.mobile.changePage('index.html#mainScreen');
-                    }
-                }
-            }
-        });
-    }
-    else {
-        setInterval(checkFacebookUser, 7000);
-    }
+    //if (json.images.name[0] != null) {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: api + "checkFacebookUser",
+    //        data: "{userJson: '" + JSON.stringify(json) + "'}",
+    //        contentType: 'application/json; charset=utf-8',
+    //        dataType: 'json',
+    //        error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //            alert(textStatus);
+    //            alert(JSON.stringify(XMLHttpRequest));
+    //            alert(JSON.stringify(errorThrown));
+    //        },
+    //        success: function (result) {
+    //            if (result.d.indexOf('שגיאה') != -1) {
+    //                alert(result.d);
+    //            }
+    //            else {
+    //                alert('result.d: ' + result.d);
+    //                if (result.d == '0') {
+    //                    registerUserFromFacebook();
+    //                    $('#userName').text(response.first_name + ' ' + response.last_name);
+    //                }
+    //                else if (result.d == '2') {
+    //                    $('#popupContent').html('<h2>נרשמת כבר דרך פייסבוק. כנראה שאתה לא משתמש במכשירך</h2>');
+    //                    openPopup();
+    //                }
+    //                else {
+    //                    $('#userName').text(json.userFullName);
+    //                    $.mobile.changePage('index.html#mainScreen');
+    //                }
+    //            }
+    //        }
+    //    });
+    //}
+    //else {
+    //    //setInterval(checkFacebookUser, 7000);
+    //}
 }
 
 //trigger to facebookLogin()
