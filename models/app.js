@@ -386,8 +386,9 @@ function facebookDismissed() {
 //check if user is already log in
 function getLoginStatus() {
     FB.getLoginStatus(function (response) {
-            if (response.status == 'connected') {
-                loginToSroogim(response);
+        if (response.status == 'connected') {
+            facebookResponse = response;
+            loginToSroogim(response);
         }
     });
 }
@@ -395,61 +396,62 @@ function getLoginStatus() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     alert('loginToSroogim func');
-    $.when(
-        function () {
+    alert(JSON.stringify(response));
+    $.when({})
+        .then(function () {
             //get user birthday 
             try {
-                userBirthDay = response.birthday;
+                userBirthDay = facebookResponse.birthday;
             } catch (e) {
                 userBirthday = '';
             }
-        },
-        function () {
+        })
+        .then(function () {
             //get user email
             try {
-                userEmail = response.email;
+                userEmail = facebookResponse.email;
                 if (userEmail == undefined) {
                     userEmail = 'private';
                 }
             } catch (e) {
                 userEmail = 'private';
             }
-        },
-        function () {
+        })
+        .then(function () {
             //get user gender
             try {
-                userGender = response.gender;
+                userGender = facebookResponse.gender;
                 if (userGender == undefined) {
                     userGender = 'private';
                 }
             } catch (e) {
                 userGender = 'private';
             }
-        },
-        function () {
+        })
+        .then(function () {
             //get user full name
             try {
-                userFullName = response.first_name + ' ' + response.last_name;
+                userFullName = facebookResponse.first_name + ' ' + facebookResponse.last_name;
                 if (userFullName == '') {
                     userFullName = 'private';
                 }
             } catch (e) {
                 userFullName = 'private';
             }
-        },
-        function () {
+        })
+        .then(function () {
             //get user profile image
             try {
-                userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
-                if (response.id == undefined) {
+                userProfilePic = 'http://graph.facebook.com/' + facebookResponse.id + '/picture?width=171&height=171';
+                if (facebookResponse.id == undefined) {
                     userProfilePic = 'private';
                 }
                 $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
             } catch (e) {
                 userProfilePic = 'private';
             }
-        },
-        function () {
+        })
+        .then(function () {
             //get user cover image
             try {
                 FB.api('/me?fields=cover', function (uCover) {
@@ -467,11 +469,10 @@ function loginToSroogim(response) {
             } catch (e) {
                 userCoverPic = 'private';
             }
-        },
-        function () {
-            userPassword = 0;
-        }
-        ).then(checkFacebookUser);
+        })
+    .then(function () {
+        userPassword = 0;
+    }).then(checkFacebookUser);
 
     //alert('uCover: ' + userCoverPic);
 
@@ -545,6 +546,7 @@ function facebookLogin() {
             console.log('Welcome!  Fetching your information.... ');
             FB.api('/me', function (response) {
                 if (response.status == 'connected') {
+                    facebookResponse = response;
                     loginToSroogim(response)
                 }
             });
@@ -558,6 +560,7 @@ function facebookLogin() {
 FB.Event.subscribe('auth.login', function (response) {
     FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
+            facebookResponse = a_response;
             loginToSroogim(a_response);
         }
         //else { facebookLogin(); }
