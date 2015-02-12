@@ -26,17 +26,15 @@ function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#popup').enhanceWithin().popup();
     $('#newsContainer p').marquee();
+    try {
+        userDeviceID = device.uuid;
+    } catch (e) {
+        userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
+    }
+    alert('uuid: ' + userDeviceID);
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
-
-            try {
-                userDeviceID = device.uuid;
-                //alert('uuid: ' + userDeviceID);
-            } catch (e) {
-                userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
-            }
-
             $.mobile.loading('hide');
         }
         else {
@@ -554,7 +552,20 @@ FB.Event.subscribe('auth.login', function (response) {
     FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
             facebookResponse = a_response;
-            loginToSroogim(a_response);
+            FB.api('/me?fields=cover', function (uCover) {
+                alert('cover: ' + uCover);
+                if (uCover && !uCover.error) {
+                    userCoverPic = uCover.cover.source;
+                    loginToSroogim(facebookResponse);
+                    $('#sidebarCoverImg').attr('src', userCoverPic);
+                    if (userCoverPic == '' || userCoverPic == undefined) {
+                        userCoverPic = 'private';
+                    }
+                }
+                else {
+                    userCoverPic = 'private';
+                }
+            });
         }
         else { facebookLogin(); }
     });

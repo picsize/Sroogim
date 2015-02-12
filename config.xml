@@ -114,7 +114,7 @@
         Otherwise, you can specify specific domains:
     -->
   <!--<access origin="*" />-->
-  <access origin="*.sroogim.co.il"/>
+  <!--<access origin="*.sroogim.co.il"/>-->
   <access origin="*"/>
   <!-- allow local pages -->
   <!--
