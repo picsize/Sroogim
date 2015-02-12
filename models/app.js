@@ -13,6 +13,7 @@ var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
 var userEmail, userFullName, userPassword, userProfilePic, userCoverPic, userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0;
+var facebookResponse;
 
 
 document.addEventListener("deviceready", initApp, false);
@@ -370,7 +371,7 @@ function setDistance(response, status) {
 
 //init facebook
 function initFacebook() {
-  FB.init({
+    FB.init({
         appId: "988309234528102",
         nativeInterface: CDV.FB,
         useCachedDialogs: false,
@@ -384,13 +385,11 @@ function facebookDismissed() {
 
 //check if user is already log in
 function getLoginStatus() {
-   $.when(FB.getLoginStatus(function (response) {
-   })).then(function (response) {
-       alert(JSON.stringify(response));
-       if (response.status == 'connected') {
-           loginToSroogim(response)
-       }
-   });
+    FB.getLoginStatus(function (response, loginToSroogim) {
+            if (response.status == 'connected') {
+                loginToSroogim(response);
+        }
+    });
 }
 
 //login to sroogim via facebook
@@ -473,16 +472,6 @@ function loginToSroogim(response) {
         }
         ).then(checkFacebookUser);
 
-
-
-
-   
-
-
-
-    
-
-
     //alert('uCover: ' + userCoverPic);
 
 
@@ -527,7 +516,7 @@ function checkFacebookUser() {
         });
     }
     else {
-        setInterval(checkFacebookUser, 1000);
+        setInterval(checkFacebookUser, 10000);
     }
 }
 
@@ -552,11 +541,9 @@ function facebookLogin() {
     FB.login(function (response) {
         if (response.authResponse) {
             console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response) {
-                //console.log('Good to see you, ' + response.name + '.');
-                if (response && !response.error) {
-                    //alert('res: ' + JSON.stringify(response));
-                    $.when(loginToSroogim(response)).then(checkFacebookUser);
+            FB.api('/me', function (response, loginToSroogim) {
+                if (response.status == 'connected') {
+                    loginToSroogim(response)
                 }
             });
         } else {
@@ -567,9 +554,9 @@ function facebookLogin() {
 
 //if user alredy log in
 FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
+    FB.api('/me', function (a_response, loginToSroogim) {
         if (a_response && !a_response.error) {
-            $.when(loginToSroogim(a_response)).then(checkFacebookUser);
+            loginToSroogim(a_response);
         }
         //else { facebookLogin(); }
     });
