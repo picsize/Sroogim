@@ -19,7 +19,6 @@ var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'p
 var userPermision = '', ratingValue = 0;
 var facebookResponse;
 
-
 document.addEventListener("deviceready", initApp, false);
 
 //$(function () {
@@ -597,7 +596,7 @@ FB.Event.subscribe('auth.login', function (response) {
     });
 
     FB.api('/me?fields=cover', function (uCover) {
-        alert('cover: ' + uCover);
+        //alert('cover: ' + uCover);
         if (uCover && !uCover.error) {
             userCoverPic = uCover.cover.source;
             loginToSroogim(facebookResponse);
@@ -861,6 +860,61 @@ $(document).on('click', '.city', function () {
                             '</li>';
         }
     }
+    if (dateLi == '') {
+        dateLi = 'אין מקומות בילוי בעיר זו';
+    }
+
+    $('.dataList').html(dateLi);
+    $.mobile.changePage('index.html#datesList');
+});
+
+//show all dates all dates 
+$(document).on('click', '.allDates', function () {
+    $('#datesList .wrapper .title h2').text('כל הארץ');
+    var dateLi = '';
+    for (var i = 0; i < dates.length; i++) {
+            var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+            //alert('cLocation: ' + JSON.stringify(currentLocation));
+            calculateDistances(currentLocation, dates[i]);
+            dateLi += '<li class="dataItem">' +
+                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                            '<div>' +
+                                '<h3>' + thisDate.DateHeader + '</h3>' +
+                                '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                                '<section class="social">' +
+                                    '<ul>' +
+                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
+                                        '<li><section class="rating">' +
+                                                '<span data-value="5" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="4" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="3" data-empty="true">' +
+                                                    '<img src="essential/images/General/blankStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="2" data-empty="false">' +
+                                                    '<img src="essential/images/General/goldenStar.png" />' +
+                                                '</span>' +
+                                                '<span data-value="1" data-empty="false">' +
+                                                    '<img src="essential/images/General/goldenStar.png" />' +
+                                                '</span>' +
+                                            '</section>' +
+                                        '</li>' +
+                                        '<li>' +
+                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                '</section>' +
+                            '</div>' +
+                            '<div>' +
+                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                            '</div>' +
+                            '</li>';
+        }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בעיר זו';
     }
