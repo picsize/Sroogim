@@ -1,16 +1,16 @@
 ﻿
-//api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
-//dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
-//presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
-//top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
-//categoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/categories/';
-//subCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/subCategories/';
-api = '../SroogimCMS/app/api/Default.aspx/';
-dateImgSrc = '../SroogimCMS/content/dates/';
-presentImgSrc = '../SroogimCMS/content/presents/';
-top5ImgSrc = '../SroogimCMS/content/top5/'
-categoriesSrc = '../SroogimCMS/content/categories/';
-subCategoriesSrc = '../SroogimCMS/content/subCategories/';
+api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
+presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
+top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
+categoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/categories/';
+subCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/subCategories/';
+//api = '../SroogimCMS/app/api/Default.aspx/';
+//dateImgSrc = '../SroogimCMS/content/dates/';
+//presentImgSrc = '../SroogimCMS/content/presents/';
+//top5ImgSrc = '../SroogimCMS/content/top5/'
+//categoriesSrc = '../SroogimCMS/content/categories/';
+//subCategoriesSrc = '../SroogimCMS/content/subCategories/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
@@ -20,11 +20,11 @@ var userPermision = '', ratingValue = 0;
 var facebookResponse;
 
 
-//document.addEventListener("deviceready", initApp, false);
+document.addEventListener("deviceready", initApp, false);
 
-$(function () {
-    initApp();
-});
+//$(function () {
+//    initApp();
+//});
 
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
@@ -56,17 +56,17 @@ function initApp() {
     }
     loadComponents();
     checkPhonegap();
-    //initFacebook();
+    initFacebook();
     loadAllData();
     getCurrentlatlong();
     getTop5App();
 
-    //var devicePlatform = device.platform;
-    //if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-    //    if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-    //        StatusBar.hide();
-    //    }
-    //}
+    var devicePlatform = device.platform;
+    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+            StatusBar.hide();
+        }
+    }
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -588,29 +588,29 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-//FB.Event.subscribe('auth.login', function (response) {
-//    FB.api('/me', function (a_response) {
-//        if (a_response && !a_response.error) {
-//            facebookResponse = a_response;
-//        }
-//        else { facebookLogin(); }
-//    });
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            facebookResponse = a_response;
+        }
+        else { facebookLogin(); }
+    });
 
-//    FB.api('/me?fields=cover', function (uCover) {
-//        alert('cover: ' + uCover);
-//        if (uCover && !uCover.error) {
-//            userCoverPic = uCover.cover.source;
-//            loginToSroogim(facebookResponse);
-//            $('#sidebarCoverImg').attr('src', userCoverPic);
-//            if (userCoverPic == '' || userCoverPic == undefined) {
-//                userCoverPic = 'private';
-//            }
-//        }
-//        else {
-//            userCoverPic = 'private';
-//        }
-//    });
-//});
+    FB.api('/me?fields=cover', function (uCover) {
+        alert('cover: ' + uCover);
+        if (uCover && !uCover.error) {
+            userCoverPic = uCover.cover.source;
+            loginToSroogim(facebookResponse);
+            $('#sidebarCoverImg').attr('src', userCoverPic);
+            if (userCoverPic == '' || userCoverPic == undefined) {
+                userCoverPic = 'private';
+            }
+        }
+        else {
+            userCoverPic = 'private';
+        }
+    });
+});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
