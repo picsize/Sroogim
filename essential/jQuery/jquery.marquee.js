@@ -98,7 +98,7 @@
             var $marquee = $(this),
                 width = $marquee.attr('data-width') || $marquee.width(),
                 height = $marquee.attr('data-height') || $marquee.height(),
-                $marqueeRedux = $marquee.after('<div ' + (klass ? 'class="' + klass + '" ' : '') + 'style="display: block-inline; width: ' + width + 'px; height: ' + height + 'px; overflow: hidden;"><div style="white-space: nowrap;">' + $marquee.html() + '</div></div>').next(),
+                $marqueeRedux = $marquee.after('<div ' + (klass ? 'class="' + klass + '" ' : '') + 'style="display: inline-block !important; width: ' + width + '; height: ' + height + '; overflow: hidden;"><div style="white-space: nowrap;">' + $marquee.html() + '</div></div>').next(),
                 marqueeRedux = $marqueeRedux.get(0),
                 hitedge = 0,
                 direction = ($marquee.attr('data-direction') || 'left').toLowerCase(),

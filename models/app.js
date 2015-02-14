@@ -1,12 +1,16 @@
 ﻿
-api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
-dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
-presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
-top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
-//api = '../SroogimCMS/app/api/Default.aspx/';
-//dateImgSrc = '../SroogimCMS/content/dates/';
-//presentImgSrc = '../SroogimCMS/content/presents/';
-//top5ImgSrc = '../SroogimCMS/content/top5/'
+//api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
+//dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
+//presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
+//top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
+//categoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/categories/';
+//subCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/subCategories/';
+api = '../SroogimCMS/app/api/Default.aspx/';
+dateImgSrc = '../SroogimCMS/content/dates/';
+presentImgSrc = '../SroogimCMS/content/presents/';
+top5ImgSrc = '../SroogimCMS/content/top5/'
+categoriesSrc = '../SroogimCMS/content/categories/';
+subCategoriesSrc = '../SroogimCMS/content/subCategories/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
@@ -16,11 +20,11 @@ var userPermision = '', ratingValue = 0;
 var facebookResponse;
 
 
-document.addEventListener("deviceready", initApp, false);
+//document.addEventListener("deviceready", initApp, false);
 
-//$(function () {
-//    initApp();
-//});
+$(function () {
+    initApp();
+});
 
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
@@ -31,7 +35,7 @@ function initApp() {
     } catch (e) {
         userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
     }
-    alert('uuid: ' + userDeviceID);
+    //alert('uuid: ' + userDeviceID);
     var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
@@ -52,23 +56,17 @@ function initApp() {
     }
     loadComponents();
     checkPhonegap();
-    initFacebook();
-    getAllDates();
-    getAllPresents();
-    getAllCategories();
-    getAllLocations();
+    //initFacebook();
+    loadAllData();
     getCurrentlatlong();
-    getAllNews();
-    getDateText();
-    getPresentText();
     getTop5App();
 
-    var devicePlatform = device.platform;
-    if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-        if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-            StatusBar.hide();
-        }
-    }
+    //var devicePlatform = device.platform;
+    //if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
+    //    if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
+    //        StatusBar.hide();
+    //    }
+    //}
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -93,6 +91,15 @@ function checkPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
     if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
     if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+}
+
+//load all data
+function loadAllData() {
+    getAllDates();
+    getAllPresents();
+    getAllCategories();
+    getAllLocations();
+    getAllNews();
 }
 
 //get all dates
@@ -195,49 +202,49 @@ function getAllNews() {
 }
 
 //get main date text
-function getDateText() {
-    $.ajax({
-        type: "POST",
-        url: api + "getDateText",
-        data: "",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
-            }
-            else {
+//function getDateText() {
+//    $.ajax({
+//        type: "POST",
+//        url: api + "getDateText",
+//        data: "",
+//        contentType: 'application/json; charset=utf-8',
+//        dataType: 'json',
+//        error: function (XMLHttpRequest, textStatus, errorThrown) {
+//            alert(textStatus);
+//        },
+//        success: function (result) {
+//            if (result.d.indexOf('שגיאה') != -1) {
+//                alert(result.d);
+//            }
+//            else {
 
-                $('#dates p').html(result.d);
-            }
-        }
-    });
-}
+//                $('#dates p').html(result.d);
+//            }
+//        }
+//    });
+//}
 
 //get main present text
-function getPresentText() {
-    $.ajax({
-        type: "POST",
-        url: api + "getPresentText",
-        data: "",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
-            }
-            else {
-                $('#presents p').html(result.d);
-            }
-        }
-    });
-}
+//function getPresentText() {
+//    $.ajax({
+//        type: "POST",
+//        url: api + "getPresentText",
+//        data: "",
+//        contentType: 'application/json; charset=utf-8',
+//        dataType: 'json',
+//        error: function (XMLHttpRequest, textStatus, errorThrown) {
+//            alert(textStatus);
+//        },
+//        success: function (result) {
+//            if (result.d.indexOf('שגיאה') != -1) {
+//                alert(result.d);
+//            }
+//            else {
+//                $('#presents p').html(result.d);
+//            }
+//        }
+//    });
+//}
 
 //top 5
 function getTop5App() {
@@ -252,23 +259,42 @@ function getTop5App() {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
-                var imagesString = result.d.split(',');
-                for (var i = 0; i < imagesString.length; i++) {
-                    $('#top5').append('<img src="' + top5ImgSrc + imagesString[i] + '" />');
+                var settings = JSON.parse(result.d);
+                $('#dates p').html(settings[4]);
+                $('#presents p').html(settings[5]);
+                if (settings[0] == 0) {
+                    $('.addComment').hide();
                 }
-                var c = 5 - imagesString.length;
-                if (c > 0) {
-                    for (var j = 0; j < c; j++) {
-                        $('#top5').append('<img src="' + top5ImgSrc + imagesString[0] + '" />');
+                if (settings[3] == "Y") {
+                    $('#top5').html('<iframe width="100%" style="height:15em" src="' + settings[2] + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+                }
+                else {
+                    var imagesString = settings[1].split(',');
+                    var top5HTML = '';
+                    for (var i = 0; i < imagesString.length; i++) {
+                        top5HTML +='<img src="' + top5ImgSrc + imagesString[i] + '" />'
                     }
+                    var c = 5 - imagesString.length;
+                    if (c > 0) {
+                        for (var j = 0; j < c; j++) {
+                            top5HTML += '<img src="' + top5ImgSrc + imagesString[j] + '" />'
+                        }
+                    }
+                    $('#top5').html(top5HTML);
                 }
             }
         }
     });
 }
+
+//load app data when page is load
+$(window).on('navigate', function () {
+    //alert('navigate');
+    loadAllData();
+});
 
 //#endregion
 
@@ -278,32 +304,32 @@ function getTop5App() {
 function getCurrentlatlong() {
 
     if (navigator.geolocation) {
-        alert("navigator.geolocation is supported");
+        //alert("navigator.geolocation is supported");
         navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
     }
     else {
-        alert("navigator.geolocation not supported");
+        //alert("navigator.geolocation not supported");
     }
 }
 
 //success to get my location
 function onSuccess(position) {
-    alert("onSuccess called");
+    //alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
-    alert('lat: ' + lat + '/nlng: ' + lng);
+    //alert('lat: ' + lat + '\nlng: ' + lng);
 }
 
 //error while getting my location
 function onError(error) {
-    alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
+    //alert("Getting the error" + error.code + "\nerror mesg :" + error.message);
 }
 
 //convert date location to lat & lng
 function codeAddress(address, dateID) {
-    alert('codeAddress');
+    //alert('codeAddress');
     var geocoder = new google.maps.Geocoder();
-    alert('g: ' + geocoder);
+    //alert('g: ' + geocoder);
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
@@ -311,7 +337,7 @@ function codeAddress(address, dateID) {
                 'lat': results[0].geometry.location.k,
                 'lng': results[0].geometry.location.D
             };
-            alert('dGps: ' + JSON.stringify(dGps));
+            //alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
         } else {
             return address
@@ -337,7 +363,7 @@ function calculateDistances(myLocation, dateJson) {
 
 //set the distance in the app
 function setDistance(response, status) {
-    alert('sss: ' + JSON.stringify(thisDate));
+    //alert('sss: ' + JSON.stringify(thisDate));
     if (status != google.maps.DistanceMatrixStatus.OK) {
         console.log('Error was: ' + status);
     } else {
@@ -355,7 +381,7 @@ function setDistance(response, status) {
                 }
 
                 distance.push(d);
-                alert(JSON.stringify(distance));
+                //alert(JSON.stringify(distance));
             }
 
         }
@@ -386,7 +412,7 @@ function getLoginStatus() {
         if (response.status == 'connected') {
             facebookResponse = response;
             FB.api('/me?fields=cover', function (uCover) {
-                alert('cover: ' + uCover);
+                //alert('cover: ' + uCover);
                 if (uCover && !uCover.error) {
                     userCoverPic = uCover.cover.source;
                     loginToSroogim(facebookResponse);
@@ -407,7 +433,7 @@ function getLoginStatus() {
 
 //login to sroogim via facebook
 function loginToSroogim(response) {
-    alert('loginToSroogim func');
+    //alert('loginToSroogim func');
     //alert(JSON.stringify(response));
     $.when({})
         .then(function () {
@@ -474,9 +500,9 @@ function loginToSroogim(response) {
 }
 
 function checkFacebookUser() {
-    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
+    //alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
-    alert('userJson from CFU: ' + JSON.stringify(json));
+    //alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
         type: "POST",
         url: api + "checkFacebookUser",
@@ -485,15 +511,15 @@ function checkFacebookUser() {
         dataType: 'json',
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
-            alert(JSON.stringify(XMLHttpRequest));
-            alert(JSON.stringify(errorThrown));
+            //alert(JSON.stringify(XMLHttpRequest));
+            //alert(JSON.stringify(errorThrown));
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
-                alert('result.d: ' + result.d);
+                //alert('result.d: ' + result.d);
                 if (result.d == '0') {
                     registerUserFromFacebook();
                     $('#userName').text(response.first_name + ' ' + response.last_name);
@@ -546,7 +572,7 @@ function facebookLogin() {
     }, { scope: 'email, user_birthday, user_location' });
 
     FB.api('/me?fields=cover', function (uCover) {
-        alert('cover: ' + uCover);
+        //alert('cover: ' + uCover);
         if (uCover && !uCover.error) {
             userCoverPic = uCover.cover.source;
             loginToSroogim(facebookResponse);
@@ -562,29 +588,29 @@ function facebookLogin() {
 }
 
 //if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            facebookResponse = a_response;
-        }
-        else { facebookLogin(); }
-    });
+//FB.Event.subscribe('auth.login', function (response) {
+//    FB.api('/me', function (a_response) {
+//        if (a_response && !a_response.error) {
+//            facebookResponse = a_response;
+//        }
+//        else { facebookLogin(); }
+//    });
 
-    FB.api('/me?fields=cover', function (uCover) {
-        alert('cover: ' + uCover);
-        if (uCover && !uCover.error) {
-            userCoverPic = uCover.cover.source;
-            loginToSroogim(facebookResponse);
-            $('#sidebarCoverImg').attr('src', userCoverPic);
-            if (userCoverPic == '' || userCoverPic == undefined) {
-                userCoverPic = 'private';
-            }
-        }
-        else {
-            userCoverPic = 'private';
-        }
-    });
-});
+//    FB.api('/me?fields=cover', function (uCover) {
+//        alert('cover: ' + uCover);
+//        if (uCover && !uCover.error) {
+//            userCoverPic = uCover.cover.source;
+//            loginToSroogim(facebookResponse);
+//            $('#sidebarCoverImg').attr('src', userCoverPic);
+//            if (userCoverPic == '' || userCoverPic == undefined) {
+//                userCoverPic = 'private';
+//            }
+//        }
+//        else {
+//            userCoverPic = 'private';
+//        }
+//    });
+//});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
@@ -606,19 +632,23 @@ $(document).on('click', '.addComment', function () {
 function createDatePage(json) {
     var dateRatingHTML = createRating(json.DateRating);
     $('#singleDate .rating').html(dateRatingHTML);
+    try {
+        if (json.ShowVideo == 'Y') {
+            $('#dateImages').html('<iframe width="100%" height="205" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+        }
+        else {
+            $('#dateImages').html('');
+            for (var i = 0; i < json.DateImages.length; i++) {
+                $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[i].Url + '" />');
+            }
+            if ($('#dateImages img').length < 4) {
+                $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
+            }
+        }
+    } catch (e) {
 
-    if (json.ShowVideo == 'Y') {
-        $('#dateImages').html('<iframe width="100%" height="205" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
     }
-    else {
-        $('#dateImages').html('');
-        for (var i = 0; i < json.DateImages.length; i++) {
-            $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[i].Url + '" />');
-        }
-        if ($('#dateImages img').length < 4) {
-            $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
-        }
-    }
+
 
     var gps = '';
     for (var i = 0; i < gpsAddress.length; i++) {
@@ -672,7 +702,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
     categoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].CategoryType == "Date") {
-            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="essential/images/Dates/Category/outside.jpg" /> </h4><ul data-role="listview">';
+            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage.Url +'" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
                 categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
             }
@@ -1196,13 +1226,13 @@ function createNewsPage(json) {
                             '<p>' + months[json[i].NewsDate.split('T')[0].split('-')[1]] + '</p>' +
                         '</div>' +
                         '<div class="newsInfo">' +
-                            '<article>' +
-                                '<header>' +
-                                    '<h3>' + json[i].Header + '</h3>' +
-                                '</header>' +
-                                '<p>' + json[i].Description + '</p>' +
-                           '</article>' +
+                            '<header>' +
+                                '<h3>' + json[i].Header + '</h3>' +
+                            '</header>' +
                        '</div>' +
+                       '<article>' +
+                            '<p>' + json[i].Description + '</p>' +
+                        '</article>' +
                     '</div>'
     }
 
@@ -1245,7 +1275,7 @@ $(document).on('click', '#register-button', function () {
             },
             success: function (result) {
                 if (result.d.indexOf('שגיאה') != -1) {
-                    alert(result.d);
+                    //alert(result.d);
                 }
                 else {
                     userPermision = 'access';
@@ -1334,7 +1364,7 @@ function registerUserFromFacebook() {
             },
             success: function (result) {
                 if (result.d.indexOf('שגיאה') != -1) {
-                    alert(result.d);
+                    //alert(result.d);
                 }
                 else {
                     userPermision = 'access';
@@ -1409,7 +1439,7 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
                 if (result.d == '0') {
@@ -1498,7 +1528,7 @@ function getUserFavoritsDates() {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
                 favDates = JSON.parse(result.d);
@@ -1573,7 +1603,7 @@ function getUserFavoritsPresents() {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
                 favPresents = JSON.parse(result.d);
@@ -1674,7 +1704,7 @@ function updateDateRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
@@ -1702,7 +1732,7 @@ function updatePresentRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+                //alert(result.d);
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
