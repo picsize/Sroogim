@@ -200,51 +200,6 @@ function getAllNews() {
     });
 }
 
-//get main date text
-//function getDateText() {
-//    $.ajax({
-//        type: "POST",
-//        url: api + "getDateText",
-//        data: "",
-//        contentType: 'application/json; charset=utf-8',
-//        dataType: 'json',
-//        error: function (XMLHttpRequest, textStatus, errorThrown) {
-//            alert(textStatus);
-//        },
-//        success: function (result) {
-//            if (result.d.indexOf('שגיאה') != -1) {
-//                alert(result.d);
-//            }
-//            else {
-
-//                $('#dates p').html(result.d);
-//            }
-//        }
-//    });
-//}
-
-//get main present text
-//function getPresentText() {
-//    $.ajax({
-//        type: "POST",
-//        url: api + "getPresentText",
-//        data: "",
-//        contentType: 'application/json; charset=utf-8',
-//        dataType: 'json',
-//        error: function (XMLHttpRequest, textStatus, errorThrown) {
-//            alert(textStatus);
-//        },
-//        success: function (result) {
-//            if (result.d.indexOf('שגיאה') != -1) {
-//                alert(result.d);
-//            }
-//            else {
-//                $('#presents p').html(result.d);
-//            }
-//        }
-//    });
-//}
-
 //top 5
 function getTop5App() {
     $.ajax({
@@ -274,7 +229,7 @@ function getTop5App() {
                     var imagesString = settings[1].split(',');
                     var top5HTML = '';
                     for (var i = 0; i < imagesString.length; i++) {
-                        top5HTML +='<img src="' + top5ImgSrc + imagesString[i] + '" />'
+                        top5HTML += '<img src="' + top5ImgSrc + imagesString[i] + '" />'
                     }
                     var c = 5 - imagesString.length;
                     if (c > 0) {
@@ -641,7 +596,11 @@ function createDatePage(json) {
                 $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[i].Url + '" />');
             }
             if ($('#dateImages img').length < 4) {
-                $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
+                var c = 4 - json.DateImages.length;
+                for (var j = 0; j < c; j++) {
+                    $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
+                }
+
             }
         }
     } catch (e) {
@@ -701,9 +660,9 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
     categoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].CategoryType == "Date") {
-            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage.Url +'" /> </h4><ul data-role="listview">';
+            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
-                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">' + categories[i].SubList[j].Text + '</a></li>';
+                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right"><img class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
             }
             categoriesHTML += '</ul></div>';
         }
@@ -870,51 +829,53 @@ $(document).on('click', '.city', function () {
 
 //show all dates all dates 
 $(document).on('click', '.allDates', function () {
+    $('.selectLocation').addClass('active');
+    $('.findGps').removeClass('active');
     $('#datesList .wrapper .title h2').text('כל הארץ');
     var dateLi = '';
     for (var i = 0; i < dates.length; i++) {
-            var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
-            //alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem">' +
-                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
-                            '<div>' +
-                                '<h3>' + thisDate.DateHeader + '</h3>' +
-                                '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
-                                '<section class="social">' +
-                                    '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
-                                        '<li><section class="rating">' +
-                                                '<span data-value="5" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="4" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="3" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="2" data-empty="false">' +
-                                                    '<img src="essential/images/General/goldenStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="1" data-empty="false">' +
-                                                    '<img src="essential/images/General/goldenStar.png" />' +
-                                                '</span>' +
-                                            '</section>' +
-                                        '</li>' +
-                                        '<li>' +
-                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
-                                        '</li>' +
-                                    '</ul>' +
-                                '</section>' +
-                            '</div>' +
-                            '<div>' +
-                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
-                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                            '</div>' +
-                            '</li>';
-        }
+        var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+        //alert('cLocation: ' + JSON.stringify(currentLocation));
+        calculateDistances(currentLocation, dates[i]);
+        dateLi += '<li class="dataItem">' +
+                        '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                        '<div>' +
+                            '<h3>' + thisDate.DateHeader + '</h3>' +
+                            '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                            '<section class="social">' +
+                                '<ul>' +
+                                    '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                    '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
+                                    '<li><section class="rating">' +
+                                            '<span data-value="5" data-empty="true">' +
+                                                '<img src="essential/images/General/blankStar.png" />' +
+                                            '</span>' +
+                                            '<span data-value="4" data-empty="true">' +
+                                                '<img src="essential/images/General/blankStar.png" />' +
+                                            '</span>' +
+                                            '<span data-value="3" data-empty="true">' +
+                                                '<img src="essential/images/General/blankStar.png" />' +
+                                            '</span>' +
+                                            '<span data-value="2" data-empty="false">' +
+                                                '<img src="essential/images/General/goldenStar.png" />' +
+                                            '</span>' +
+                                            '<span data-value="1" data-empty="false">' +
+                                                '<img src="essential/images/General/goldenStar.png" />' +
+                                            '</span>' +
+                                        '</section>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</section>' +
+                        '</div>' +
+                        '<div>' +
+                            '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                        '</div>' +
+                        '</li>';
+    }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בעיר זו';
     }
@@ -998,7 +959,27 @@ $(document).on('click', '#singleDate .rating', function () {
 //click on date link
 $(document).on('click', '#singleDate_dateWebsite', function () {
     event.preventDefault();
-    navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+    var json = { 'dateID': currentDateId };
+    $.ajax({
+        type: "POST",
+        url: api + "updateDateLinkCount",
+        data: "{jsonDate: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+            $('.form-holder').html(JSON.stringify(errorThrown))
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+            }
+        }
+    });
+
 });
 
 //#endregion
@@ -1007,16 +988,20 @@ $(document).on('click', '#singleDate_dateWebsite', function () {
 
 //create present page
 function createPresentPage(json) {
+    currentPresentId = json.PresentID;
     if (json.ShowVideo == 'Y') {
         $('#presentImages').html('<iframe width="100%" height="205" src="' + json.PresentVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
     }
     else {
         $('#presentImages').html('');
-        for (var i = 0; i < json.DateImages.length; i++) {
+        for (var i = 0; i < json.PresentImages.length; i++) {
             $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[i].Url + '" />');
         }
         if ($('#presentImages img').length < 4) {
-            $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
+            var c = 4 - json.PresentImages.length;
+            for (var j = 0; j < c; j++) {
+                $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
+            }
         }
     }
     var presentRatingHTML = createRating(json.PresentRating);
@@ -1032,7 +1017,7 @@ function createPresentPage(json) {
     $('#singlePresent .share').attr('data-id', json.PresentID);
     var sellerLi = '';
     for (var i = 0; i < json.PresentSeller.length; i++) {
-        sellerLi += '<div><img src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url + '" /></div>';
+        sellerLi += '<div><img data-seller="' + json.PresentSeller[i].Url.split(',')[1] + '" src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url.split(',')[0] + '" /></div>';
     }
     $('#presentsSeller').html(sellerLi);
     $('#singlePeresent .rating').html(presentRatingHTML);
@@ -1184,6 +1169,35 @@ $(document).on('click', '#singlePresent .rating', function () {
     openPopup();
 });
 
+//link to seller website
+$(document).on('click', '[data-seller]', function () {
+    var json = {
+        'presentID': currentPresentId,
+        'sellerLink': $(this).attr('data-seller')
+    };
+
+    $.ajax({
+        type: "POST",
+        url: api + "updateSellerLinkCount",
+        data: "{jsonPresent: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                navigator.app.loadUrl($(this).attr('data-seller'), { openExternal: true });
+            }
+        }
+    });
+
+});
+
 //#endregion
 
 //#region Popup
@@ -1285,7 +1299,7 @@ function createNewsPage(json) {
                             '</header>' +
                        '</div>' +
                        '<article>' +
-                            '<p>' + json[i].Description + '</p>' +
+                            '<p style="width:100%; white-space: pre-line;">' + json[i].Description + '</p>' +
                         '</article>' +
                     '</div>'
     }

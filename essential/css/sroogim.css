@@ -1644,6 +1644,12 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin: .5em auto;
 }
 
+    #datesPage [data-role="collapsible"] li
+    {
+        padding:0;
+        height:2em;
+    }
+
     #datesPage [data-role="collapsible"] h4 a
     {
         background-color: #fff !important;
@@ -1670,9 +1676,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
         #datesPage [data-role="collapsible"] h4 a img
         {
-            width: 20%;
-            min-width: 20%;
-            max-width: 20%;
+            width: 53px;
+            height:48px;
             float: right;
         }
 
@@ -1686,10 +1691,22 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             background-color: #bcd3db !important;
             color: #4c4855 !important;
             text-align: right !important;
-            text-indent: 9%;
+            text-indent: 26%;
             font-weight: normal;
             text-shadow: none;
+            padding:0;
+            line-height:34px;
+            min-height:2em !important;
         }
+
+.subCategory
+{
+    position: absolute !important;
+    top: 4px !important;
+    right: 17px;
+    width: 26px;
+    height:26px;
+}
 
 /*#endregion*/
 
@@ -1705,6 +1722,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #singleDate [role="main"] .wrapper .cf4a > img
     {
         width: 100%;
+        height:208px;
     }
 
 #singleDate [role="main"] .wrapper img.dateIcons
@@ -1848,6 +1866,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #singlePresent [role="main"] .wrapper .cf4a > img
     {
         width: 100%;
+        height:208px;
     }
 
 #presentsSeller div
@@ -1993,7 +2012,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .newsContent article
 {
-    padding-top:12%;
+    padding-top: 12%;
 }
 
 /*#endregion*/
