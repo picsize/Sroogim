@@ -72,12 +72,6 @@ function initApp() {
         }
         else {
             count--;
-            //$.mobile.loading('show', {
-            //    textVisible: false,
-            //    theme: 'a',
-            //    textonly: false,
-            //    html:'<img src="./essential/images/Main_Screen/ajax-loader.gif" />'
-            //});
             setTimeout(loadComponents, 1000);
         }
     }
