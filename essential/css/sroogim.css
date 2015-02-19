@@ -460,6 +460,15 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     padding-bottom: 40% !important;
 }
 
+.ui-loader
+{
+    background-color: transparent;
+    border: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 /*#endregion*/
 
 /*#region Icons*/
@@ -721,9 +730,22 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#endregion*/
 
-/*#region Welcome Screen*/
+/*#region Welcome Screen and Loading Screen*/
 
 /*#region BG and Logo*/
+
+#loadingScreen
+{
+    background: url(../images/Main_Screen/loadingBG.png) no-repeat;
+    background-size: 100%;
+}
+
+#loadingGif
+{
+    position: fixed;
+    top: 57%;
+    right: 35%;
+}
 
 #welcomeScreen
 {
@@ -1646,8 +1668,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
     #datesPage [data-role="collapsible"] li
     {
-        padding:0;
-        height:2em;
+        padding: 0;
+        height: 2em;
     }
 
     #datesPage [data-role="collapsible"] h4 a
@@ -1677,7 +1699,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         #datesPage [data-role="collapsible"] h4 a img
         {
             width: 53px;
-            height:48px;
+            height: 48px;
             float: right;
         }
 
@@ -1694,9 +1716,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             text-indent: 26%;
             font-weight: normal;
             text-shadow: none;
-            padding:0;
-            line-height:34px;
-            min-height:2em !important;
+            padding: 0;
+            line-height: 34px;
+            min-height: 2em !important;
         }
 
 .subCategory
@@ -1705,7 +1727,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     top: 4px !important;
     right: 17px;
     width: 26px;
-    height:26px;
+    height: 26px;
 }
 
 /*#endregion*/
@@ -1722,7 +1744,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #singleDate [role="main"] .wrapper .cf4a > img
     {
         width: 100%;
-        height:208px;
+        height: 208px;
     }
 
 #singleDate [role="main"] .wrapper img.dateIcons
@@ -1866,7 +1888,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     #singlePresent [role="main"] .wrapper .cf4a > img
     {
         width: 100%;
-        height:208px;
+        height: 208px;
     }
 
 #presentsSeller div

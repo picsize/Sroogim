@@ -35,27 +35,54 @@ function initApp() {
         userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
     }
     //alert('uuid: ' + userDeviceID);
-    var count = 10;
+    var count = 11;
     var loadComponents = function () {
         if (count <= 0) {
-            $.mobile.loading('hide');
+            $.mobile.changePage('index.html#welcomeScreen');
+            try {
+                $.when(initFacebook()).then(function () {
+                    //if user alredy log in
+                    FB.Event.subscribe('auth.login', function (response) {
+                        FB.api('/me', function (a_response) {
+                            if (a_response && !a_response.error) {
+                                facebookResponse = a_response;
+                            }
+                            else { facebookLogin(); }
+                        });
+
+                        FB.api('/me?fields=cover', function (uCover) {
+                            //alert('cover: ' + uCover);
+                            if (uCover && !uCover.error) {
+                                userCoverPic = uCover.cover.source;
+                                loginToSroogim(facebookResponse);
+                                $('#sidebarCoverImg').attr('src', userCoverPic);
+                                if (userCoverPic == '' || userCoverPic == undefined) {
+                                    userCoverPic = 'private';
+                                }
+                            }
+                            else {
+                                userCoverPic = 'private';
+                            }
+                        });
+                    });
+                });
+            } catch (e) {
+
+            }
         }
         else {
             count--;
-
-            $.mobile.loading('show', {
-                text: 'טוען... ' + count,
-                textVisible: true,
-                theme: 'a',
-                textonly: false
-            });
-
+            //$.mobile.loading('show', {
+            //    textVisible: false,
+            //    theme: 'a',
+            //    textonly: false,
+            //    html:'<img src="./essential/images/Main_Screen/ajax-loader.gif" />'
+            //});
             setTimeout(loadComponents, 1000);
         }
     }
     loadComponents();
     checkPhonegap();
-    initFacebook();
     loadAllData();
     getCurrentlatlong();
     getTop5App();
@@ -540,31 +567,6 @@ function facebookLogin() {
         }
     });
 }
-
-//if user alredy log in
-FB.Event.subscribe('auth.login', function (response) {
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            facebookResponse = a_response;
-        }
-        else { facebookLogin(); }
-    });
-
-    FB.api('/me?fields=cover', function (uCover) {
-        //alert('cover: ' + uCover);
-        if (uCover && !uCover.error) {
-            userCoverPic = uCover.cover.source;
-            loginToSroogim(facebookResponse);
-            $('#sidebarCoverImg').attr('src', userCoverPic);
-            if (userCoverPic == '' || userCoverPic == undefined) {
-                userCoverPic = 'private';
-            }
-        }
-        else {
-            userCoverPic = 'private';
-        }
-    });
-});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
