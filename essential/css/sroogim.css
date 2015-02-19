@@ -460,14 +460,6 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     padding-bottom: 40% !important;
 }
 
-.ui-loader
-{
-    background-color: transparent;
-    border: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
 
 /*#endregion*/
 
