@@ -5,12 +5,14 @@ presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
 top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
 categoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/categories/';
 subCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/subCategories/';
+userImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/users/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
 //dateImgSrc = '../SroogimCMS/content/dates/';
 //presentImgSrc = '../SroogimCMS/content/presents/';
 //top5ImgSrc = '../SroogimCMS/content/top5/'
 //categoriesSrc = '../SroogimCMS/content/categories/';
 //subCategoriesSrc = '../SroogimCMS/content/subCategories/';
+//userImgSrc = '../SroogimCMS/content/users/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
@@ -39,6 +41,7 @@ function initApp() {
     var loadComponents = function () {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
+            $.mobile.loading('hide');
             try {
                 $.when(initFacebook()).then(function () {
                     //if user alredy log in
@@ -72,6 +75,11 @@ function initApp() {
         }
         else {
             count--;
+            $.mobile.loading('show', {
+                textVisible: false,
+                theme: 'b',
+                textonly: false
+            });
             setTimeout(loadComponents, 1000);
         }
     }
@@ -269,6 +277,12 @@ function getTop5App() {
 $(window).on('navigate', function () {
     //alert('navigate');
     loadAllData();
+});
+
+$(document).on('pagebeforecreate', '#welcomeScreen', function () {
+    document.addEventListener('backbutton', function (e) {
+        e.preventDefault();
+    }, false);
 });
 
 //#endregion
@@ -922,12 +936,12 @@ $(document).on('click', '#dateSend', function () {
 });
 
 //go to presents
-$(document).on('click', '.present.dateIcons', function () {
-    $('[href="index.html#presentsCategories"]').click();
-    $('.present.dateIcons').mouseup(function () {
-        $.mobile.changePage('index.html#presentsCategories');
-    });
-});
+//$(document).on('click', '.present.dateIcons', function () {
+//    $('[href="index.html#presentsCategories"]').click();
+//    $('.present.dateIcons').mouseup(function () {
+//        $.mobile.changePage('index.html#presentsCategories');
+//    });
+//});
 
 //open rating popup
 $(document).on('click', '#singleDate .rating', function () {
@@ -1515,25 +1529,45 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
                     openPopup();
                 }
                 else {
-                    userPermision = 'access';
-                    var n = 3;
-                    var f = function () {
-                        if (n <= 0) {
-                            $.mobile.loading('hide');
-                            $.mobile.changePage('index.html#mainScreen');
+                    $.ajax({
+                        type: 'post',
+                        url: api + 'getUserImg',
+                        data: "{userJson: '" + JSON.stringify(json) + "'}",
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        },
+                        success: function (result) {
+                            if (result.d.indexOf('שגיאה') != -1) {
+                                //alert(result.d);
+                            }
+                            else {
+                                var userImg = JSON.parse(result.d);
+                                userPermision = 'access';
+                                var n = 3;
+                                var f = function () {
+                                    if (n <= 0) {
+                                        $.mobile.loading('hide');
+                                        $.mobile.changePage('index.html#mainScreen');
+                                        $('#sidebarProfileImg').css('background-image', 'url("' + userImgSrc + userImg[0].UserProfileImage + '")');
+                                        $('#sidebarCoverImg').attr('src', userImgSrc + userImg[0].UserCoverImage);
+                                    }
+                                    else {
+                                        n--;
+                                        $.mobile.loading('show', {
+                                            text: 'התחברת בהצלחה. כבר עוברים לדף הבא...',
+                                            textVisible: true,
+                                            theme: 'a',
+                                            textonly: false
+                                        });
+                                        setTimeout(f, 1000);
+                                    }
+                                }
+                                f();
+                            }
                         }
-                        else {
-                            n--;
-                            $.mobile.loading('show', {
-                                text: 'התחברת בהצלחה. כבר עוברים לדף הבא...',
-                                textVisible: true,
-                                theme: 'a',
-                                textonly: false
-                            });
-                            setTimeout(f, 1000);
-                        }
-                    }
-                    f();
+                    });
                 }
             }
         }

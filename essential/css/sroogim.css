@@ -460,6 +460,11 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     padding-bottom: 40% !important;
 }
 
+.ui-loader.ui-body-b
+{
+    top:63% !important;
+}
+
 
 /*#endregion*/
 
