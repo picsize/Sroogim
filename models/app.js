@@ -30,7 +30,7 @@ document.addEventListener("deviceready", initApp, false);
 function initApp() {
     $('#menuSidebar').panel().enhanceWithin();
     $('#popup').enhanceWithin().popup();
-    $('#newsContainer p').marquee();
+    //$('#newsContainer p').marquee();
     try {
         userDeviceID = device.uuid;
     } catch (e) {
@@ -43,32 +43,7 @@ function initApp() {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
             try {
-                $.when(initFacebook()).then(function () {
-                    //if user alredy log in
-                    FB.Event.subscribe('auth.login', function (response) {
-                        FB.api('/me', function (a_response) {
-                            if (a_response && !a_response.error) {
-                                facebookResponse = a_response;
-                            }
-                            else { facebookLogin(); }
-                        });
-
-                        FB.api('/me?fields=cover', function (uCover) {
-                            //alert('cover: ' + uCover);
-                            if (uCover && !uCover.error) {
-                                userCoverPic = uCover.cover.source;
-                                loginToSroogim(facebookResponse);
-                                $('#sidebarCoverImg').attr('src', userCoverPic);
-                                if (userCoverPic == '' || userCoverPic == undefined) {
-                                    userCoverPic = 'private';
-                                }
-                            }
-                            else {
-                                userCoverPic = 'private';
-                            }
-                        });
-                    });
-                });
+                initFacebook();
             } catch (e) {
 
             }
@@ -576,6 +551,31 @@ function facebookLogin() {
     });
 }
 
+//if user alredy log in
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            facebookResponse = a_response;
+        }
+        else { facebookLogin(); }
+    });
+
+    FB.api('/me?fields=cover', function (uCover) {
+        //alert('cover: ' + uCover);
+        if (uCover && !uCover.error) {
+            userCoverPic = uCover.cover.source;
+            loginToSroogim(facebookResponse);
+            $('#sidebarCoverImg').attr('src', userCoverPic);
+            if (userCoverPic == '' || userCoverPic == undefined) {
+                userCoverPic = 'private';
+            }
+        }
+        else {
+            userCoverPic = 'private';
+        }
+    });
+});
+
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
     //loginToSroogim('response');
@@ -935,14 +935,6 @@ $(document).on('click', '#dateSend', function () {
     }
 });
 
-//go to presents
-//$(document).on('click', '.present.dateIcons', function () {
-//    $('[href="index.html#presentsCategories"]').click();
-//    $('.present.dateIcons').mouseup(function () {
-//        $.mobile.changePage('index.html#presentsCategories');
-//    });
-//});
-
 //open rating popup
 $(document).on('click', '#singleDate .rating', function () {
     var ratingHTML = '<h2 style="margin-bottom: 2%;">דרג/י את הדייט</h2><section class="rating clickable">' +
@@ -1275,10 +1267,10 @@ function getPresentForShare(presentID) {
 function setNewsMarquee(json) {
     var newsLi = '';
     for (var i = 0; i < json.length; i++) {
-        newsLi += '<a data-ajax="false" href="index.html#newsPage" class="ui-link">' + json[i].Header + '</a>';
+        newsLi += '<a data-ajax="false" href="index.html#newsPage" class="ui-link">' + json[i].Header + '</a>&nbsp;&nbsp;';
     }
 
-    $('#news #newsContainer div div').html(newsLi);
+    $('#news #newsContainer').html(newsLi);
 }
 
 function createNewsPage(json) {

@@ -109,12 +109,12 @@
                     last: -1,
                     loops: $marquee.attr('data-loop') || -1,
                     scrollamount: $marquee.attr('data-scrollamount') || this.scrollAmount || 2,
-                    behavior: ($marquee.attr('data-behavior') || 'scroll').toLowerCase(),
+                    behavior: ($marquee.attr('data-behavior') || 'data-scroll').toLowerCase(),
                     width: /left|right/.test(direction) ? width : height
                 };
 
             // corrects a bug in Firefox - the default loops for slide is -1
-            if ($marquee.attr('loop') == -1 && marqueeState.behavior == 'slide') {
+            if ($marquee.attr('data-loop') == -1 && marqueeState.behavior == 'slide') {
                 marqueeState.loops = 1;
             }
 

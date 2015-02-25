@@ -1101,43 +1101,19 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         background-color: #045060;
         width: 90%;
         margin: 0 auto 0 auto;
-        height: 1.1em;
+        /*height: 1.1em;*/
         padding: 1%;
         white-space: nowrap;
     }
 
-        /*#news #newsContainer ul
-        {
-            list-style: none;
-            padding: 0;
-            position: relative;
-            bottom: 1.1em;
-            text-indent: 1%;
-        }
-
-            #news #newsContainer ul li, #news #newsContainer p
-            {
-                color: #fff;
-                text-shadow: none;
-                font-size: 85%;
-                font-weight: normal;
-                display: inline-block;
-                float: right;
-            }
-
-                #news #newsContainer ul li:after
-                {
-                    content: '... ';
-                }*/
-
-        #news #newsContainer p
+        /*#news #newsContainer
         {
             width: 100%;
             padding: 0;
             margin: 0;
-        }
+        }*/
 
-        #news #newsContainer div div a
+        #news #newsContainer.marquee a
         {
             color: #fff;
             text-shadow: none;
@@ -1146,10 +1122,47 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             text-decoration: none;
         }
 
-            #news #newsContainer div div a:after
+            #news #newsContainer.marquee a:after
             {
                 content: '... ';
             }
+
+            /* Make it a marquee */
+.marquee
+{
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-animation: marquee 15s linear infinite;
+    -o-animation: marquee 15s linear infinite;
+    -webkit-animation: marquee 15s linear infinite;
+    animation: marquee 15s linear infinite;
+}
+
+/* Make it move */
+@-moz-keyframes marquee {
+    0%   { text-indent: 27.5em }
+    100% { text-indent: -105em }
+}
+
+@-ms-keyframes marquee {
+    0%   { text-indent: 27.5em }
+    100% { text-indent: -105em }
+}
+
+@-webkit-keyframes marquee {
+    0%   { text-indent: 20em }
+    100% { text-indent: -38em }
+}
+
+@keyframes marquee {
+    0%   { text-indent: 27.5em }
+    100% { text-indent: -105em }
+}
 
 
 /*#endregion*/
