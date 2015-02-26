@@ -35,15 +35,8 @@
     <div id="fb-root"></div>
     <div id="loadImages"></div>
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" data-role="page" data-theme="a">
-        <div role="main" class="ui-content">
-           <!-- <img src="./essential/images/Main_Screen/ajax-loader.gif" alt="" id="loadingGif"/>-->
-        </div>
-    </div>
-
     <!-- Menu Sidebar -->
-    <div data-role="panel" id="menuSidebar" data-position="left" data-position-fixed="true" data-display="overlay" class="ui-responsive-panel">
+    <div data-role="panel" id="menuSidebar" data-position="left" data-position-fixed="true" data-display="overlay" class="ui-responsive-panel" style="visibility:hidden;">
         <div id="panelHolder">
             <!-- Profile & Cover -->
             <section>
@@ -82,9 +75,16 @@
     </div>
 
     <!-- Popup -->
-    <div id="popup">
+    <div id="popup" style="visibility:hidden;">
         <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-c ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
         <div id="popupContent"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" data-role="page" data-theme="a">
+        <div role="main" class="ui-content">
+           <!-- <img src="./essential/images/Main_Screen/ajax-loader.gif" alt="" id="loadingGif"/>-->
+        </div>
     </div>
 
     <!-- Intro Screen -->

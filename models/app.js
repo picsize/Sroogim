@@ -23,13 +23,26 @@ var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
 
+$('#loadingScreen').on('pagebeforecreate', function (event) {
+    $.when(function () {
+        alert('init panel and popup');
+        $('#menuSidebar').panel().enhanceWithin();
+        $('#popup').enhanceWithin().popup();
+    }).then(function () {
+        alert('visible panel and popup');
+        $('#menuSidebar').css('visibility','visible');
+        $('#popup').css('visibility', 'visible');
+    });
+   
+
+
+});
+
 //$(function () {
 //    initApp();
 //});
 
 function initApp() {
-    $('#menuSidebar').panel().enhanceWithin();
-    $('#popup').enhanceWithin().popup();
     //$('#newsContainer p').marquee();
     try {
         userDeviceID = device.uuid;
@@ -416,10 +429,10 @@ function facebookLogin() {
 //login to sroogim via facebook
 function loginToSroogim(response) {
     //alert('loginToSroogim func');
-    //alert(JSON.stringify(response));
+    alert('login to sroogim: ' + JSON.stringify(response));
     $.when(function () {
         FB.api('/me?fields=cover', function (uCover) {
-            //alert('cover: ' + uCover);
+            alert('cover: ' + uCover);
             if (uCover && !uCover.error) {
                 userCoverPic = uCover.cover.source;
                 //loginToSroogim(facebookResponse);
@@ -437,6 +450,7 @@ function loginToSroogim(response) {
             //get user birthday 
             try {
                 userBirthDay = response.birthday;
+                alert('bday: ' + response.birthday);
             } catch (e) {
                 userBirthday = '';
             }
@@ -445,6 +459,7 @@ function loginToSroogim(response) {
             //get user email
             try {
                 userEmail = response.email;
+                alert('email: ' + response.email);
                 if (userEmail == undefined) {
                     userEmail = 'private';
                 }
@@ -455,6 +470,7 @@ function loginToSroogim(response) {
         .then(function (response) {
             //get user gender
             try {
+                alert('gender: ' + response.gender);
                 userGender = response.gender;
                 if (userGender == undefined) {
                     userGender = 'private';
@@ -467,6 +483,7 @@ function loginToSroogim(response) {
             //get user full name
             try {
                 userFullName = response.first_name + ' ' + response.last_name;
+                alert('name: ' + response.first_name + ' ' + response.last_name);
                 if (userFullName == '') {
                     userFullName = 'private';
                 }
@@ -478,6 +495,7 @@ function loginToSroogim(response) {
             //get user profile image
             try {
                 userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
+                alert('pImg: ' + 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171');
                 if (response.id == undefined) {
                     userProfilePic = 'private';
                 }
@@ -520,7 +538,7 @@ function checkFacebookUser() {
                 alert(result.d);
             }
             else {
-                alert('result.d cfu ok: /n' + result.d);
+                alert('result.d cfu ok: \n' + result.d);
                 if (result.d == '0') {
                     registerUserFromFacebook();
                     $('#userName').text(userFullName);
@@ -542,6 +560,15 @@ function checkFacebookUser() {
 }
 
 function alertDismissed() { }
+
+//facebook event check if the user has connected
+FB.Event.subscribe('auth.login', function (response) {
+    FB.api('/me', function (a_response) {
+        if (a_response && !a_response.error) {
+            loginToSroogim(a_response);
+        }
+    });
+});
 
 $(document).on('click', '#facebookLogin', function () {
     loginFromFacebook();
@@ -1298,6 +1325,7 @@ $(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ide
 //register to sroogim
 $(document).on('click', '#register-button', function () {
     var json = createUserJson();
+    alert('register: ' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -1408,6 +1436,7 @@ function registerUserFromFacebook() {
                         if (n <= 0) {
                             $.mobile.loading('hide');
                             $.mobile.changePage('index.html#mainScreen');
+                            userPermision = 1;
                         }
                         else {
                             n--;
