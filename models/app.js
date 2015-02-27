@@ -23,19 +23,10 @@ var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
 
-$('#loadingScreen').on('pagebeforecreate', function (event) {
-    $.when(function () {
-        alert('init panel and popup');
-        $('#menuSidebar').panel().enhanceWithin();
-        $('#popup').enhanceWithin().popup();
-    }).then(function () {
-        alert('visible panel and popup');
-        $('#menuSidebar').css('visibility','visible');
-        $('#popup').css('visibility', 'visible');
-    });
-   
-
-
+$(document).on('pagebeforecreate', '#loadingScreen', function () {
+    alert('init panel and popup');
+    $('#menuSidebar').panel().enhanceWithin();
+    $('#popup').enhanceWithin().popup();
 });
 
 //$(function () {
@@ -423,7 +414,7 @@ function facebookLogin() {
         } else {
             console.log('User cancelled login or did not fully authorize.');
         }
-    }, { scope: 'email, user_birthday, user_location' });
+    }, { scope: 'email' });
 }
 
 //login to sroogim via facebook
@@ -431,6 +422,7 @@ function loginToSroogim(response) {
     //alert('loginToSroogim func');
     alert('login to sroogim: ' + JSON.stringify(response));
     $.when(function () {
+        alert('first when');
         FB.api('/me?fields=cover', function (uCover) {
             alert('cover: ' + uCover);
             if (uCover && !uCover.error) {
@@ -445,68 +437,54 @@ function loginToSroogim(response) {
                 userCoverPic = 'private';
             }
         });
-    })
-        .then(function (response) {
-            //get user birthday 
-            try {
-                userBirthDay = response.birthday;
-                alert('bday: ' + response.birthday);
-            } catch (e) {
-                userBirthday = '';
-            }
-        })
-        .then(function (response) {
-            //get user email
-            try {
-                userEmail = response.email;
-                alert('email: ' + response.email);
-                if (userEmail == undefined) {
-                    userEmail = 'private';
-                }
-            } catch (e) {
+    }).then(function (response) {
+        //get user email
+        try {
+            userEmail = response.email;
+            alert('email: ' + response.email);
+            if (userEmail == undefined) {
                 userEmail = 'private';
             }
-        })
-        .then(function (response) {
-            //get user gender
-            try {
-                alert('gender: ' + response.gender);
-                userGender = response.gender;
-                if (userGender == undefined) {
-                    userGender = 'private';
-                }
-            } catch (e) {
+        } catch (e) {
+            userEmail = 'private';
+        }
+    }).then(function (response) {
+        //get user gender
+        try {
+            alert('gender: ' + response.gender);
+            userGender = response.gender;
+            if (userGender == undefined) {
                 userGender = 'private';
             }
-        })
-        .then(function (response) {
-            //get user full name
-            try {
-                userFullName = response.first_name + ' ' + response.last_name;
-                alert('name: ' + response.first_name + ' ' + response.last_name);
-                if (userFullName == '') {
-                    userFullName = 'private';
-                }
-            } catch (e) {
+        } catch (e) {
+            userGender = 'private';
+        }
+    }).then(function (response) {
+        //get user full name
+        try {
+            userFullName = response.first_name + ' ' + response.last_name;
+            alert('name: ' + response.first_name + ' ' + response.last_name);
+            if (userFullName == '') {
                 userFullName = 'private';
             }
-        })
-        .then(function (response) {
-            //get user profile image
-            try {
-                userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
-                alert('pImg: ' + 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171');
-                if (response.id == undefined) {
-                    userProfilePic = 'private';
-                }
-                $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
-            } catch (e) {
+        } catch (e) {
+            userFullName = 'private';
+        }
+    }).then(function (response) {
+        //get user profile image
+        try {
+            userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
+            alert('pImg: ' + 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171');
+            if (response.id == undefined) {
                 userProfilePic = 'private';
             }
-        })
-        .then(function () {
-            checkFacebookUser();
-        });
+            $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
+        } catch (e) {
+            userProfilePic = 'private';
+        }
+    }).then(function () {
+        checkFacebookUser();
+    });
 }
 
 function facebookDismissed() {
@@ -521,7 +499,7 @@ function loginFromFacebook() {
 function checkFacebookUser() {
     alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
-    //alert('userJson from CFU: ' + JSON.stringify(json));
+    alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
         type: "POST",
         url: api + "checkFacebookUser",
@@ -563,6 +541,7 @@ function alertDismissed() { }
 
 //facebook event check if the user has connected
 FB.Event.subscribe('auth.login', function (response) {
+    alert('fb subscribe');
     FB.api('/me', function (a_response) {
         if (a_response && !a_response.error) {
             loginToSroogim(a_response);
