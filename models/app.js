@@ -274,7 +274,7 @@ function onSuccess(position) {
     //alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
-    alert('lat: ' + lat + '\nlng: ' + lng);
+    //alert('lat: ' + lat + '\nlng: ' + lng);
 }
 
 //error while getting my location
@@ -338,7 +338,7 @@ function setDistance(response, status) {
                 }
 
                 distance.push(d);
-                alert(JSON.stringify(distance));
+                //alert(JSON.stringify(distance));
             }
 
         }
@@ -420,14 +420,14 @@ var testApi = function (d) {
 }
 
 var fbLoginSuccess = function (userData) {
-    alert("UserInfo: " + JSON.stringify(userData));
+    //alert("UserInfo: " + JSON.stringify(userData));
     testApi(userData);
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
 
 function checkFacebookUser() {
-    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
+    //alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
     alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
@@ -471,14 +471,13 @@ function checkFacebookUser() {
 $(document).on('click', '#facebookLogin', login);
 
 $(document).on('click', '.addComment', function () {
-    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="90%" height="115" style="border:none;"></iframe>');
-    $('#popup').on('popupbeforeposition', function () {
-        $(this).css({
-            'height': $(window).height() * 0.9,
-            'width': $(window).width() * 0.95,
-            'margin':'0 auto'
-        });
-    });
+    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="90%" height="400" style="border:none;"></iframe>');
+    //$('#popup').on('popupbeforeposition', function () {
+    //    $(this).css({
+    //        'max-height': $(window).height() * 0.9,
+    //        'width': '100%'
+    //    });
+    //});
     openPopup();
 });
 
@@ -579,15 +578,22 @@ $(document).on('click', '.goToDateList', function () {
     //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
+    var previewImg;
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
+            if (dates[i].ShowVideo == 'Y') {
+                previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+            }
+            else {
+                previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;     
+            }
             var dateRatingHTML = createRating(dates[i].DateRating)
-            var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+            var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem">' +
-                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                            '<div><img src="' + previewImg + '" /></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -620,12 +626,12 @@ $(document).on('click', '.goToDateList', function () {
 
 //set distance to places
 $(document).on('pageshow', '#datesList', function () {
-    var num = 7;
+    var num = 4;
     var calcGPS = function () {
         if (num <= 0) {
-            alert($('.distance').length);
-            for (var i = 0; i < $('.distance').length; i++) {
-                $('.distance')[i].innerHTML = distance[i]
+            //alert($('.distance').length);
+            for (var i = 0; i < $('#datesList .distance').length; i++) {
+                $('#datesList .distance')[i].innerHTML = distance[i]
             }
             //$.mobile.loading('hide');
             //disCount = 0;
@@ -942,11 +948,18 @@ $(document).on('click', '.goToPresentsList', function () {
     var categoryID = parseInt($(this).attr('data-category-id'));
     $('#presentsList .wrapper .title h2').text($(this).text());
     var presentLi = '';
+    var previewImg;
     for (var i = 0; i < presents.length; i++) {
+        if (presents[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
+        }
+        else {
+            previewImg = presentImgSrc + presents[i].PresentID + '/' + presents[i].PresentImages[0].Url;
+        }
         var presentRatingHTML = createRating(presents[i].PresentRating)
         if (presents[i].PresentCategory == categoryID) {
             presentLi = '<li class="dataItem">' +
-                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                            '<div><img src="' + previewImg + '" /></div>' +
                             '<div>' +
                                 '<h3>' + presents[i].PresentHeader + '</h3>' +
                                 '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
