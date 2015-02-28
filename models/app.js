@@ -274,7 +274,7 @@ function onSuccess(position) {
     //alert("onSuccess called");
     lat = position.coords.latitude;
     lng = position.coords.longitude;
-    //alert('lat: ' + lat + '\nlng: ' + lng);
+    alert('lat: ' + lat + '\nlng: ' + lng);
 }
 
 //error while getting my location
@@ -338,7 +338,7 @@ function setDistance(response, status) {
                 }
 
                 distance.push(d);
-                //alert(JSON.stringify(distance));
+                alert(JSON.stringify(distance));
             }
 
         }
@@ -427,7 +427,7 @@ var fbLoginSuccess = function (userData) {
 var fbLoginFaild = function (error) { alert("" + error) }
 
 function checkFacebookUser() {
-    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
+    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
     alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
@@ -457,6 +457,7 @@ function checkFacebookUser() {
                 }
                 else {
                     $('#userName').text(json.userFullName);
+                    userPermision = 1;
                     $.mobile.changePage('index.html#mainScreen');
                 }
             }
@@ -468,6 +469,18 @@ function checkFacebookUser() {
 }
 
 $(document).on('click', '#facebookLogin', login);
+
+$(document).on('click', '.addComment', function () {
+    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="90%" height="115" style="border:none;"></iframe>');
+    $('#popup').on('popupbeforeposition', function () {
+        $(this).css({
+            'height': $(window).height() * 0.9,
+            'width': $(window).width() * 0.95,
+            'margin':'0 auto'
+        });
+    });
+    openPopup();
+});
 
 //#endregion
 
@@ -497,8 +510,6 @@ function createDatePage(json) {
     } catch (e) {
 
     }
-
-
     var gps = '';
     for (var i = 0; i < gpsAddress.length; i++) {
         if (json.DateID == gpsAddress[i].dateID) {
@@ -506,12 +517,10 @@ function createDatePage(json) {
         }
     }
     var dateRatingHTML = createRating(json.DateRating);
-    //alert('gps: ' + gps);
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
     $('#gpsButton').attr('href', 'geo:' + gps);
-    //$('#gpsButton').attr('date-gps', 'waze://q=' + json.DateGps);
     $('#singleDate_dateDesc').text(json.DateDescription);
     if (json.ShowDateTip == 'Y') {
         $('#singleDate_dateTip').text(json.DateTip);
@@ -570,6 +579,7 @@ $(document).on('click', '.goToDateList', function () {
     //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
+    distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
             var dateRatingHTML = createRating(dates[i].DateRating)
@@ -613,16 +623,16 @@ $(document).on('pageshow', '#datesList', function () {
     var num = 7;
     var calcGPS = function () {
         if (num <= 0) {
-            //alert($('.distance').length);
-            //for (var i = 0; i < $('.distance').length; i++) {
-            //    $('.distance')[i].innerHTML = distance[i]
-            //}
+            alert($('.distance').length);
+            for (var i = 0; i < $('.distance').length; i++) {
+                $('.distance')[i].innerHTML = distance[i]
+            }
             //$.mobile.loading('hide');
-            disCount = 0;
-            $('.distance').each(function () {
-                $(this).text(distance[disCount]);
-                disCount++;
-            });
+            //disCount = 0;
+            //$('.distance').each(function () {
+            //    $(this).text(distance[disCount]);
+            //    disCount++;
+            //});
             $('.findGps').addClass('active');
         }
         else {
@@ -1195,7 +1205,7 @@ function createNewsPage(json) {
 //#region Permission
 
 function showPermission() {
-    if (userPermision == '') {
+    if (userPermision != 1) {
         event.preventDefault();
         $('#popupContent').html('<h2>לצפייה באפשרות זו, יש לבצע הרשמה</h2>');
         openPopup();
