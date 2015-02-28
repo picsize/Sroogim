@@ -46,7 +46,8 @@ function initApp() {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
-            loadFacebook();
+            //loadFacebook();
+            login();
         }
         else {
             count--;
@@ -356,207 +357,15 @@ function setDistance(response, status) {
 
 //#region Facebook
 
-//load facebook plugin
-function loadFacebook() {
-    try {
-        FB.init({
-            appId: "988309234528102",
-            nativeInterface: CDV.FB,
-            useCachedDialogs: false,
-            oauth: true
-        });
-        getLoginStatus();
-    } catch (e) {
-        navigator.notification.alert('לא ניתן להתחבר לפייסבוק. אנא נסו שוב.', alertDismissed, 'SROOGIM', 'אישור');
+var login = function () {
+    if (!window.cordova) {
+        var appId = prompt("Enter FB Application ID", "");
+        facebookConnectPlugin.browserInit(appId);
     }
+    facebookConnectPlugin.login(["email"],
+        function (response) { alert(JSON.stringify(response)) },
+        function (response) { alert(JSON.stringify(response)) });
 }
-
-//check if user is already log in
-function getLoginStatus() {
-    FB.getLoginStatus(function (response) {
-        if (response.status == 'connected') {
-            loginToSroogim(response);
-        } else {
-            $.mobile.changePage('index.html#welcomeScreen');
-        }
-    });
-}
-
-//logout fron facebook
-function logout() {
-    //$('#connectWithFacebook').attr('src', './img/general/ConnectFacebook.png');
-    //$('#logoutFromFacebook').attr('src', './img/activeButton/LogoutPressed.png');
-    //document.addEventListener("backbutton", showLogoutAlert, false);
-    //try {
-    //    FB.logout(function (response) {
-    //        $.mobile.changePage('index.html');
-    //    });
-    //} catch (e) {
-    //    $.mobile.changePage('index.html#mainScreen');
-    //}
-}
-
-//function showLogoutAlert() {
-//    navigator.notification.alert('התנתקת מחשבון פייסבוק. יש להיכנס מחדש', alertDismissed, 'הודעה מ CHUZ', 'אוקיי :-)');
-//}
-
-//login to facebook
-function facebookLogin() {
-    FB.login(function (response) {
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function (response) {
-                //console.log('Good to see you, ' + response.name + '.');
-                if (response && !response.error) {
-                    loginToSroogim(response);
-                }
-            });
-        } else {
-            console.log('User cancelled login or did not fully authorize.');
-        }
-    }, { scope: 'email' });
-}
-
-//login to sroogim via facebook
-function loginToSroogim(response) {
-    //alert('loginToSroogim func');
-    alert('login to sroogim: ' + JSON.stringify(response));
-    $.when(function () {
-        alert('first when');
-        FB.api('/me?fields=cover', function (uCover) {
-            alert('cover: ' + uCover);
-            if (uCover && !uCover.error) {
-                userCoverPic = uCover.cover.source;
-                //loginToSroogim(facebookResponse);
-                $('#sidebarCoverImg').attr('src', userCoverPic);
-                if (userCoverPic == '' || userCoverPic == undefined) {
-                    userCoverPic = 'private';
-                }
-            }
-            else {
-                userCoverPic = 'private';
-            }
-        });
-    }).then(function (response) {
-        //get user email
-        try {
-            userEmail = response.email;
-            alert('email: ' + response.email);
-            if (userEmail == undefined) {
-                userEmail = 'private';
-            }
-        } catch (e) {
-            userEmail = 'private';
-        }
-    }).then(function (response) {
-        //get user gender
-        try {
-            alert('gender: ' + response.gender);
-            userGender = response.gender;
-            if (userGender == undefined) {
-                userGender = 'private';
-            }
-        } catch (e) {
-            userGender = 'private';
-        }
-    }).then(function (response) {
-        //get user full name
-        try {
-            userFullName = response.first_name + ' ' + response.last_name;
-            alert('name: ' + response.first_name + ' ' + response.last_name);
-            if (userFullName == '') {
-                userFullName = 'private';
-            }
-        } catch (e) {
-            userFullName = 'private';
-        }
-    }).then(function (response) {
-        //get user profile image
-        try {
-            userProfilePic = 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171';
-            alert('pImg: ' + 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171');
-            if (response.id == undefined) {
-                userProfilePic = 'private';
-            }
-            $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
-        } catch (e) {
-            userProfilePic = 'private';
-        }
-    }).then(function () {
-        checkFacebookUser();
-    });
-}
-
-function facebookDismissed() {
-    //do nothing
-}
-
-//trigger to facebookLogin()
-function loginFromFacebook() {
-    facebookLogin();
-}
-
-function checkFacebookUser() {
-    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
-    var json = createUserJsonFromFacebook();
-    alert('userJson from CFU: ' + JSON.stringify(json));
-    $.ajax({
-        type: "POST",
-        url: api + "checkFacebookUser",
-        data: "{userJson: '" + JSON.stringify(json) + "'}",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-            alert(JSON.stringify(XMLHttpRequest));
-            alert(JSON.stringify(errorThrown));
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
-            }
-            else {
-                alert('result.d cfu ok: \n' + result.d);
-                if (result.d == '0') {
-                    registerUserFromFacebook();
-                    $('#userName').text(userFullName);
-                }
-                else if (result.d == '2') {
-                    $('#popupContent').html('<h2>נרשמת כבר דרך פייסבוק. כנראה שאתה לא משתמש במכשירך</h2>');
-                    openPopup();
-                }
-                else {
-                    $('#userName').text(json.userFullName);
-                    $.mobile.changePage('index.html#mainScreen');
-                }
-            }
-        }
-    });
-    //else {
-    //    //setInterval(checkFacebookUser, 7000);
-    //}
-}
-
-function alertDismissed() { }
-
-//facebook event check if the user has connected
-FB.Event.subscribe('auth.login', function (response) {
-    alert('fb subscribe');
-    FB.api('/me', function (a_response) {
-        if (a_response && !a_response.error) {
-            loginToSroogim(a_response);
-        }
-    });
-});
-
-$(document).on('click', '#facebookLogin', function () {
-    loginFromFacebook();
-});
-
-$(document).on('click', '.addComment', function () {
-    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" height="115" style="border:none;"></iframe>');
-    openPopup();
-});
 
 
 //#endregion
