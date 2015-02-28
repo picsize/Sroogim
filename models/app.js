@@ -361,7 +361,7 @@ var login = function () {
 }
 
 var getUserDetails = function (d) {
-    facebookConnectPlugin.api("/me", ["email, user_birthday"],
+    facebookConnectPlugin.api("/me?fields=id,email,cover,first_name,last_name", ["user_birthday"],
         function (result) {
             alert("Result: " + JSON.stringify(result));
         },
