@@ -46,7 +46,6 @@ function initApp() {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
-            //loadFacebook();
             login();
         }
         else {
@@ -64,13 +63,6 @@ function initApp() {
     loadAllData();
     getCurrentlatlong();
     getTop5App();
-
-    //var devicePlatform = device.platform;
-    //if (devicePlatform.toLowerCase().indexOf('ios') != -1) {
-    //    if (navigator.userAgent.match(/(iPad.*|iPhone.*|iPod.*);.*CPU.*OS 7_\d/i)) {
-    //        StatusBar.hide();
-    //    }
-    //}
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -358,7 +350,59 @@ function setDistance(response, status) {
 //#region Facebook
 
 var loginToSroogim = function (fbData) {
-    alert('loginTSroogim:\n' + JSON.stringify(fbData));
+    //#region cover
+    try {
+        userCoverPic = fbData.cover.source;
+        if (userCoverPic == '' || userCoverPic == undefined) {
+            userCoverPic = 'private';
+        } else {
+            $('#sidebarCoverImg').attr('src', userCoverPic);
+        }
+    } catch (e) {
+        userCoverPic = 'private';
+    }
+    //#endregion
+
+    //#region email
+    try {
+        userEmail = response.email;
+        if (userEmail == undefined) {
+            userEmail = 'private';
+        }
+    } catch (e) {
+        userEmail = 'private';
+    }
+    //#endregion
+
+    //#region full name
+    try {
+        userFullName = response.first_name + ' ' + response.last_name;
+        alert('name: ' + response.first_name + ' ' + response.last_name);
+        if (userFullName == '') {
+            userFullName = 'private';
+        }
+    } catch (e) {
+        userFullName = 'private';
+    }
+    //#endregion
+
+    //#region profile
+    try {
+        userProfilePic = 'http://graph.facebook.com/' + fbData.id + '/picture?width=171&height=171';
+        //alert('pImg: ' + 'http://graph.facebook.com/' + response.id + '/picture?width=171&height=171');
+        if (fbData.id == undefined) {
+            userProfilePic = 'private';
+        }
+        else {
+            $('#sidebarProfileImg').css('background-image', 'url("' + userProfilePic + '")');
+        }
+    } catch (e) {
+        userProfilePic = 'private';
+    }
+    //#endregion
+
+    checkFacebookUser();
+
 }
 
 var login = function () {
@@ -366,7 +410,6 @@ var login = function () {
 }
 
 var testApi = function (d) {
-    //alert('testApi d:\n' + JSON.stringify(d));
     facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
         function (result) {
             loginToSroogim(result);
@@ -382,6 +425,47 @@ var fbLoginSuccess = function (userData) {
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
+
+function checkFacebookUser() {
+    alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userBirthDay + ', ' + userGender + ', ' + userDeviceID);
+    var json = createUserJsonFromFacebook();
+    alert('userJson from CFU: ' + JSON.stringify(json));
+    $.ajax({
+        type: "POST",
+        url: api + "checkFacebookUser",
+        data: "{userJson: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+            alert(JSON.stringify(XMLHttpRequest));
+            alert(JSON.stringify(errorThrown));
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                alert(result.d);
+            }
+            else {
+                alert('result.d cfu ok: \n' + result.d);
+                if (result.d == '0') {
+                    registerUserFromFacebook();
+                    $('#userName').text(userFullName);
+                }
+                else if (result.d == '2') {
+                    $('#popupContent').html('<h2>נרשמת כבר דרך פייסבוק. כנראה שאתה לא משתמש במכשירך</h2>');
+                    openPopup();
+                }
+                else {
+                    $('#userName').text(json.userFullName);
+                    $.mobile.changePage('index.html#mainScreen');
+                }
+            }
+        }
+    });
+    //else {
+    //    //setInterval(checkFacebookUser, 7000);
+    //}
+}
 
 $(document).on('click', '#facebookLogin', login);
 
