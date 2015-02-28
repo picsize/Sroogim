@@ -362,9 +362,16 @@ var login = function () {
 
 var fbLoginSuccess = function (userData) {
     alert("UserInfo: " + JSON.stringify(userData));
+    getUserDetails();
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
+
+var getUserDetails = function () {
+    facebookConnectPlugin.api("me/?fields=id,email",
+                   function (response) { alert('apiSuccess:\n' + JSON.stringify(response)) },
+                   function (response) { alert('apiFaild:\n' + JSON.stringify(response)) });
+}
 
 $(document).on('click', '#facebookLogin', login);
 
