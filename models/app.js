@@ -357,23 +357,31 @@ function setDistance(response, status) {
 
 //#region Facebook
 var login = function () {
-    facebookConnectPlugin.login(["user_about_me,user_birthday,public_profile,email"], fbLoginSuccess, fbLoginFaild);
+    facebookConnectPlugin.login(["email"], fbLoginSuccess, fbLoginFaild);
 }
 
-var getUserDetails = function (d) {
-    alert('d:\n' + JSON.stringify(d));
-    facebookConnectPlugin.api("/" + d.userID + "?fields=id,email,cover,first_name,last_name", ["user_about_me,user_birthday,public_profile,email"],
+var testApi = function (d) {
+    alert('testApi d:\n' + JSON.stringify(d));
+    facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
         function (result) {
             alert("Result: " + JSON.stringify(result));
         },
         function (error) {
             alert("Failed: " + error);
         });
+
+    //facebookConnectPlugin.api("/" + d.userID + "?fields=id,email,cover,first_name,last_name", ["user_about_me,user_birthday,public_profile,email"],
+    //    function (result) {
+    //        alert("Result: " + JSON.stringify(result));
+    //    },
+    //    function (error) {
+    //        alert("Failed: " + error);
+    //    });
 }
 
 var fbLoginSuccess = function (userData) {
     alert("UserInfo: " + JSON.stringify(userData));
-    getUserDetails(userData);
+    testApi(userData);
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
