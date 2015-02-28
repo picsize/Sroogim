@@ -365,7 +365,7 @@ var loginToSroogim = function (fbData) {
 
     //#region email
     try {
-        userEmail = response.email;
+        userEmail = fbData.email;
         if (userEmail == undefined) {
             userEmail = 'private';
         }
@@ -376,8 +376,8 @@ var loginToSroogim = function (fbData) {
 
     //#region full name
     try {
-        userFullName = response.first_name + ' ' + response.last_name;
-        alert('name: ' + response.first_name + ' ' + response.last_name);
+        userFullName = fbData.first_name + ' ' + fbData.last_name;
+        //alert('name: ' + response.first_name + ' ' + response.last_name);
         if (userFullName == '') {
             userFullName = 'private';
         }
