@@ -360,9 +360,8 @@ var login = function () {
     facebookConnectPlugin.login(["email"], fbLoginSuccess, fbLoginFaild);
 }
 
-var testApi = function (d) {
-    alert('testApi d:\n' + JSON.stringify(d));
-    facebookConnectPlugin.api("me/?fields=id,email", ["user_birthday"],
+var getUserDetails = function (d) {
+    facebookConnectPlugin.api("/me", ["email, user_birthday"],
         function (result) {
             alert("Result: " + JSON.stringify(result));
         },
@@ -373,7 +372,7 @@ var testApi = function (d) {
 
 var fbLoginSuccess = function (userData) {
     alert("UserInfo: " + JSON.stringify(userData));
-    testApi(userData);
+    getUserDetails(userData);
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
