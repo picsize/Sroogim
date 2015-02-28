@@ -359,21 +359,23 @@ function setDistance(response, status) {
 
 var login = function () {
     if (!window.cordova) {
-        //var appId = prompt("Enter FB Application ID", "");
-        facebookConnectPlugin.browserInit(988309234528102);
+        var appId = prompt("Enter FB Application ID", "");
+        facebookConnectPlugin.browserInit(appId);
     }
-    facebookConnectPlugin.login(["email"], function () {
-        apiTest();
-    });
-}
-
-var apiTest = function () {
-    facebookConnectPlugin.api("me/?fields=id,email",
+    facebookConnectPlugin.login(["email"],
         function (response) { alert(JSON.stringify(response)) },
-        function (response) { alert(JSON.stringify(response)) });
+        function () {
+            alert('abc');
+            facebookConnectPlugin.api("me/?fields=id,email",
+            function (response) { alert('me123:\n' + JSON.stringify(response)) });
+        });
 }
 
+//var apiTest = function () {
 
+//}
+
+$(document).on('click', '#facebookLogin', login);
 
 //#endregion
 
