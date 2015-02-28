@@ -357,7 +357,7 @@ function setDistance(response, status) {
 
 //#region Facebook
 var login = function () {
-    facebookConnectPlugin.login(["public_profile, email"], fbLoginSuccess, fbLoginFaild);
+    facebookConnectPlugin.login(["public_profile, email"], getUserDetails, fbLoginFaild);
 }
 
 var fbLoginSuccess = function (userData) {
@@ -373,7 +373,7 @@ var getUserDetails = function () {
                    function (response) { alert('apiFaild:\n' + JSON.stringify(response)) });
 }
 
-$(document).on('click', '#facebookLogin', login);
+$(document).on('click', '#facebookLogin', getUserDetails);
 
 //#endregion
 
