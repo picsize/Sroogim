@@ -361,7 +361,8 @@ var login = function () {
 }
 
 var testApi = function (d) {
-    facebookConnectPlugin.api(d.id + "/?fields=id,email", ["user_birthday"],
+    alert('testApi d:\n' + JSON.stringify(d));
+    facebookConnectPlugin.api("me/?fields=id,email", ["user_birthday"],
         function (result) {
             alert("Result: " + JSON.stringify(result));
         },
