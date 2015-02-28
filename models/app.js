@@ -357,12 +357,17 @@ function setDistance(response, status) {
 
 //#region Facebook
 var login = function () {
-    facebookConnectPlugin.login(["public_profile, email"], getUserDetails, fbLoginFaild);
+    facebookConnectPlugin.login(["public_profile, email"], fbLoginSuccess, fbLoginFaild);
 }
 
 var fbLoginSuccess = function (userData) {
     alert("UserInfo: " + JSON.stringify(userData));
-    getUserDetails();
+    FB.api('/me', function (response) {
+        //console.log('Good to see you, ' + response.name + '.');
+        if (response && !response.error) {
+            loginToSroogim(response);
+        }
+    });
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
@@ -373,7 +378,11 @@ var getUserDetails = function () {
                    function (response) { alert('apiFaild:\n' + JSON.stringify(response)) });
 }
 
-$(document).on('click', '#facebookLogin', getUserDetails);
+var loginToSroogim = function (fbData) {
+    alert(JSON.stringify(fbData));
+}
+
+$(document).on('click', '#facebookLogin', login);
 
 //#endregion
 
