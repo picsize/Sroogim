@@ -356,27 +356,24 @@ function setDistance(response, status) {
 //#endregion
 
 //#region Facebook
+
+var loginToSroogim = function (fbData) {
+    alert('loginTSroogim:\n' + JSON.stringify(fbData));
+}
+
 var login = function () {
     facebookConnectPlugin.login(["email"], fbLoginSuccess, fbLoginFaild);
 }
 
 var testApi = function (d) {
-    alert('testApi d:\n' + JSON.stringify(d));
+    //alert('testApi d:\n' + JSON.stringify(d));
     facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
         function (result) {
-            alert("Result: " + JSON.stringify(result));
+            loginToSroogim(result);
         },
         function (error) {
             alert("Failed: " + error);
         });
-
-    //facebookConnectPlugin.api("/" + d.userID + "?fields=id,email,cover,first_name,last_name", ["user_about_me,user_birthday,public_profile,email"],
-    //    function (result) {
-    //        alert("Result: " + JSON.stringify(result));
-    //    },
-    //    function (error) {
-    //        alert("Failed: " + error);
-    //    });
 }
 
 var fbLoginSuccess = function (userData) {
@@ -385,16 +382,6 @@ var fbLoginSuccess = function (userData) {
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
-
-var getUserDetails = function () {
-    facebookConnectPlugin.api("me/?fields=id,email",
-                   function (response) { alert('apiSuccess:\n' + JSON.stringify(response)) },
-                   function (response) { alert('apiFaild:\n' + JSON.stringify(response)) });
-}
-
-var loginToSroogim = function (fbData) {
-    alert(JSON.stringify(fbData));
-}
 
 $(document).on('click', '#facebookLogin', login);
 
