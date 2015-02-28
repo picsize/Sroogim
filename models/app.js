@@ -360,14 +360,19 @@ var login = function () {
     facebookConnectPlugin.login(["email"], fbLoginSuccess, fbLoginFaild);
 }
 
+var testApi = function (d) {
+    facebookConnectPlugin.api(d.id + "/?fields=id,email", ["user_birthday"],
+        function (result) {
+            alert("Result: " + JSON.stringify(result));
+        },
+        function (error) {
+            alert("Failed: " + error);
+        });
+}
+
 var fbLoginSuccess = function (userData) {
     alert("UserInfo: " + JSON.stringify(userData));
-    FB.api('/me', function (response) {
-        //console.log('Good to see you, ' + response.name + '.');
-        if (response && !response.error) {
-            loginToSroogim(response);
-        }
-    });
+    testApi(userData);
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
