@@ -357,11 +357,12 @@ function setDistance(response, status) {
 
 //#region Facebook
 var login = function () {
-    facebookConnectPlugin.login(["user_about_me,user_birthday,email"], fbLoginSuccess, fbLoginFaild);
+    facebookConnectPlugin.login(["user_about_me,user_birthday,public_profile,email"], fbLoginSuccess, fbLoginFaild);
 }
 
 var getUserDetails = function (d) {
-    facebookConnectPlugin.api("/me?fields=id,email,cover,first_name,last_name", ["user_about_me,user_birthday,email"],
+    alert('d:\n' + JSON.stringify(d));
+    facebookConnectPlugin.api("/" + d.userID + "?fields=id,email,cover,first_name,last_name", ["user_about_me,user_birthday,public_profile,email"],
         function (result) {
             alert("Result: " + JSON.stringify(result));
         },
