@@ -356,18 +356,17 @@ function setDistance(response, status) {
 //#endregion
 
 //#region Facebook
-
 var login = function () {
-    facebookConnectPlugin.login(["email"],
-        function (response) { alert('login:\n' + JSON.stringify(response)) });
+    facebookConnectPlugin.login(["public_profile, email"], fbLoginSuccess, fbLoginFaild);
 }
 
-var apiTest = function () {
-    facebookConnectPlugin.api("me/?fields=id,email",
-    function (response) { alert('fb_api:\n' + JSON.stringify(response)) });
+var fbLoginSuccess = function (userData) {
+    alert("UserInfo: " + JSON.stringify(userData));
 }
 
-$(document).on('click', '#facebookLogin', apiTest);
+var fbLoginFaild = function (error) { alert("" + error) }
+
+$(document).on('click', '#facebookLogin', login);
 
 //#endregion
 
