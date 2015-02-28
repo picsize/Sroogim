@@ -24,7 +24,7 @@ var facebookResponse;
 document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
-    alert('init panel and popup');
+    //alert('init panel and popup');
     $('#menuSidebar').panel().enhanceWithin();
     $('#popup').enhanceWithin().popup();
 });
@@ -93,8 +93,8 @@ function initApp() {
 //check phonegap components
 function checkPhonegap() {
     if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined')) alert('Cordova variable does not exist. Check that you have included cordova.js correctly');
-    if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
-    if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
+    //if (typeof CDV == 'undefined') alert('CDV variable does not exist. Check that you have included cdv-plugin-fb-connect.js correctly');
+    //if (typeof FB == 'undefined') alert('FB variable does not exist. Check that you have included the Facebook JS SDK file.');
 }
 
 //load all data
@@ -363,7 +363,7 @@ var login = function () {
         facebookConnectPlugin.browserInit(appId);
     }
     facebookConnectPlugin.login(["email"],
-        function (response) { alert(JSON.stringify(response)) },
+        function (response) { alert(JSON.stringify(response.email)) },
         function (response) { alert(JSON.stringify(response)) });
 }
 
