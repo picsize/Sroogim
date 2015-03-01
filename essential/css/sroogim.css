@@ -1740,6 +1740,11 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     height: 26px;
 }
 
+.goToDateList:after
+{
+    visibility:hidden;
+}
+
 /*#endregion*/
 
 /*#region Single Date*/

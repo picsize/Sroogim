@@ -423,8 +423,13 @@ var testApi = function (d) {
 }
 
 var fbLoginSuccess = function (userData) {
-    alert("UserInfo: " + JSON.stringify(userData));
-    testApi(userData);
+    facebookConnectPlugin.getAccessToken(function (token) {
+        alert("Token: " + token);
+        testApi(userData);
+    }, function (err) {
+        alert("Could not get access token: " + err);
+    });
+    //alert("UserInfo: " + JSON.stringify(userData));
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
@@ -472,6 +477,21 @@ function checkFacebookUser() {
 }
 
 $(document).on('click', '#facebookLogin', login);
+
+//var test = function () {
+//    alert('test');
+//    userFullName = 'Lihi Avraham';
+//    userEmail = 'lihi2@picsize.co.il';
+//    userPassword = 11;
+//    facebookUser = 1;
+//    userDeviceID = '1020451694178330';
+//    userCoverPic = 'https://scontent.xx.fbcdn.net/hphotos-xfp1/t31.0-8/s720x720/10710395_10204015249355773_4298624842020855985_o.jpg';
+//    userProfilePic = 'http://graph.facebook.com/10204516964178330/picture?width=171&height=171';
+//    a = createUserJsonFromFacebook();
+//    registerUserFromFacebook(a);
+//}
+
+//$(document).on('click', '#facebookLogin', test);
 
 $(document).on('click', '.addComment', function () {
     $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" style="border:none; height:auto; min-height:357px;"></iframe>');
@@ -1229,7 +1249,7 @@ function showPermission() {
     }
 }
 
-$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"]', function () {
+$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"], .addComment', function () {
     showPermission();
 });
 
@@ -1343,7 +1363,6 @@ function registerUserFromFacebook(json) {
                 alert(textStatus);
             },
             success: function (result) {
-                alert('ruff success:\n' + JSON.stringify(result));
                 if (result.d.indexOf('שגיאה') != -1) {
                     alert(result.d);
                 }
@@ -1675,6 +1694,22 @@ function createFavPresentPage(json) {
 //click on rating star
 $(document).on('click', '.rating.clickable span', function () {
     ratingValue = $(this).attr('data-value');
+    //if ($(this).children().attr('src').indexOf('white') != -1) {
+    //    alert($(this).children().attr('src'));
+    //    $(this).parent().children().each(function () {
+    //        if (parseInt($(this).attr('data-value')) <= ratingValue) {
+    //            $(this).children().attr('src').replace('white','golden');
+    //        }
+    //    });
+    //}
+    //else {
+    //    alert($(this).children().attr('src'));
+    //    $(this).parent().children().each(function () {
+    //        if (parseInt($(this).attr('data-value')) <= ratingValue) {
+    //            $(this).children().attr('src').replace('golden', 'white');
+    //        }
+    //    });
+    //}
 });
 
 //click on rating button
@@ -1690,7 +1725,7 @@ $(document).on('click', '[data-action="rating"]', function () {
 //update date rating
 function updateDateRating(value) {
     var json = {
-        'userEmail': 'dsdsd@sdsds.co.il',//userEmail,
+        'userEmail': userEmail,
         'dateId': thisDate.DateID,
         'rating': ratingValue
     };
@@ -1718,7 +1753,7 @@ function updateDateRating(value) {
 //update present rating
 function updatePresentRating(value) {
     var json = {
-        'userEmail': 'dsdsd@sdsds.co.il',//userEmail,
+        'userEmail': userEmail,
         'presentId': thisPresent.PresentID,
         'rating': ratingValue
     };
