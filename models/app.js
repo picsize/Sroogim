@@ -424,7 +424,7 @@ var testApi = function (d) {
 
 var fbLoginSuccess = function (userData) {
     facebookConnectPlugin.getAccessToken(function (token) {
-        alert("Token: " + token);
+        //alert("Token: " + token);
         testApi(userData);
     }, function (err) {
         alert("Could not get access token: " + err);
@@ -435,9 +435,9 @@ var fbLoginSuccess = function (userData) {
 var fbLoginFaild = function (error) { alert("" + error) }
 
 function checkFacebookUser() {
-    alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
+    //alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
-    alert('userJson from CFU: ' + JSON.stringify(json));
+    //alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
         type: "POST",
         url: api + "checkFacebookUser",
@@ -1261,7 +1261,7 @@ $(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ide
 //register to sroogim
 $(document).on('click', '#register-button', function () {
     var json = createUserJson();
-    alert('register: ' + JSON.stringify(json));
+    //alert('register: ' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -1351,7 +1351,7 @@ function createUserJson() {
 
 function registerUserFromFacebook(json) {
     //var json = createUserJsonFromFacebook();
-    alert('ruff:\n' + JSON.stringify(json));
+    //alert('ruff:\n' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
