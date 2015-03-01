@@ -60,6 +60,9 @@ function initApp() {
     }
     loadComponents();
     checkPhonegap();
+    window.setInterval(function () {
+        loadAllData();
+    }, 1800000); // every 1800 sec -> 30 min
     loadAllData();
     getCurrentlatlong();
     getTop5App();
@@ -242,10 +245,10 @@ function getTop5App() {
 }
 
 //load app data when page is load
-$(window).on('navigate', function () {
-    //alert('navigate');
-    loadAllData();
-});
+//$(window).on('navigate', function () {
+//    //alert('navigate');
+//    loadAllData();
+//});
 
 $(document).on('pagebeforecreate', '#welcomeScreen', function () {
     document.addEventListener('backbutton', function (e) {
@@ -420,14 +423,14 @@ var testApi = function (d) {
 }
 
 var fbLoginSuccess = function (userData) {
-    //alert("UserInfo: " + JSON.stringify(userData));
+    alert("UserInfo: " + JSON.stringify(userData));
     testApi(userData);
 }
 
 var fbLoginFaild = function (error) { alert("" + error) }
 
 function checkFacebookUser() {
-    //alert(userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
+    alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
     alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
@@ -448,7 +451,7 @@ function checkFacebookUser() {
             else {
                 alert('result.d cfu ok: \n' + result.d);
                 if (result.d == '0') {
-                    registerUserFromFacebook();
+                    registerUserFromFacebook(json);
                     $('#userName').text(userFullName);
                 }
                 else if (result.d == '2') {
@@ -471,7 +474,7 @@ function checkFacebookUser() {
 $(document).on('click', '#facebookLogin', login);
 
 $(document).on('click', '.addComment', function () {
-    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="90%" height="400" style="border:none;"></iframe>');
+    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" style="border:none; height:auto; min-height:357px;"></iframe>');
     //$('#popup').on('popupbeforeposition', function () {
     //    $(this).css({
     //        'max-height': $(window).height() * 0.9,
@@ -561,7 +564,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
         if (categories[i].CategoryType == "Date") {
             categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
-                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList ui-btn ui-shadow ui-btn-icon-right"><img class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
+                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
             }
             categoriesHTML += '</ul></div>';
         }
@@ -586,7 +589,7 @@ $(document).on('click', '.goToDateList', function () {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
             else {
-                previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;     
+                previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
             }
             var dateRatingHTML = createRating(dates[i].DateRating)
             var currentLocation = new google.maps.LatLng(lat, lng);
@@ -677,7 +680,7 @@ $(document).on('click', '.findGps, .selectLocation', function () {
 
 //show dates in city
 $(document).on('click', '.city', function () {
-    getCurrentlatlong();
+    //getCurrentlatlong();
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
@@ -731,6 +734,8 @@ $(document).on('click', '.city', function () {
     }
 
     $('.dataList').html(dateLi);
+    $('.findGps').removeClass('active');
+    $('.selectLocation').addClass('active');
     $.mobile.changePage('index.html#datesList');
 });
 
@@ -874,11 +879,11 @@ $(document).on('click', '#singleDate_dateWebsite', function () {
                 alert(result.d);
             }
             else {
-                navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+                //navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
             }
         }
     });
-
+    navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
 });
 
 //#endregion
@@ -1112,10 +1117,9 @@ function openPopup() {
     $('#popup').popup({
         positionTo: 'window',
         transition: 'slidedown'
-    })
-    .on('popupafteropen', function () {
-        $('#popup').popup('reposition', { positionTo: 'window' });
-    });
+    }).on('popupafteropen', function () {
+        $(this).popup('reposition', {positionTo: 'window'});
+            });
 
     setTimeout($('#popup').popup('open'), 100);
 }
@@ -1325,8 +1329,9 @@ function createUserJson() {
     return user;
 }
 
-function registerUserFromFacebook() {
-    var json = createUserJsonFromFacebook();
+function registerUserFromFacebook(json) {
+    //var json = createUserJsonFromFacebook();
+    alert('ruff:\n' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -1338,11 +1343,12 @@ function registerUserFromFacebook() {
                 alert(textStatus);
             },
             success: function (result) {
+                alert('ruff success:\n' + JSON.stringify(result));
                 if (result.d.indexOf('שגיאה') != -1) {
-                    //alert(result.d);
+                    alert(result.d);
                 }
                 else {
-                    userPermision = 'access';
+                    //userPermision = 1;
                     var n = 3;
                     var f = function () {
                         if (n <= 0) {
