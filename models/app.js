@@ -432,7 +432,7 @@ var fbLoginSuccess = function (userData) {
     //alert("UserInfo: " + JSON.stringify(userData));
 }
 
-var fbLoginFaild = function (error) { alert("" + error) }
+var fbLoginFaild = function (error) { alert("error login with facebook:\n" + error) }
 
 function checkFacebookUser() {
     //alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
@@ -454,7 +454,7 @@ function checkFacebookUser() {
                 alert(result.d);
             }
             else {
-                alert('result.d cfu ok: \n' + result.d);
+                //alert('result.d cfu ok: \n' + result.d);
                 if (result.d == '0') {
                     registerUserFromFacebook(json);
                     $('#userName').text(userFullName);
@@ -584,7 +584,7 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
         if (categories[i].CategoryType == "Date") {
             categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
-                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
+                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right !important;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
             }
             categoriesHTML += '</ul></div>';
         }
@@ -700,40 +700,34 @@ $(document).on('click', '.findGps, .selectLocation', function () {
 
 //show dates in city
 $(document).on('click', '.city', function () {
+    $('.findGps').removeClass('active');
+    $('.selectLocation').addClass('active');
     //getCurrentlatlong();
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].CityName == cityName) {
-            var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+            if (dates[i].ShowVideo == 'Y') {
+                previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+            }
+            else {
+                previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
+            }
+            var dateRatingHTML = createRating(dates[i].DateRating)
+            var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem">' +
-                            '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                            '<div><img src="' + previewImg + '" /></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
-                                        '<li><section class="rating">' +
-                                                '<span data-value="5" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="4" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="3" data-empty="true">' +
-                                                    '<img src="essential/images/General/blankStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="2" data-empty="false">' +
-                                                    '<img src="essential/images/General/goldenStar.png" />' +
-                                                '</span>' +
-                                                '<span data-value="1" data-empty="false">' +
-                                                    '<img src="essential/images/General/goldenStar.png" />' +
-                                                '</span>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                        '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
                                         '</li>' +
                                         '<li>' +
@@ -754,8 +748,6 @@ $(document).on('click', '.city', function () {
     }
 
     $('.dataList').html(dateLi);
-    $('.findGps').removeClass('active');
-    $('.selectLocation').addClass('active');
     $.mobile.changePage('index.html#datesList');
 });
 
@@ -766,34 +758,26 @@ $(document).on('click', '.allDates', function () {
     $('#datesList .wrapper .title h2').text('כל הארץ');
     var dateLi = '';
     for (var i = 0; i < dates.length; i++) {
-        var currentLocation = new google.maps.LatLng(localStorage.getItem('lat'), localStorage.getItem('lng'));
+        if (dates[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+        }
+        else {
+            previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
+        }
+        var dateRatingHTML = createRating(dates[i].DateRating)
+        var currentLocation = new google.maps.LatLng(lat, lng);
         //alert('cLocation: ' + JSON.stringify(currentLocation));
         calculateDistances(currentLocation, dates[i]);
         dateLi += '<li class="dataItem">' +
-                        '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+                        '<div><img src="' + previewImg + '" /></div>' +
                         '<div>' +
                             '<h3>' + thisDate.DateHeader + '</h3>' +
                             '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                             '<section class="social">' +
                                 '<ul>' +
                                     '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                    '<li><img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" /></li>' +
-                                    '<li><section class="rating">' +
-                                            '<span data-value="5" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="4" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="3" data-empty="true">' +
-                                                '<img src="essential/images/General/blankStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="2" data-empty="false">' +
-                                                '<img src="essential/images/General/goldenStar.png" />' +
-                                            '</span>' +
-                                            '<span data-value="1" data-empty="false">' +
-                                                '<img src="essential/images/General/goldenStar.png" />' +
-                                            '</span>' +
+                                    '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                    '<li><section class="rating">' + dateRatingHTML +
                                         '</section>' +
                                     '</li>' +
                                     '<li>' +
@@ -1467,7 +1451,7 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
                             }
                             else {
                                 var userImg = JSON.parse(result.d);
-                                userPermision = 'access';
+                                userPermision = 1;
                                 var n = 3;
                                 var f = function () {
                                     if (n <= 0) {
