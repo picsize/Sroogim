@@ -645,6 +645,11 @@ $(document).on('click', '.goToDateList', function () {
     }
 
     $('.dataList').html(dateLi);
+
+    if ($(this).attr('data-from-present') == 'true') {
+        $('[href="index.html#datesPage"]').click();
+        $.mobile.changePage('index.html#datesPage');
+    }
 });
 
 //set distance to places
@@ -903,12 +908,22 @@ function createPresentPage(json) {
     else {
         $('#presentImages').html('');
         for (var i = 0; i < json.PresentImages.length; i++) {
-            $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[i].Url + '" />');
+            try {
+                $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[i].Url + '" />');
+            } catch (e) {
+                $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/#" />');
+            }
+            
         }
         if ($('#presentImages img').length < 4) {
             var c = 4 - json.PresentImages.length;
             for (var j = 0; j < c; j++) {
-                $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
+                try {
+                    $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
+                } catch (e) {
+                    $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/#" />');
+                }
+                
             }
         }
     }
@@ -932,15 +947,20 @@ function createPresentPage(json) {
 }
 
 function createPresentsCategoriesPage(gender) {
-    categoriesHTML = '<ul class="dataList">';
-    for (var i = 0; i < categories.length; i++) {
-        if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
-            categoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
-              '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
-              '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
+    if (presents.length > 0) {
+        categoriesHTML = '<ul class="dataList">';
+        for (var i = 0; i < categories.length; i++) {
+            if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
+                categoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
+                  '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
+                  '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
+            }
         }
+        categoriesHTML += '</ul>';
     }
-    categoriesHTML += '</ul>';
+    else {
+        categoriesHTML = 'לא קיימות מתנות';
+    }
 }
 
 //create present list
@@ -963,7 +983,12 @@ $(document).on('click', '.goToPresentsList', function () {
             previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
         }
         else {
-            previewImg = presentImgSrc + presents[i].PresentID + '/' + presents[i].PresentImages[0].Url;
+            if (presents[i].PresentImages.length > 0) {
+                previewImg = presentImgSrc + presents[i].PresentID + '/' + presents[i].PresentImages[0].Url;
+            }
+            else {
+                previewImg = '#';
+            }
         }
         var presentRatingHTML = createRating(presents[i].PresentRating)
         if (presents[i].PresentCategory == categoryID) {
