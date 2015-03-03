@@ -60,9 +60,9 @@ function initApp() {
     }
     loadComponents();
     checkPhonegap();
-    window.setInterval(function () {
-        loadAllData();
-    }, 1800000); // every 1800 sec -> 30 min
+    //window.setInterval(function () {
+    //    loadAllData();
+    //}, 1800000); // every 1800 sec -> 30 min
     loadAllData();
     getCurrentlatlong();
     getTop5App();
@@ -1703,6 +1703,7 @@ function createFavPresentPage(json) {
 //click on rating star
 $(document).on('click', '.rating.clickable span', function () {
     ratingValue = $(this).attr('data-value');
+    alert($(this).attr('data-value'));
     //if ($(this).children().attr('src').indexOf('white') != -1) {
     //    alert($(this).children().attr('src'));
     //    $(this).parent().children().each(function () {
