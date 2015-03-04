@@ -245,16 +245,22 @@ function getTop5App() {
 }
 
 //load app data when page is load
-//$(window).on('navigate', function () {
-//    //alert('navigate');
-//    loadAllData();
-//});
-
-$(document).on('pagebeforecreate', '#welcomeScreen', function () {
-    document.addEventListener('backbutton', function (e) {
-        e.preventDefault();
-    }, false);
+$(window).on('navigate', function (event, data) {
+    if (data.state.url.indexOf('loadingScreen')) {
+        event.preventDefault();
+    }
+    //var direction = data.state.direction;
+    //alert(JSON.stringify(data))
+    //if (!!direction) {
+    //    alert(direction);
+    //}
 });
+
+//$(document).on('pagebeforecreate', '#welcomeScreen', function () {
+//    document.addEventListener('backbutton', function (e) {
+//        e.preventDefault();
+//    }, false);
+//});
 
 //#endregion
 
@@ -1463,11 +1469,11 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
             }
             else {
                 if (result.d == '0') {
-                    $('#popupContent').html('<h2>שם משתמש וסיסמה לא נמצאו. אנא בצעו הרשמה</h2>');
+                    $('#popupContent').html('<h2>שם משתמש וסיסמה לא נמצאו. אנא בצעו הרשמה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                     openPopup();
                 }
                 else if (result.d == '2') {
-                    $('#popupContent').html('<h2>שם המשתמש והסיסמה לא תואמים</h2>');
+                    $('#popupContent').html('<h2>שם המשתמש והסיסמה לא תואמים</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                     openPopup();
                 }
                 else {
