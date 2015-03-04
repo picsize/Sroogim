@@ -183,14 +183,14 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .rating
 {
-    unicode-bidi: bidi-override;
+    /*unicode-bidi: bidi-override;*/
     padding: 2% 5%;
 }
 
     .rating.clickable > span:hover,
     .rating.clickable > span:hover ~ span
     {
-        content: url('../images/General/goldenStar.png');
+        /*content: url('../images/General/goldenStar.png');*/
         width: 1.5em;
         padding: 1.5%;
     }
@@ -198,7 +198,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         .rating.clickable > span:hover:before,
         .rating.clickable > span:hover ~ span:before
         {
-            content: url('../images/General/goldenStar.png');
+            /*content: url('../images/General/goldenStar.png');*/
             width: 1.5em;
             padding: 1.5%;
         }
@@ -214,7 +214,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             padding: 1.5%;
         }
 
-.rating-button
+.rating-button, .popup-button
 {
     border: 1px solid #ffcd53;
     -moz-border-radius: 11px;
@@ -462,7 +462,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .ui-loader.ui-body-b
 {
-    top:63% !important;
+    top: 63% !important;
 }
 
 
@@ -734,7 +734,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 #loadingScreen
 {
     background: url(../images/Main_Screen/loadingBG.png) no-repeat;
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 #loadingGif
@@ -909,14 +909,31 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 /*#region Popup*/
 
-#popup-popup
-{
-    width: 70% !important;
-    max-width: 70% !important;
-}
-
 #popup
 {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(22,22,22,0.5);
+    display: none;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#popup:target
+{
+    visibility: visible;
+    display: block;
+}
+
+#popupContent
+{
+    position: relative;
+    margin: 0 auto;
+    top: 25%;
+    width: 80%;
+    display: none;
     border: 2px solid rgba(182,75,99,.55);
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -925,22 +942,12 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     background-color: rgba(122,20,55,.7);
-    /*-moz-box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);
-    -webkit-box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);
-    box-shadow: 0 3px 21px #000, inset 0 0 0 1px rgba(0,0,0,.5), inset 0 0 65px rgba(114,255,248,.07);*/
     background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ5MGMyMSIgc3RvcC1vcGFjaXR5PSIwLjczIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2FmNzI4NyIgc3RvcC1vcGFjaXR5PSIwLjczIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+);
     background-image: -moz-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
     background-image: -o-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
     background-image: -webkit-linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
     background-image: linear-gradient(bottom, rgba(73,12,33,.73) 0%, rgba(175,114,135,.73) 100%);
     padding: 5%;
-}
-
-.ui-overlay-shadow
-{
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
 }
 
 #popupContent h2
@@ -1127,7 +1134,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
                 content: '... ';
             }
 
-            /* Make it a marquee */
+/* Make it a marquee */
 .marquee
 {
     width: 100%;
@@ -1144,24 +1151,56 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 }
 
 /* Make it move */
-@-moz-keyframes marquee {
-    0%   { text-indent: 27.5em }
-    100% { text-indent: -105em }
+@-moz-keyframes marquee
+{
+    0%
+    {
+        text-indent: 27.5em;
+    }
+
+    100%
+    {
+        text-indent: -105em;
+    }
 }
 
-@-ms-keyframes marquee {
-    0%   { text-indent: 27.5em }
-    100% { text-indent: -105em }
+@-ms-keyframes marquee
+{
+    0%
+    {
+        text-indent: 27.5em;
+    }
+
+    100%
+    {
+        text-indent: -105em;
+    }
 }
 
-@-webkit-keyframes marquee {
-    0%   { text-indent: 20em }
-    100% { text-indent: -38em }
+@-webkit-keyframes marquee
+{
+    0%
+    {
+        text-indent: 20em;
+    }
+
+    100%
+    {
+        text-indent: -38em;
+    }
 }
 
-@keyframes marquee {
-    0%   { text-indent: 27.5em }
-    100% { text-indent: -105em }
+@keyframes marquee
+{
+    0%
+    {
+        text-indent: 27.5em;
+    }
+
+    100%
+    {
+        text-indent: -105em;
+    }
 }
 
 
@@ -1742,7 +1781,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .goToDateList:after
 {
-    visibility:hidden;
+    visibility: hidden;
 }
 
 /*#endregion*/

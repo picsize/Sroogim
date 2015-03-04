@@ -18,20 +18,20 @@ var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
 var categoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0;
+var userPermision = 1, ratingValue = 0;
 var facebookResponse;
 
-document.addEventListener("deviceready", initApp, false);
+//document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //alert('init panel and popup');
     $('#menuSidebar').panel().enhanceWithin();
-    $('#popup').enhanceWithin().popup();
+    //$('#popup').enhanceWithin().popup();
 });
 
-//$(function () {
-//    initApp();
-//});
+$(function () {
+    initApp();
+});
 
 function initApp() {
     //$('#newsContainer p').marquee();
@@ -353,6 +353,7 @@ function setDistance(response, status) {
 //#region Facebook
 
 var loginToSroogim = function (fbData) {
+    alert('fbData:\n' + JSON.stringify(fbData));
     //#region cover
     try {
         userCoverPic = fbData.cover.source;
@@ -404,15 +405,17 @@ var loginToSroogim = function (fbData) {
     }
     //#endregion
 
+    alert('loginToSroogimAs:\n' + userEmail + '\n' + userFullName + '\n' + userPassword + '\n' + userProfilePic + '\n' + userCoverPic + '\n' + userDeviceID);
     checkFacebookUser();
 
 }
 
 var login = function () {
-    facebookConnectPlugin.login(["email"], fbLoginSuccess, fbLoginFaild);
+    facebookConnectPlugin.login(["user_birthday"], fbLoginSuccess, fbLoginFaild);
 }
 
 var testApi = function (d) {
+    alert('test api:\n' + JSON.stringify(d));
     facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
         function (result) {
             loginToSroogim(result);
@@ -424,20 +427,20 @@ var testApi = function (d) {
 
 var fbLoginSuccess = function (userData) {
     facebookConnectPlugin.getAccessToken(function (token) {
-        //alert("Token: " + token);
+        alert("Token: " + JSON.stringify(token));
         testApi(userData);
     }, function (err) {
-        alert("Could not get access token: " + err);
+        alert("Could not get access token: " + JSON.stringify(err));
     });
     //alert("UserInfo: " + JSON.stringify(userData));
 }
 
-var fbLoginFaild = function (error) { alert("error login with facebook:\n" + error) }
+var fbLoginFaild = function (error) { alert("error login with facebook:\n" + JSON.stringify(error)) }
 
 function checkFacebookUser() {
-    //alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
+    alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
-    //alert('userJson from CFU: ' + JSON.stringify(json));
+    alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
         type: "POST",
         url: api + "checkFacebookUser",
@@ -494,7 +497,7 @@ $(document).on('click', '#facebookLogin', login);
 //$(document).on('click', '#facebookLogin', test);
 
 $(document).on('click', '.addComment', function () {
-    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" style="border:none; height:auto; min-height:357px;"></iframe>');
+    $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" style="border:none; height:auto; min-height:357px;"></iframe>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">סגור</button>');
     //$('#popup').on('popupbeforeposition', function () {
     //    $(this).css({
     //        'max-height': $(window).height() * 0.9,
@@ -581,7 +584,7 @@ function createLocationPage() {
 $(document).on('click', '[href="index.html#datesPage"]', function () {
     categoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
-        if (categories[i].CategoryType == "Date") {
+        if (categories[i].CategoryType == "Date" && categories[i].SubList[0].Value != 0) {
             categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
                 categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right !important;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
@@ -594,6 +597,8 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
 });
 
 $(document).on('pagebeforecreate', '#datesPage', function () { $('#datesPage .wrapper').html(categoriesHTML); });
+
+$(document).on('pagebeforecreate', '#location', function () { $('.findGps').removeClass('active'); $('.selectLocation').addClass('active'); });
 
 //create dates list
 $(document).on('click', '.goToDateList', function () {
@@ -1143,18 +1148,23 @@ $(document).on('click', '[data-seller]', function () {
 //#region Popup
 
 function openPopup() {
-    $('#popup').popup({
-        positionTo: 'window',
-        transition: 'slidedown'
-    }).on('popupafteropen', function () {
-        $(this).popup('reposition', {positionTo: 'window'});
-            });
+    //$('#popup').popup({
+    //    positionTo: 'window',
+    //    transition: 'slidedown'
+    //}).on('popupafteropen', function () {
+    //    $(this).popup('reposition', {positionTo: 'window'});
+    //        });
 
-    setTimeout($('#popup').popup('open'), 100);
+    //setTimeout($('#popup').popup('open'), 100);
+
+    //$('#popup').show();
+    $('#popup').fadeIn();
+    $('#popup #popupContent').slideDown();
 }
 
 function closePopup() {
-    $('#popup').popup('close', { transition: 'slideup' });
+    $('#popup #popupContent').slideUp();
+    $('#popup').fadeOut();
 }
 
 //#endregion
@@ -1253,7 +1263,7 @@ function createNewsPage(json) {
 function showPermission() {
     if (userPermision != 1) {
         event.preventDefault();
-        $('#popupContent').html('<h2>לצפייה באפשרות זו, יש לבצע הרשמה</h2>');
+        $('#popupContent').html('<h2>לצפייה באפשרות זו, יש לבצע הרשמה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
         openPopup();
     }
 }
@@ -1286,7 +1296,7 @@ $(document).on('click', '#register-button', function () {
                     //alert(result.d);
                 }
                 else {
-                    userPermision = 'access';
+                    userPermision = 1;
                     var n = 3;
                     var f = function () {
                         if (n <= 0) {
@@ -1703,24 +1713,25 @@ function createFavPresentPage(json) {
 //click on rating star
 $(document).on('click', '.rating.clickable span', function () {
     ratingValue = $(this).attr('data-value');
-    alert($(this).attr('data-value'));
-    //if ($(this).children().attr('src').indexOf('white') != -1) {
-    //    alert($(this).children().attr('src'));
-    //    $(this).parent().children().each(function () {
-    //        if (parseInt($(this).attr('data-value')) <= ratingValue) {
-    //            $(this).children().attr('src').replace('white','golden');
-    //        }
-    //    });
-    //}
-    //else {
-    //    alert($(this).children().attr('src'));
-    //    $(this).parent().children().each(function () {
-    //        if (parseInt($(this).attr('data-value')) <= ratingValue) {
-    //            $(this).children().attr('src').replace('golden', 'white');
-    //        }
-    //    });
-    //}
+    $('.rating.clickable span img').attr('src', 'essential/images/General/whiteStar.png')
+    if ($(this).children().attr('src').indexOf('white') != -1) { //white star -> golden
+        changeRatingImg(['white', 'golden'], $(this));
+    }
+    else {//golden star -> white
+        changeRatingImg(['golden', 'white'], $(this));
+    }
 });
+
+function changeRatingImg(color, elem) {
+    var num = parseInt(elem.attr('data-value'));
+    for (var i = 0; i < elem.parent().children().length; i++) {
+        if (parseInt(elem.parent().children()[i].attributes[0].value) <= num) {
+            var c = elem.parent().children()[i].children[0];
+            src = c.src;
+            c.src = src.replace(color[0], color[1]);
+        }
+    }
+}
 
 //click on rating button
 $(document).on('click', '[data-action="rating"]', function () {
@@ -1755,6 +1766,7 @@ function updateDateRating(value) {
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
+                closePopup();
             }
         }
     });
@@ -1783,6 +1795,7 @@ function updatePresentRating(value) {
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
+                closePopup();
             }
         }
     });
