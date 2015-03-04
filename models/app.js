@@ -21,7 +21,7 @@ var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'p
 var userPermision = 1, ratingValue = 0;
 var facebookResponse;
 
-//document.addEventListener("deviceready", initApp, false);
+document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //alert('init panel and popup');
@@ -29,9 +29,9 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //$('#popup').enhanceWithin().popup();
 });
 
-$(function () {
-    initApp();
-});
+//$(function () {
+//    initApp();
+//});
 
 function initApp() {
     //$('#newsContainer p').marquee();
@@ -1494,6 +1494,10 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
                                         $.mobile.changePage('index.html#mainScreen');
                                         $('#sidebarProfileImg').css('background-image', 'url("' + userImgSrc + userImg[0].UserProfileImage + '")');
                                         $('#sidebarCoverImg').attr('src', userImgSrc + userImg[0].UserCoverImage);
+                                        userEmail = $('#loginEmail').val();
+                                        userFullName = $('#loginEmail').val();
+                                        userPassword = $('#loginPassword').val();
+                                        $('#userName').text(userFullName);
                                     }
                                     else {
                                         n--;
@@ -1762,7 +1766,7 @@ function updateDateRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                //alert(result.d);
+                closePopup();
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
@@ -1791,7 +1795,7 @@ function updatePresentRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
-                //alert(result.d);
+                closePopup();
             }
             else {
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
