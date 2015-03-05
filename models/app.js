@@ -245,16 +245,16 @@ function getTop5App() {
 }
 
 //load app data when page is load
-$(window).on('navigate', function (event, data) {
-    if (data.state.url.indexOf('loadingScreen')) {
-        event.preventDefault();
-    }
-    //var direction = data.state.direction;
-    //alert(JSON.stringify(data))
-    //if (!!direction) {
-    //    alert(direction);
-    //}
-});
+//$(window).on('navigate', function (event, data) {
+//    if (data.state.url.indexOf('loadingScreen')) {
+//        event.preventDefault();
+//    }
+//    //var direction = data.state.direction;
+//    //alert(JSON.stringify(data))
+//    //if (!!direction) {
+//    //    alert(direction);
+//    //}
+//});
 
 //$(document).on('pagebeforecreate', '#welcomeScreen', function () {
 //    document.addEventListener('backbutton', function (e) {
