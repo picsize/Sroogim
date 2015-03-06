@@ -432,13 +432,14 @@ var testApi = function (d) {
 }
 
 var fbLoginSuccess = function (userData) {
-    facebookConnectPlugin.getAccessToken(function (token) {
-        alert("Token: " + JSON.stringify(token));
-        testApi(userData);
-    }, function (err) {
-        alert("Could not get access token: " + JSON.stringify(err));
-    });
+    //facebookConnectPlugin.getAccessToken(function (token) {
+    //    alert("Token: " + JSON.stringify(token));
+        
+    //}, function (err) {
+    //    alert("Could not get access token: " + JSON.stringify(err));
+    //});
     //alert("UserInfo: " + JSON.stringify(userData));
+    testApi(userData);
 }
 
 var fbLoginFaild = function (error) { alert("error login with facebook:\n" + JSON.stringify(error)) }
