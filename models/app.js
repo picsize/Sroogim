@@ -47,7 +47,7 @@ function initApp() {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
             //login();
-            loginStatus();
+            getLoginStatus();
         }
         else {
             count--;
@@ -67,7 +67,8 @@ function initApp() {
     loadAllData();
     getCurrentlatlong();
     getTop5App();
-    document.addEventListener("backbutton", onBackKeyDown, false);
+    loadFacebook();
+    //document.addEventListener("backbutton", onBackKeyDown, false);
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -360,7 +361,7 @@ function setDistance(response, status) {
 
 //#region Facebook
 
-var loginToSroogim = function (fbData) {
+function loginToSroogim(fbData) {
     alert('fbData:\n' + JSON.stringify(fbData));
     //#region cover
     try {
@@ -418,51 +419,96 @@ var loginToSroogim = function (fbData) {
 
 }
 
-var loginStatus = function (fRes) {
-    facebookConnectPlugin.getLoginStatus(fbLoginStatusSuccess, fbLoginStatusFaild)
-}
-
-var fbLoginStatusSuccess = function (loginStatusData) {
-    alert('fbLoginStatusSuccess:\n' + JSON.stringify(loginStatusData));
-    if (loginStatusData.status == 'connected') {
-        testApi(loginStatusData);
-    }
-    //else {
-    //    login();
-    //}
-}
-
-var fbLoginStatusFaild = function (loginStatusData) {
-    alert('fbLoginStatusFaild:\n' + JSON.stringify(loginStatusData));
-}
-
-var login = function () {
-    facebookConnectPlugin.login(["user_birthday"], fbLoginSuccess, fbLoginFaild);
-}
-
-var testApi = function (d) {
-    alert('test api:\n' + JSON.stringify(d));
-    facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
-        function (result) {
-            loginToSroogim(result);
-        },
-        function (error) {
-            alert("Failed: " + error);
+function loadFacebook() {
+    try {
+        FB.init({
+            appId: "988309234528102",
+            nativeInterface: CDV.FB,
+            useCachedDialogs: false,
+            oauth: true
         });
-}
-
-var fbLoginSuccess = function (userData) {
-    //facebookConnectPlugin.getAccessToken(function (token) {
-    //    alert("Token: " + JSON.stringify(token));
+    } catch (e) {
         
-    //}, function (err) {
-    //    alert("Could not get access token: " + JSON.stringify(err));
-    //});
-    //alert("UserInfo: " + JSON.stringify(userData));.
-    testApi(userData);
+    }
 }
 
-var fbLoginFaild = function (error) { alert("error login with facebook:\n" + JSON.stringify(error)) }
+function getLoginStatus() {
+    FB.getLoginStatus(function (response) {
+        if (response.status == 'connected') {
+            fbApi(response);
+        }
+    });
+}
+
+function fbApi(d) {
+    alert('test api:\n' + JSON.stringify(d));
+    var apiCall = function () {
+        FB.api('/me/?fields=id,email,cover,first_name,last_name', function (response) {
+            //console.log('Good to see you, ' + response.name + '.');
+            if (response && !response.error) {
+                loginToSroogim(response);
+            }
+        });
+    }
+    apiCall();
+}
+
+function facebookLogin() {
+    FB.login(function (response) {
+        if (response.authResponse) {
+            fbApi(response);
+        } else {
+            console.log('User cancelled login or did not fully authorize.');
+        }
+    }, { scope: 'email, user_birthday, user_location' });
+}
+
+
+//var loginStatus = function (fRes) {
+//    facebookConnectPlugin.getLoginStatus(fbLoginStatusSuccess, fbLoginStatusFaild)
+//}
+
+//var fbLoginStatusSuccess = function (loginStatusData) {
+//    alert('fbLoginStatusSuccess:\n' + JSON.stringify(loginStatusData));
+//    if (loginStatusData.status == 'connected') {
+//        testApi(loginStatusData);
+//    }
+//    //else {
+//    //    login();
+//    //}
+//}
+
+//var fbLoginStatusFaild = function (loginStatusData) {
+//    alert('fbLoginStatusFaild:\n' + JSON.stringify(loginStatusData));
+//}
+
+//var login = function () {
+//    facebookConnectPlugin.login(["user_birthday"], fbLoginSuccess, fbLoginFaild);
+//}
+
+//var testApi = function (d) {
+//    alert('test api:\n' + JSON.stringify(d));
+//    facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
+//        function (result) {
+//            loginToSroogim(result);
+//        },
+//        function (error) {
+//            alert("Failed: " + error);
+//        });
+//}
+
+//var fbLoginSuccess = function (userData) {
+//    //facebookConnectPlugin.getAccessToken(function (token) {
+//    //    alert("Token: " + JSON.stringify(token));
+        
+//    //}, function (err) {
+//    //    alert("Could not get access token: " + JSON.stringify(err));
+//    //});
+//    //alert("UserInfo: " + JSON.stringify(userData));.
+//    testApi(userData);
+//}
+
+//var fbLoginFaild = function (error) { alert("error login with facebook:\n" + JSON.stringify(error)) }
 
 function checkFacebookUser() {
     alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
@@ -506,7 +552,7 @@ function checkFacebookUser() {
     //}
 }
 
-$(document).on('click', '#facebookLogin', login);
+$(document).on('click', '#facebookLogin', facebookLogin);
 
 //var test = function () {
 //    alert('test');
@@ -967,7 +1013,6 @@ function createPresentPage(json) {
         }
     }
     var presentRatingHTML = createRating(json.PresentRating);
-    alert(presentRatingHTML);
     $('#singlePresent_presentHeader').text(json.PresentHeader);
     $('#singlePresent_presentDesc').text(json.PresentDescription);
     if (json.PresentTip != '') {
@@ -1304,10 +1349,9 @@ function showPermission() {
     }
 }
 
-$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"], .addComment', function () {
+$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"], .addComment, .share, .rating.clickable span', function () {
     showPermission();
 });
-
 
 //#endregion
 
@@ -1333,6 +1377,34 @@ $(document).on('click', '#register-button', function () {
                 }
                 else {
                     userPermision = 1;
+                    var images = new Object();
+                    images.name = ['profile', 'cover'];
+                    images.data = [userProfilePic, userCoverPic];
+
+                    userImageJson = {
+                        'userDeviceID': userDeviceID,
+                        'images': images
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: api + "updateUserImg",
+                        data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        },
+                        success: function (result) {
+                            if (result.d.indexOf("שגיאה") != -1) {
+                                alert(result.d);
+                            }
+                            else {
+                                alert('התמונות נשמרו בהצלחה');
+                            }
+
+                        }
+                    });
                     var n = 5;
                     var f = function () {
                         if (n <= 0) {
@@ -1348,35 +1420,6 @@ $(document).on('click', '#register-button', function () {
                                 textonly: false
                             });
                             setTimeout(f, 1000);
-
-                            var images = new Object();
-                            images.name = ['profile', 'cover'];
-                            images.data = [userProfilePic, userCoverPic];
-
-                            userImageJson = {
-                                'userDeviceID': userDeviceID,
-                                'images': images
-                            }
-
-                            $.ajax({
-                                type: "POST",
-                                url: api + "updateUserImg",
-                                data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
-                                contentType: 'application/json; charset=utf-8',
-                                dataType: 'json',
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    alert(textStatus);
-                                },
-                                success: function (result) {
-                                    if (result.d.indexOf("שגיאה") != -1) {
-                                        alert(result.d);
-                                    }
-                                    else {
-                                        alert('התמונות נשמרו בהצלחה');
-                                    }
-
-                                }
-                            });
                         }
                     }
                     f();
@@ -1544,6 +1587,22 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
                 else {
                     $.ajax({
                         type: 'post',
+                        url: api + 'getUserDetails',
+                        data: "{userJson: '" + JSON.stringify(json) + "'}",
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        },
+                        success: function (result) {
+                            var user = JSON.parse(result.d);
+                            userFullName = user.UserFullName;
+                            $('#userName').text(userFullName);
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'post',
                         url: api + 'getUserImg',
                         data: "{userJson: '" + JSON.stringify(json) + "'}",
                         contentType: 'application/json; charset=utf-8',
@@ -1566,9 +1625,9 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
                                         $('#sidebarProfileImg').css('background-image', 'url("' + userImgSrc + userImg[0].UserProfileImage + '")');
                                         $('#sidebarCoverImg').attr('src', userImgSrc + userImg[0].UserCoverImage);
                                         userEmail = $('#loginEmail').val();
-                                        userFullName = $('#loginEmail').val();
+                                        //userFullName = $('#loginEmail').val();
                                         userPassword = $('#loginPassword').val();
-                                        $('#userName').text(userFullName);
+                                        //$('#userName').text(userFullName);
                                     }
                                     else {
                                         n--;
@@ -1878,33 +1937,33 @@ function createRating(value) {
     switch (value) {
         case 0: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="1">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>';
         } break;
         case 1: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="1">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1912,13 +1971,13 @@ function createRating(value) {
         } break;
         case 2: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1929,10 +1988,10 @@ function createRating(value) {
         } break;
         case 3: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1946,7 +2005,7 @@ function createRating(value) {
         } break;
         case 4: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/whiteStar.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
