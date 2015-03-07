@@ -29,10 +29,12 @@ function showImgPreview(type, elem) {
 
 function showCover(imageURI) {
     $('#uploadCoverImg').attr('src', imageURI)
+    userCoverPic = imageURI;
 }
 
 function showProfile(imageURI) {
     $('#uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
+    userProfilePic = imageURI;
 }
 
 function showSupplier(imageURI, elem) {

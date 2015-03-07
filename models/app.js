@@ -66,6 +66,7 @@ function initApp() {
     loadAllData();
     getCurrentlatlong();
     getTop5App();
+    
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -1304,7 +1305,7 @@ $(document).on('click', '#register-button', function () {
                 }
                 else {
                     userPermision = 1;
-                    var n = 3;
+                    var n = 5;
                     var f = function () {
                         if (n <= 0) {
                             $.mobile.loading('hide');
@@ -1319,6 +1320,37 @@ $(document).on('click', '#register-button', function () {
                                 textonly: false
                             });
                             setTimeout(f, 1000);
+
+                            var images = new Object();
+                            images.name = ['profile', 'cover'];
+                            images.data = [userProfilePic, userCoverPic];
+                            for (var i = 0; i < images.name.length; i++) {
+                                userImageJson = {
+                                    'userDeviceID': userDeviceID,
+                                    'imageName': images.name[i],
+                                    'imageData':images.data[i]
+                                }
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: api + "updateUserImg",
+                                    data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+                                    contentType: 'application/json; charset=utf-8',
+                                    dataType: 'json',
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        alert(textStatus);
+                                    },
+                                    success: function (result) {
+                                        if (result.d.indexOf("שגיאה") != -1) {
+                                            alert('שגיאה: לא ניתן לשמור את תמונת ה ' + userImageJson.imageName);
+                                        }
+                                        else {
+                                            alert('תמונת ה ' + userImageJson.imageName + 'נשמרה בהצלחה');
+                                        }
+                                        
+                                    }
+                                });
+                            }
                         }
                     }
                     f();
@@ -1333,29 +1365,35 @@ function createUserJson() {
     images.name = new Array();
     images.data = new Array();
 
-    if ($('#uploadCoverImg').attr('src') != '') {
-        images.data.push($('#uploadCoverImg').attr('src'));
-        if ($('#uploadCoverImg').next().val() == '') {
-            var array = $('#uploadCoverImg').attr('src').split('/');
-            var last = array[array.length - 1];
-            images.name.push(last);
-        }
-        else {
-            images.name.push($('#uploadCoverImg').next()[0].files[0].name);
-        }
-    }
+    images.name.push('profile');
+    images.data.push(userProfilePic)
 
-    if ($('#uploadProfileImg').css('background-image') != '') {
-        images.data.push($('#uploadProfileImg').css('background-image'));
-        if ($('#uploadProfileImg').next().val() == '') {
-            var array = $('#uploadProfileImg').css('background-image').split('/');
-            var last = array[array.length - 1];
-            images.name.push(last);
-        }
-        else {
-            images.name.push($('#uploadProfileImg').next()[0].files[0].name);
-        }
-    }
+    images.name.push('cover');
+    images.data.push(userCoverPic)
+
+    //if ($('#uploadCoverImg').attr('src') != '') {
+    //    images.data.push($('#uploadCoverImg').attr('src'));
+    //    if ($('#uploadCoverImg').next().val() == '') {
+    //        var array = $('#uploadCoverImg').attr('src').split('/');
+    //        var last = array[array.length - 1];
+    //        images.name.push(last);
+    //    }
+    //    else {
+    //        images.name.push($('#uploadCoverImg').next()[0].files[0].name);
+    //    }
+    //}
+
+    //if ($('#uploadProfileImg').css('background-image') != '') {
+    //    images.data.push($('#uploadProfileImg').css('background-image'));
+    //    if ($('#uploadProfileImg').next().val() == '') {
+    //        var array = $('#uploadProfileImg').css('background-image').split('/');
+    //        var last = array[array.length - 1];
+    //        images.name.push(last);
+    //    }
+    //    else {
+    //        images.name.push($('#uploadProfileImg').next()[0].files[0].name);
+    //    }
+    //}
 
     var user = {
         'userFullName': $('#userFullName').val(),
@@ -1363,14 +1401,14 @@ function createUserJson() {
         'userPassword': $('#userPassword').val(),
         'facebookUser': 0,
         'userDeviceID': userDeviceID,
-        'images': images
+        'images': images.name
     };
 
     userEmail = $('#userEmail').val();
     userFullName = $('#userFullName').val();
     userPassword = $('#userPassword').val();
-    userProfilePic = images.name[1];
-    userCoverPic = images.name[0];
+    //userProfilePic = images.name[1];
+    //userCoverPic = images.name[0];
 
     return user;
 }
