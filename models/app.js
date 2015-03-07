@@ -16,9 +16,9 @@ userImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/users/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
 var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
-var categoriesHTML = '';
+var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = 1, ratingValue = 0;
+var userPermision = '', ratingValue = 0, applyGps = true;;
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -46,7 +46,8 @@ function initApp() {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
-            login();
+            //login();
+            loginStatus();
         }
         else {
             count--;
@@ -66,7 +67,7 @@ function initApp() {
     loadAllData();
     getCurrentlatlong();
     getTop5App();
-    
+    document.addEventListener("backbutton", onBackKeyDown, false);
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -417,6 +418,24 @@ var loginToSroogim = function (fbData) {
 
 }
 
+var loginStatus = function (fRes) {
+    facebookConnectPlugin.getLoginStatus(fbLoginStatusSuccess, fbLoginStatusFaild)
+}
+
+var fbLoginStatusSuccess = function (loginStatusData) {
+    alert('fbLoginStatusSuccess:\n' + JSON.stringify(loginStatusData));
+    if (loginStatusData.status == 'connected') {
+        testApi(loginStatusData);
+    }
+    //else {
+    //    login();
+    //}
+}
+
+var fbLoginStatusFaild = function (loginStatusData) {
+    alert('fbLoginStatusFaild:\n' + JSON.stringify(loginStatusData));
+}
+
 var login = function () {
     facebookConnectPlugin.login(["user_birthday"], fbLoginSuccess, fbLoginFaild);
 }
@@ -439,7 +458,7 @@ var fbLoginSuccess = function (userData) {
     //}, function (err) {
     //    alert("Could not get access token: " + JSON.stringify(err));
     //});
-    //alert("UserInfo: " + JSON.stringify(userData));
+    //alert("UserInfo: " + JSON.stringify(userData));.
     testApi(userData);
 }
 
@@ -590,21 +609,31 @@ function createLocationPage() {
 
 //create date categories
 $(document).on('click', '[href="index.html#datesPage"]', function () {
-    categoriesHTML = '';
+    dateCategoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].CategoryType == "Date" && categories[i].SubList[0].Value != 0) {
-            categoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
+            dateCategoriesHTML += '<div data-role="collapsible"> <h4>' + categories[i].Text + '<img src="' + categoriesSrc + categories[i].CategoryImage + '" /> </h4><ul data-role="listview">';
             for (var j = 0; j < categories[i].SubList.length; j++) {
-                categoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right !important;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
+                dateCategoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right !important;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
             }
-            categoriesHTML += '</ul></div>';
+            dateCategoriesHTML += '</ul></div>';
         }
 
     };
     //alert(html);
 });
 
-$(document).on('pagebeforecreate', '#datesPage', function () { $('#datesPage .wrapper').html(categoriesHTML); });
+$(document).on('pagebeforecreate', '#datesPage', function () {
+    $('#datesPage .wrapper').html(dateCategoriesHTML);
+    if (applyGps) {
+        $('.selectLocation').removeClass('active');
+        $('.findGps').addClass('active');
+    }
+    else {
+        $('.findGps').removeClass('active');
+        $('.selectLocation').addClass('active');
+    }
+});
 
 $(document).on('pagebeforecreate', '#location', function () { $('.findGps').removeClass('active'); $('.selectLocation').addClass('active'); });
 
@@ -703,23 +732,20 @@ $(document).on('click', '.goToDate', function () {
 });
 
 //apply location view
-$(document).on('click', '.findGps, .selectLocation', function () {
-    if ($(this).hasClass('findGps')) {
-        $('.findGps').addClass('active');
-        $('.selectLocation').removeClass('active');
-        //$('.goToDateList').click();
-        $.mobile.changePage('index.html#datesPage');
-    } else {
-        $('.selectLocation').addClass('active');
-        $('.findGps').removeClass('active');
-        $.mobile.changePage('index.html#location');
-    }
+$(document).on('click', '.findGps', function () {
+    applyGps = true;
+    $('[href="index.html#datesPage"]').click();
+    $.mobile.changePage('index.html#datesPage');
+});
+
+$(document).on('click', '.selectLocation', function () {
+    applyGps = false;
+    $.mobile.changePage('index.html#location');
 });
 
 //show dates in city
 $(document).on('click', '.city', function () {
-    $('.findGps').removeClass('active');
-    $('.selectLocation').addClass('active');
+    applyGps = false;
     //getCurrentlatlong();
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
@@ -941,6 +967,7 @@ function createPresentPage(json) {
         }
     }
     var presentRatingHTML = createRating(json.PresentRating);
+    alert(presentRatingHTML);
     $('#singlePresent_presentHeader').text(json.PresentHeader);
     $('#singlePresent_presentDesc').text(json.PresentDescription);
     if (json.PresentTip != '') {
@@ -956,23 +983,23 @@ function createPresentPage(json) {
         sellerLi += '<div><img data-seller="' + json.PresentSeller[i].Url.split(',')[1] + '" src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url.split(',')[0] + '" /></div>';
     }
     $('#presentsSeller').html(sellerLi);
-    $('#singlePeresent .rating').html(presentRatingHTML);
+    $('#singlePresent .rating').html(presentRatingHTML);
 }
 
 function createPresentsCategoriesPage(gender) {
     if (presents.length > 0) {
-        categoriesHTML = '<ul class="dataList">';
+        presentCategoriesHTML = '<ul class="dataList">';
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
-                categoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
+                presentCategoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
                   '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
                   '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
             }
         }
-        categoriesHTML += '</ul>';
+        presentCategoriesHTML += '</ul>';
     }
     else {
-        categoriesHTML = 'לא קיימות מתנות';
+        presentCategoriesHTML = 'לא קיימות מתנות';
     }
 }
 
@@ -982,7 +1009,8 @@ $(document).on('click', '[href="index.html#presentsCategories"]', function () {
 });
 
 $(document).on('pagebeforecreate', '#presentsCategories', function () {
-    $('#presentsCategories .wrapper').html(categoriesHTML);
+    $('[href="index.html#presentsCategories"]').click();
+    $('#presentsCategories .wrapper').html(presentCategoriesHTML);
 });
 
 //go to presents list
@@ -1047,7 +1075,7 @@ $(document).on('click', '.women, .men', function () {
         $('.women').removeClass('active');
     }
 
-    $('#presentsCategories .wrapper').html(categoriesHTML);
+    $('#presentsCategories .wrapper').html(presentCategoriesHTML);
     $.mobile.changePage('#presentsCategories');
 });
 
@@ -1324,33 +1352,31 @@ $(document).on('click', '#register-button', function () {
                             var images = new Object();
                             images.name = ['profile', 'cover'];
                             images.data = [userProfilePic, userCoverPic];
-                            for (var i = 0; i < images.name.length; i++) {
-                                userImageJson = {
-                                    'userDeviceID': userDeviceID,
-                                    'imageName': images.name[i],
-                                    'imageData':images.data[i]
-                                }
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: api + "updateUserImg",
-                                    data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
-                                    contentType: 'application/json; charset=utf-8',
-                                    dataType: 'json',
-                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                        alert(textStatus);
-                                    },
-                                    success: function (result) {
-                                        if (result.d.indexOf("שגיאה") != -1) {
-                                            alert('שגיאה: לא ניתן לשמור את תמונת ה ' + userImageJson.imageName);
-                                        }
-                                        else {
-                                            alert('תמונת ה ' + userImageJson.imageName + 'נשמרה בהצלחה');
-                                        }
-                                        
-                                    }
-                                });
+                            userImageJson = {
+                                'userDeviceID': userDeviceID,
+                                'images': images
                             }
+
+                            $.ajax({
+                                type: "POST",
+                                url: api + "updateUserImg",
+                                data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+                                contentType: 'application/json; charset=utf-8',
+                                dataType: 'json',
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    alert(textStatus);
+                                },
+                                success: function (result) {
+                                    if (result.d.indexOf("שגיאה") != -1) {
+                                        alert(result.d);
+                                    }
+                                    else {
+                                        alert('התמונות נשמרו בהצלחה');
+                                    }
+
+                                }
+                            });
                         }
                     }
                     f();
@@ -1571,24 +1597,21 @@ $(document).on('click', '#loginForm form input[type="button"]', function () {
 //#region Favorits
 
 $(document).on('click', '.addToFav', function () {
-    if (userPermision == '') {
-        $('#popupContent').html('<h2>על מנת להוסיף למועדפים, יש לבצע הרשמה</h2>');
+    if (userPermision != 1) {
+        $('#popupContent').html('<h2>על מנת להוסיף למועדפים, יש לבצע הרשמה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
         openPopup();
     }
     else {
         if ($(this).attr('src').indexOf('favHover') != -1) {
             $(this).attr('src', 'essential/images/General/fav.png');
-            $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>');
+            $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
             openPopup();
             //removeFavorite();     
         }
         else {
             $(this).attr('src', 'essential/images/General/favHover.png');
-            $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>');
+            $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
             openPopup();
-            function closeFavPopup() {
-                $('#popup').popup('close');
-            }
             //AddFavorite();
         }
     }
@@ -1976,6 +1999,23 @@ function createRating(value) {
     }
 
     return html;
+}
+
+//#endregion
+
+//#region Add
+
+function clearField(elem, defaultValue) {
+    if (elem.val() == defaultValue) {
+        elem.val('');
+    }
+    
+}
+
+function checkField(elem, defaultValue) {
+    if (elem.val() == '') {
+        elem.val(defaultValue);
+    }
 }
 
 //#endregion
