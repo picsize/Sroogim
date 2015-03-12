@@ -115,6 +115,7 @@
 
 /*#region Slides*/
 
+/*#region 4 slides*/
 @keyframes cf4FadeInOut
 {
     0%
@@ -283,6 +284,337 @@
         -webkit-animation-delay: 0s;
         animation-delay: 0s;
     }
+/*#endregion*/
+
+/*#region 3 slides*/
+@keyframes cf3FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes cf3FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+
+}
+
+@-moz-keyframes cf3FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes cf3FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+.cf3a img
+{
+    -webkit-animation-name: cf3FadeInOut;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 6s;
+    -moz-animation-name: cf3FadeInOut;
+    -moz-animation-timing-function: ease-in-out;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 6s;
+    -o-animation-name: cf3FadeInOut;
+    -o-animation-timing-function: ease-in-out;
+    -o-animation-iteration-count: infinite;
+    -o-animation-duration: 6s;
+    animation-name: cf3FadeInOut;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 6s;
+    position:absolute;
+    left:0;
+    width:100%;
+    height:159px;
+}
+
+    .cf3a img:nth-of-type(1)
+    {
+        -moz-animation-delay: 4s;
+        -o-animation-delay: 4s;
+        -webkit-animation-delay: 4s;
+        animation-delay: 4s;
+    }
+
+    .cf3a img:nth-of-type(2)
+    {
+        -moz-animation-delay: 2s;
+        -o-animation-delay: 2s;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+
+    .cf3a img:nth-of-type(3)
+    {
+        -moz-animation-delay: 0s;
+        -o-animation-delay: 0s;
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+    }
+/*#endregion*/
+
+/*#region 2 slides*/
+@keyframes cf2FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes cf2FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+
+}
+
+@-moz-keyframes cf2FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes cf2FadeInOut
+{
+    0%
+    {
+        opacity: 1;
+    }
+
+    17%
+    {
+        opacity: 1;
+    }
+
+    25%
+    {
+        opacity: 0;
+    }
+
+    92%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+.cf2a img
+{
+    -webkit-animation-name: cf2FadeInOut;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 4s;
+    -moz-animation-name: cf2FadeInOut;
+    -moz-animation-timing-function: ease-in-out;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-duration: 4s;
+    -o-animation-name: cf2FadeInOut;
+    -o-animation-timing-function: ease-in-out;
+    -o-animation-iteration-count: infinite;
+    -o-animation-duration: 4s;
+    animation-name: cf2FadeInOut;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+    position:absolute;
+    left:0;
+    width:100%;
+    height:159px;
+}
+
+    .cf2a img:nth-of-type(1)
+    {
+        -moz-animation-delay: 2s;
+        -o-animation-delay: 2s;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+
+    .cf2a img:nth-of-type(2)
+    {
+        -moz-animation-delay: 0s;
+        -o-animation-delay: 0s;
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+    }
+/*#endregion*/
+
+/*#region 1 slides*/
+
+.cf1a img
+{
+    position:absolute;
+    left:0;
+    width:100%;
+    height:159px;
+}
+
+/*#endregion*/
 
 /*#endregion*/
 

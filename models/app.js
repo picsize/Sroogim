@@ -41,12 +41,11 @@ function initApp() {
         userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
     }
     //alert('uuid: ' + userDeviceID);
-    var count = 11;
+    var count = 16;
     var loadComponents = function () {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
             $.mobile.loading('hide');
-            //login();
             getLoginStatus();
         }
         else {
@@ -61,14 +60,15 @@ function initApp() {
     }
     loadComponents();
     checkPhonegap();
-    //window.setInterval(function () {
-    //    loadAllData();
-    //}, 1800000); // every 1800 sec -> 30 min
     loadAllData();
     getCurrentlatlong();
     getTop5App();
     loadFacebook();
+
     //document.addEventListener("backbutton", onBackKeyDown, false);
+    //window.setInterval(function () {
+    //    loadAllData();
+    //}, 1800000); // every 1800 sec -> 30 min
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -362,7 +362,7 @@ function setDistance(response, status) {
 //#region Facebook
 
 function loginToSroogim(fbData) {
-    alert('fbData:\n' + JSON.stringify(fbData));
+    //alert('fbData:\n' + JSON.stringify(fbData));
     //#region cover
     try {
         userCoverPic = fbData.cover.source;
@@ -414,7 +414,7 @@ function loginToSroogim(fbData) {
     }
     //#endregion
 
-    alert('loginToSroogimAs:\n' + userEmail + '\n' + userFullName + '\n' + userPassword + '\n' + userProfilePic + '\n' + userCoverPic + '\n' + userDeviceID);
+    //alert('loginToSroogimAs:\n' + userEmail + '\n' + userFullName + '\n' + userPassword + '\n' + userProfilePic + '\n' + userCoverPic + '\n' + userDeviceID);
     checkFacebookUser();
 
 }
@@ -441,7 +441,7 @@ function getLoginStatus() {
 }
 
 function fbApi(d) {
-    alert('test api:\n' + JSON.stringify(d));
+    //alert('test api:\n' + JSON.stringify(d));
     var apiCall = function () {
         FB.api('/me/?fields=id,email,cover,first_name,last_name', function (response) {
             //console.log('Good to see you, ' + response.name + '.');
@@ -463,57 +463,10 @@ function facebookLogin() {
     }, { scope: 'email, user_birthday, user_location' });
 }
 
-
-//var loginStatus = function (fRes) {
-//    facebookConnectPlugin.getLoginStatus(fbLoginStatusSuccess, fbLoginStatusFaild)
-//}
-
-//var fbLoginStatusSuccess = function (loginStatusData) {
-//    alert('fbLoginStatusSuccess:\n' + JSON.stringify(loginStatusData));
-//    if (loginStatusData.status == 'connected') {
-//        testApi(loginStatusData);
-//    }
-//    //else {
-//    //    login();
-//    //}
-//}
-
-//var fbLoginStatusFaild = function (loginStatusData) {
-//    alert('fbLoginStatusFaild:\n' + JSON.stringify(loginStatusData));
-//}
-
-//var login = function () {
-//    facebookConnectPlugin.login(["user_birthday"], fbLoginSuccess, fbLoginFaild);
-//}
-
-//var testApi = function (d) {
-//    alert('test api:\n' + JSON.stringify(d));
-//    facebookConnectPlugin.api("me/?fields=id,email,cover,first_name,last_name", ["user_birthday"],
-//        function (result) {
-//            loginToSroogim(result);
-//        },
-//        function (error) {
-//            alert("Failed: " + error);
-//        });
-//}
-
-//var fbLoginSuccess = function (userData) {
-//    //facebookConnectPlugin.getAccessToken(function (token) {
-//    //    alert("Token: " + JSON.stringify(token));
-        
-//    //}, function (err) {
-//    //    alert("Could not get access token: " + JSON.stringify(err));
-//    //});
-//    //alert("UserInfo: " + JSON.stringify(userData));.
-//    testApi(userData);
-//}
-
-//var fbLoginFaild = function (error) { alert("error login with facebook:\n" + JSON.stringify(error)) }
-
 function checkFacebookUser() {
-    alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
+    //alert('cfu:\n' + userEmail + ', ' + userFullName + ', ' + userPassword + ', ' + userProfilePic + ', ' + userCoverPic + ', ' + userDeviceID);
     var json = createUserJsonFromFacebook();
-    alert('userJson from CFU: ' + JSON.stringify(json));
+    //alert('userJson from CFU: ' + JSON.stringify(json));
     $.ajax({
         type: "POST",
         url: api + "checkFacebookUser",
@@ -521,9 +474,9 @@ function checkFacebookUser() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-            alert(JSON.stringify(XMLHttpRequest));
-            alert(JSON.stringify(errorThrown));
+            //alert(textStatus);
+            //alert(JSON.stringify(XMLHttpRequest));
+            //alert(JSON.stringify(errorThrown));
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
@@ -540,6 +493,8 @@ function checkFacebookUser() {
                     openPopup();
                 }
                 else {
+                    getUserFavoritsDates();
+                    getUserFavoritsPresents();
                     $('#userName').text(json.userFullName);
                     userPermision = 1;
                     $.mobile.changePage('index.html#mainScreen');
@@ -554,21 +509,6 @@ function checkFacebookUser() {
 
 $(document).on('click', '#facebookLogin', facebookLogin);
 
-//var test = function () {
-//    alert('test');
-//    userFullName = 'Lihi Avraham';
-//    userEmail = 'lihi2@picsize.co.il';
-//    userPassword = 11;
-//    facebookUser = 1;
-//    userDeviceID = '1020451694178330';
-//    userCoverPic = 'https://scontent.xx.fbcdn.net/hphotos-xfp1/t31.0-8/s720x720/10710395_10204015249355773_4298624842020855985_o.jpg';
-//    userProfilePic = 'http://graph.facebook.com/10204516964178330/picture?width=171&height=171';
-//    a = createUserJsonFromFacebook();
-//    registerUserFromFacebook(a);
-//}
-
-//$(document).on('click', '#facebookLogin', test);
-
 $(document).on('click', '.addComment', function () {
     $('#popupContent').html('<iframe src="http://sroogim.co.il/SroogimCMS/app/api/facebook.html" width="100%" style="border:none; height:auto; min-height:357px;"></iframe>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">סגור</button>');
     //$('#popup').on('popupbeforeposition', function () {
@@ -579,6 +519,20 @@ $(document).on('click', '.addComment', function () {
     //});
     openPopup();
 });
+
+//var test = function () {
+//    alert('test');
+//    userFullName = 'Lihi Avraham';
+//    userEmail = 'lihi2@picsize.co.il';
+//    userPassword = 11;
+//    facebookUser = 1;
+//    userDeviceID = '1020451694178330';
+//    userCoverPic = 'https://scontent.xx.fbcdn.net/hphotos-xfp1/t31.0-8/s720x720/10710395_10204015249355773_4298624842020855985_o.jpg';
+//    userProfilePic = 'http://graph.facebook.com/10204516964178330/picture?width=171&height=171';
+//    //a = createUserJsonFromFacebook();
+//    //registerUserFromFacebook(a);
+//    checkFacebookUser();
+//}
 
 //#endregion
 
@@ -594,15 +548,16 @@ function createDatePage(json) {
         }
         else {
             $('#dateImages').html('');
+            switch (json.DateImages.length) {
+                case 1: { $('#dateImages').addClass('cf1a'); } break;
+                case 2: { $('#dateImages').addClass('cf2a'); } break;
+                case 3: { $('#dateImages').addClass('cf3a'); } break;
+                case 4: { $('#dateImages').addClass('cf4a'); } break;
+                default: { } break;
+
+            }
             for (var i = 0; i < json.DateImages.length; i++) {
                 $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[i].Url + '" />');
-            }
-            if ($('#dateImages img').length < 4) {
-                var c = 4 - json.DateImages.length;
-                for (var j = 0; j < c; j++) {
-                    $('#dateImages').append('<img src="' + dateImgSrc + json.DateID + '/' + json.DateImages[0].Url + '" />');
-                }
-
             }
         }
     } catch (e) {
@@ -690,9 +645,18 @@ $(document).on('click', '.goToDateList', function () {
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
     var previewImg;
+    var favIcon;
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
+            for (var j = 0; j < favDates.length; j++) {
+                if (dates[i].DateID == favDates[j].DateID) {
+                    favIcon = 'essential/images/General/favHover.png';
+                }
+                else {
+                    favIcon = 'essential/images/General/fav.png';
+                }
+            }
             if (dates[i].ShowVideo == 'Y') {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
@@ -710,7 +674,7 @@ $(document).on('click', '.goToDateList', function () {
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
@@ -741,21 +705,16 @@ $(document).on('click', '.goToDateList', function () {
 });
 
 //set distance to places
-$(document).on('pageshow', '#datesList', function () {
+$(document).on('pageshow', '#datesList, #favorites', function () {
     var num = 4;
     var calcGPS = function () {
         if (num <= 0) {
-            //alert($('.distance').length);
             for (var i = 0; i < $('#datesList .distance').length; i++) {
                 $('#datesList .distance')[i].innerHTML = distance[i]
             }
-            //$.mobile.loading('hide');
-            //disCount = 0;
-            //$('.distance').each(function () {
-            //    $(this).text(distance[disCount]);
-            //    disCount++;
-            //});
-            $('.findGps').addClass('active');
+            for (var i = 0; i < $('#favorites .distance').length; i++) {
+                $('#favorites .distance')[i].innerHTML = distance[i]
+            }
         }
         else {
             num--;
@@ -763,7 +722,6 @@ $(document).on('pageshow', '#datesList', function () {
         }
     };
     calcGPS();
-
 });
 
 //show date page
@@ -992,6 +950,14 @@ function createPresentPage(json) {
     }
     else {
         $('#presentImages').html('');
+        switch (json.PresentImages.length) {
+            case 1: { $('#presentImages').addClass('cf1a'); } break;
+            case 2: { $('#presentImages').addClass('cf2a'); } break;
+            case 3: { $('#presentImages').addClass('cf3a'); } break;
+            case 4: { $('#presentImages').addClass('cf4a'); } break;
+            default: { } break;
+
+        }
         for (var i = 0; i < json.PresentImages.length; i++) {
             try {
                 $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[i].Url + '" />');
@@ -999,17 +965,6 @@ function createPresentPage(json) {
                 $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/#" />');
             }
             
-        }
-        if ($('#presentImages img').length < 4) {
-            var c = 4 - json.PresentImages.length;
-            for (var j = 0; j < c; j++) {
-                try {
-                    $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/' + json.PresentImages[0].Url + '" />');
-                } catch (e) {
-                    $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/#" />');
-                }
-                
-            }
         }
     }
     var presentRatingHTML = createRating(json.PresentRating);
@@ -1064,7 +1019,14 @@ $(document).on('click', '.goToPresentsList', function () {
     $('#presentsList .wrapper .title h2').text($(this).text());
     var presentLi = '';
     var previewImg;
+    var favIcon;
     for (var i = 0; i < presents.length; i++) {
+        if (presents[i].PresentID == favPresents[j].PresentID) {
+            favIcon = 'essential/images/General/favHover.png';
+        }
+        else {
+            favIcon = 'essential/images/General/fav.png';
+        }
         if (presents[i].ShowVideo == 'Y') {
             previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
         }
@@ -1085,7 +1047,7 @@ $(document).on('click', '.goToPresentsList', function () {
                                 '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                        '<li><img src="' + favIcon +'" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + presentRatingHTML +
                                             '</section>' +
@@ -1349,7 +1311,7 @@ function showPermission() {
     }
 }
 
-$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .ideas [href="index.html#favorites"], .addComment, .share, .rating.clickable span', function () {
+$(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ideas [href="index.html#addPresent"], .addComment, .share, .rating.clickable span', function () {
     showPermission();
 });
 
@@ -1661,28 +1623,82 @@ $(document).on('click', '.addToFav', function () {
         openPopup();
     }
     else {
-        if ($(this).attr('src').indexOf('favHover') != -1) {
-            $(this).attr('src', 'essential/images/General/fav.png');
-            $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
-            openPopup();
-            //removeFavorite();     
-        }
-        else {
-            $(this).attr('src', 'essential/images/General/favHover.png');
-            $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
-            openPopup();
-            //AddFavorite();
-        }
+        addOrRemoveFavorite($(this));
     }
 });
 
-//clisk on fav icon
-$(document).on('click', '[data-fav]', function () {
-    if ($(this).attr('data-fav') == 'dates') {
-        getUserFavoritsDates();
+function addOrRemoveFavorite(elem) {
+    if (elem.attr('data-fav') == 'date') {
+        var json = { 'userEmail': userEmail, 'dateID': parseInt(elem.attr('data-date-id')) };
+        $.ajax({
+            type: "POST",
+            url: api + "setUserFavDate",
+            data: "{userJson: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    //alert(result.d);
+                }
+                else {
+                    if (result.d == '1') {
+                        elem.attr('src', 'essential/images/General/favHover.png');
+                        $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+                        openPopup();
+                    }
+                    else {
+                        elem.attr('src', 'essential/images/General/fav.png');
+                        $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+                        openPopup();
+                    }
+                }
+            }   
+        });
     }
     else {
-        getUserFavoritsPresents();
+        var json = { 'userEmail': userEmail, 'presentID': parseInt(elem.attr('data-present-id')) };
+        $.ajax({
+            type: "POST",
+            url: api + "setUserFavPresent",
+            data: "{userJson: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    //alert(result.d);
+                }
+                else {
+                    if (result.d == '1') {
+                        elem.attr('src', 'essential/images/General/favHover.png');
+                        $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+                        openPopup();
+                    }
+                    else {
+                        elem.attr('src', 'essential/images/General/fav.png');
+                        $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+                        openPopup();
+                    }
+                }
+            }
+        });
+    }
+}
+
+//clisk on fav icon
+$(document).on('click', '[data-get-fav]', function () {
+    if (userPermision == 1) {
+        if ($(this).attr('data-get-fav') == 'dates') {
+            getUserFavoritsDates();
+        }
+        else {
+            getUserFavoritsPresents();
+        }
     }
 });
 
@@ -1710,35 +1726,36 @@ function getUserFavoritsDates() {
 }
 
 function createFavDatePage(json) {
+    var previewImg;
+    distance = [];
     var dateLi = '';
     try {
         for (var i = 0; i < dates.length; i++) {
             if (dates[i].DateID == json[i].DateID) {
+                if (dates[i].ShowVideo == 'Y') {
+                    previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+                }
+                else {
+                    previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
+                }
+                var dateRatingHTML = createRating(dates[i].DateRating)
+                var currentLocation = new google.maps.LatLng(lat, lng);
+                //alert('cLocation: ' + JSON.stringify(currentLocation));
+                calculateDistances(currentLocation, dates[i]);
                 dateLi += '<li class="dataItem">' +
+                                '<div><img src="' + previewImg + '" /></div>' +
                                 '<div>' +
                                     '<h3>' + thisDate.DateHeader + '</h3>' +
                                     '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                     '<section class="social">' +
                                         '<ul>' +
-                                            '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                            '<li><img src="essential/images/General/favHover.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                             '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
-                                            '<li><section class="rating">' +
-                                                    '<span data-value="5" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="4" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="3" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="2" data-empty="false">' +
-                                                        '<img src="essential/images/General/goldenStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="1" data-empty="false">' +
-                                                        '<img src="essential/images/General/goldenStar.png" />' +
-                                                    '</span>' +
+                                            '<li><section class="rating">' + dateRatingHTML +
                                                 '</section>' +
+                                            '</li>' +
+                                            '<li>' +
+                                                '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
                                             '</li>' +
                                         '</ul>' +
                                     '</section>' +
@@ -1796,7 +1813,7 @@ function createFavPresentPage(json) {
                                     '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                     '<section class="social">' +
                                         '<ul>' +
-                                            '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                            '<li><img src="essential/images/General/favHover.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
                                             '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
                                             '<li><section class="rating">' +
                                                     '<span data-value="5" data-empty="true">' +
