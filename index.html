@@ -18,9 +18,9 @@
     <link href="essential/css/sroogim.css" rel="stylesheet" />
     <link href="essential/css/animation.css" rel="stylesheet" />
     <!-- Phonegap -->
-    <script src="phonegap.js"></script>
+    <!--<script src="phonegap.js"></script>
     <script src="cdv-plugin-fb-connect.js"></script>
-    <script src="facebook-js-sdk.js"></script>
+    <script src="facebook-js-sdk.js"></script>-->
     <!-- Javascript -->
     <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
     <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
@@ -57,8 +57,8 @@
             <section>
                 <div id="panelLinks">
                     <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
-                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-fav="dates">דייטים מועדפים</a>
-                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-fav="presents">מתנות מועדפות</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-get-fav="dates">דייטים מועדפים</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-get-fav="presents">מתנות מועדפות</a>
                     <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
                     <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
                     <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
@@ -304,6 +304,14 @@
                     <img id="profile_coverImg" src="essential/images/Register/cover.png" />
                     <!-- Profile Image -->
                     <div id="profile_profileImg" class="circular"></div>
+                    <div class="ui-grid-a" id="profile-btn-holder">
+                        <div class="ui-block-a">
+                            <button id="update-profile-pic">תמונת פרופיל</button>
+                        </div>
+                        <div class="ui-block-b">
+                            <button id="update-cover-pic" >תמונת נושא</button>
+                        </div>
+                    </div>
                 </div>
                 <div id="profileFields">
                     <!-- Full Name -->

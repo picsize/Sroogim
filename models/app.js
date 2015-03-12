@@ -34,7 +34,8 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
 //});
 
 function initApp() {
-    //$('#newsContainer p').marquee();
+    $.mobile.defaultPageTransition = 'none';
+
     try {
         userDeviceID = device.uuid;
     } catch (e) {
@@ -64,11 +65,6 @@ function initApp() {
     getCurrentlatlong();
     getTop5App();
     loadFacebook();
-
-    //document.addEventListener("backbutton", onBackKeyDown, false);
-    //window.setInterval(function () {
-    //    loadAllData();
-    //}, 1800000); // every 1800 sec -> 30 min
 
     $.ajaxSetup({
         beforeSend: function () {
@@ -246,24 +242,6 @@ function getTop5App() {
         }
     });
 }
-
-//load app data when page is load
-//$(window).on('navigate', function (event, data) {
-//    if (data.state.url.indexOf('loadingScreen')) {
-//        event.preventDefault();
-//    }
-//    //var direction = data.state.direction;
-//    //alert(JSON.stringify(data))
-//    //if (!!direction) {
-//    //    alert(direction);
-//    //}
-//});
-
-//$(document).on('pagebeforecreate', '#welcomeScreen', function () {
-//    document.addEventListener('backbutton', function (e) {
-//        e.preventDefault();
-//    }, false);
-//});
 
 //#endregion
 
@@ -553,7 +531,7 @@ function createDatePage(json) {
                 case 2: { $('#dateImages').addClass('cf2a'); } break;
                 case 3: { $('#dateImages').addClass('cf3a'); } break;
                 case 4: { $('#dateImages').addClass('cf4a'); } break;
-                default: { } break;
+                default: { $('#dateImages').addClass('cf4a'); } break;
 
             }
             for (var i = 0; i < json.DateImages.length; i++) {
@@ -1335,7 +1313,7 @@ $(document).on('click', '#register-button', function () {
             },
             success: function (result) {
                 if (result.d.indexOf('שגיאה') != -1) {
-                    //alert(result.d);
+                    alert(result.d);
                 }
                 else {
                     userPermision = 1;
@@ -2093,6 +2071,78 @@ function checkField(elem, defaultValue) {
         elem.val(defaultValue);
     }
 }
+
+//#endregion
+
+//#region Profile
+
+$(document).on('click', '#update-cover-pic', function () {
+    $.when(function () {
+        showImgPreview('cover');
+    }).then(function () {
+        var images = new Object();
+        images.name = ['profile', 'cover'];
+        images.data = [userProfilePic, userCoverPic];
+
+        userImageJson = {
+            'userDeviceID': userDeviceID,
+            'images': images
+        }
+
+        $.ajax({
+            type: "POST",
+            url: api + "updateUserImg",
+            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf("שגיאה") != -1) {
+                    alert(result.d);
+                }
+                else {
+                    alert('התמונות נשמרו בהצלחה');
+                }
+            }
+        });
+    });
+});
+
+$(document).on('click', '#update-profile-pic', function () {
+    $.when(function () {
+        showImgPreview('profile');
+    }).then(function () {
+        var images = new Object();
+        images.name = ['profile', 'cover'];
+        images.data = [userProfilePic, userCoverPic];
+
+        userImageJson = {
+            'userDeviceID': userDeviceID,
+            'images': images
+        }
+
+        $.ajax({
+            type: "POST",
+            url: api + "updateUserImg",
+            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf("שגיאה") != -1) {
+                    alert(result.d);
+                }
+                else {
+                    alert('התמונות נשמרו בהצלחה');
+                }
+            }
+        });
+    });
+});
 
 //#endregion
 

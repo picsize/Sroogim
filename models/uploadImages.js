@@ -28,15 +28,17 @@ function showImgPreview(type, elem) {
 }
 
 function showCover(imageURI) {
-    $('#uploadCoverImg').attr('src', imageURI)
+    $('#uploadCoverImg').attr('src', imageURI);
+    $('#profile_coverImg').attr('src', imageURI);
     userCoverPic = imageURI;
-    alert('userCoverPic:\n' + userCoverPic);
+    //alert('userCoverPic:\n' + userCoverPic);
 }
 
 function showProfile(imageURI) {
     $('#uploadProfileImg').css('background-image', 'url(' + imageURI + ')');
+    $('#profile_profileImg').css('background-image', 'url(' + imageURI + ')');
     userProfilePic = imageURI;
-    alert('userProfilePic:\n' + userProfilePic);
+    //alert('userProfilePic:\n' + userProfilePic);
 }
 
 function showSupplier(imageURI, elem) {

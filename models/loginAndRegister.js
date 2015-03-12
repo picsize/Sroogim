@@ -14,11 +14,13 @@ $(function () {
     //upload cover img
     $(document).on('click', '#uploadCoverImg', function () {
         showImgPreview('cover');
+        
     });
 
     //upload profile img
     $(document).on('click', '#uploadProfileImg', function () {
         showImgPreview('profile');
+        
     });
 
 });
