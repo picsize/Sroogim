@@ -21,7 +21,7 @@ var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'p
 var userPermision = '', ratingValue = 0, applyGps = true;;
 var facebookResponse;
 
-document.addEventListener("deviceready", initApp, false);
+//document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //alert('init panel and popup');
@@ -29,11 +29,12 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //$('#popup').enhanceWithin().popup();
 });
 
-//$(function () {
-//    initApp();
-//});
+$(function () {
+    initApp();
+});
 
 function initApp() {
+    $.mobile.defaultPageTransition = 'none';
 
     try {
         userDeviceID = device.uuid;
@@ -82,8 +83,6 @@ function initApp() {
 }
 
 //#region Init
-
-$.mobile.defaultPageTransition = 'none';
 
 //check phonegap components
 function checkPhonegap() {
@@ -2077,73 +2076,73 @@ function checkField(elem, defaultValue) {
 
 //#region Profile
 
-//$(document).on('click', '#update-cover-pic', function () {
-//    $.when(function () {
-//        showImgPreview('cover');
-//    }).then(function () {
-//        var images = new Object();
-//        images.name = ['profile', 'cover'];
-//        images.data = [userProfilePic, userCoverPic];
+$(document).on('click', '#update-cover-pic', function () {
+    $.when(function () {
+        showImgPreview('cover');
+    }).then(function () {
+        var images = new Object();
+        images.name = ['profile', 'cover'];
+        images.data = [userProfilePic, userCoverPic];
 
-//        userImageJson = {
-//            'userDeviceID': userDeviceID,
-//            'images': images
-//        }
+        userImageJson = {
+            'userDeviceID': userDeviceID,
+            'images': images
+        }
 
-//        $.ajax({
-//            type: "POST",
-//            url: api + "updateUserImg",
-//            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
-//            contentType: 'application/json; charset=utf-8',
-//            dataType: 'json',
-//            error: function (XMLHttpRequest, textStatus, errorThrown) {
-//                alert(textStatus);
-//            },
-//            success: function (result) {
-//                if (result.d.indexOf("שגיאה") != -1) {
-//                    alert(result.d);
-//                }
-//                else {
-//                    alert('התמונות נשמרו בהצלחה');
-//                }
-//            }
-//        });
-//    });
-//});
+        $.ajax({
+            type: "POST",
+            url: api + "updateUserImg",
+            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf("שגיאה") != -1) {
+                    alert(result.d);
+                }
+                else {
+                    alert('התמונות נשמרו בהצלחה');
+                }
+            }
+        });
+    });
+});
 
-//$(document).on('click', '#update-profile-pic', function () {
-//    $.when(function () {
-//        showImgPreview('profile');
-//    }).then(function () {
-//        var images = new Object();
-//        images.name = ['profile', 'cover'];
-//        images.data = [userProfilePic, userCoverPic];
+$(document).on('click', '#update-profile-pic', function () {
+    $.when(function () {
+        showImgPreview('profile');
+    }).then(function () {
+        var images = new Object();
+        images.name = ['profile', 'cover'];
+        images.data = [userProfilePic, userCoverPic];
 
-//        userImageJson = {
-//            'userDeviceID': userDeviceID,
-//            'images': images
-//        }
+        userImageJson = {
+            'userDeviceID': userDeviceID,
+            'images': images
+        }
 
-//        $.ajax({
-//            type: "POST",
-//            url: api + "updateUserImg",
-//            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
-//            contentType: 'application/json; charset=utf-8',
-//            dataType: 'json',
-//            error: function (XMLHttpRequest, textStatus, errorThrown) {
-//                alert(textStatus);
-//            },
-//            success: function (result) {
-//                if (result.d.indexOf("שגיאה") != -1) {
-//                    alert(result.d);
-//                }
-//                else {
-//                    alert('התמונות נשמרו בהצלחה');
-//                }
-//            }
-//        });
-//    });
-//});
+        $.ajax({
+            type: "POST",
+            url: api + "updateUserImg",
+            data: "{userJson: '" + JSON.stringify(userImageJson) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+            },
+            success: function (result) {
+                if (result.d.indexOf("שגיאה") != -1) {
+                    alert(result.d);
+                }
+                else {
+                    alert('התמונות נשמרו בהצלחה');
+                }
+            }
+        });
+    });
+});
 
 //#endregion
 
