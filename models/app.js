@@ -34,7 +34,6 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
 //});
 
 function initApp() {
-    //$.mobile.defaultPageTransition = 'none';
 
     try {
         userDeviceID = device.uuid;
@@ -83,6 +82,8 @@ function initApp() {
 }
 
 //#region Init
+
+$.mobile.defaultPageTransition = 'none';
 
 //check phonegap components
 function checkPhonegap() {
