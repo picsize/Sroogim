@@ -34,7 +34,7 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
 //});
 
 function initApp() {
-    $.mobile.defaultPageTransition = 'none';
+    //$.mobile.defaultPageTransition = 'none';
 
     try {
         userDeviceID = device.uuid;
