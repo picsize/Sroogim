@@ -605,12 +605,10 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
 $(document).on('pagebeforecreate', '#datesPage', function () {
     $('#datesPage .wrapper').html(dateCategoriesHTML);
     if (applyGps) {
-        $('.selectLocation').removeClass('active');
-        $('.findGps').addClass('active');
+        
     }
     else {
-        $('.findGps').removeClass('active');
-        $('.selectLocation').addClass('active');
+       
     }
 });
 
@@ -715,19 +713,22 @@ $(document).on('click', '.goToDate', function () {
 
 //apply location view
 $(document).on('click', '.findGps', function () {
-    applyGps = true;
+    $('.selectLocation').removeClass('active');
+    $('.findGps').addClass('active');
     $('[href="index.html#datesPage"]').click();
     $.mobile.changePage('index.html#datesPage');
 });
 
 $(document).on('click', '.selectLocation', function () {
-    applyGps = false;
+    $('.findGps').removeClass('active');
+    $('.selectLocation').addClass('active');
     $.mobile.changePage('index.html#location');
 });
 
 //show dates in city
 $(document).on('click', '.city', function () {
-    applyGps = false;
+    $('.findGps').removeClass('active');
+    $('.selectLocation').addClass('active');
     //getCurrentlatlong();
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
@@ -1300,7 +1301,7 @@ $(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ide
 //register to sroogim
 $(document).on('click', '#register-button', function () {
     var json = createUserJson();
-    //alert('register: ' + JSON.stringify(json));
+    alert('register: \n' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -1380,30 +1381,6 @@ function createUserJson() {
     images.name.push('cover');
     images.data.push(userCoverPic)
 
-    //if ($('#uploadCoverImg').attr('src') != '') {
-    //    images.data.push($('#uploadCoverImg').attr('src'));
-    //    if ($('#uploadCoverImg').next().val() == '') {
-    //        var array = $('#uploadCoverImg').attr('src').split('/');
-    //        var last = array[array.length - 1];
-    //        images.name.push(last);
-    //    }
-    //    else {
-    //        images.name.push($('#uploadCoverImg').next()[0].files[0].name);
-    //    }
-    //}
-
-    //if ($('#uploadProfileImg').css('background-image') != '') {
-    //    images.data.push($('#uploadProfileImg').css('background-image'));
-    //    if ($('#uploadProfileImg').next().val() == '') {
-    //        var array = $('#uploadProfileImg').css('background-image').split('/');
-    //        var last = array[array.length - 1];
-    //        images.name.push(last);
-    //    }
-    //    else {
-    //        images.name.push($('#uploadProfileImg').next()[0].files[0].name);
-    //    }
-    //}
-
     var user = {
         'userFullName': $('#userFullName').val(),
         'userEmail': $('#userEmail').val(),
@@ -1416,8 +1393,6 @@ function createUserJson() {
     userEmail = $('#userEmail').val();
     userFullName = $('#userFullName').val();
     userPassword = $('#userPassword').val();
-    //userProfilePic = images.name[1];
-    //userCoverPic = images.name[0];
 
     return user;
 }
@@ -2078,7 +2053,11 @@ function checkField(elem, defaultValue) {
 
 $(document).on('click', '#update-cover-pic', function () {
     $.when(function () {
-        showImgPreview('cover');
+        navigator.camera.getPicture(showCoverProfile, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
     }).then(function () {
         var images = new Object();
         images.name = ['profile', 'cover'];
@@ -2112,7 +2091,11 @@ $(document).on('click', '#update-cover-pic', function () {
 
 $(document).on('click', '#update-profile-pic', function () {
     $.when(function () {
-        showImgPreview('profile');
+        navigator.camera.getPicture(showProfileImg, onFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
     }).then(function () {
         var images = new Object();
         images.name = ['profile', 'cover'];
@@ -2144,5 +2127,14 @@ $(document).on('click', '#update-profile-pic', function () {
     });
 });
 
+function showCoverProfile(imageURI) {
+    $('#profile_coverImg').attr('src', imageURI);
+    userCoverPic = imageURI;
+}
+
+function showProfileImg(imageURI) {
+    $('#profile_profileImg').css('background-image', 'url(' + imageURI + ')');
+    userProfilePic = imageURI;
+}
 //#endregion
 

@@ -1120,17 +1120,23 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             padding: 24% 0;
         }
 
+            .buttons ul li:nth-child(2) {
+                position:relative;
+                top:3px;
+            }
+
             .buttons ul li img {
-                width: 66%;
+                width: 27px;
             }
 
             .buttons ul li:last-child img {
-                width: 34%;
+                width: 15px;
                 margin-right: 16%;
             }
 
 .ideasBox img {
     width: 118px;
+    height:118px;
     padding: 2.3% 2.3% 0 4%;
     float: right;
 }

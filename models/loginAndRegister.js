@@ -6,11 +6,6 @@
 
 $(function () {
 
-    //click on facebook login button
-    $(document).on('click', '#facebookLogin', function () {
-        //loginFromFacebook();
-    });
-
     //upload cover img
     $(document).on('click', '#uploadCoverImg', function () {
         showImgPreview('cover');
