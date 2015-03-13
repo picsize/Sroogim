@@ -21,7 +21,7 @@ var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'p
 var userPermision = '', ratingValue = 0, applyGps = true;;
 var facebookResponse;
 
-//document.addEventListener("deviceready", initApp, false);
+document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //alert('init panel and popup');
@@ -29,9 +29,9 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
     //$('#popup').enhanceWithin().popup();
 });
 
-$(function () {
-    initApp();
-});
+//$(function () {
+//    initApp();
+//});
 
 function initApp() {
     $.mobile.defaultPageTransition = 'none';
