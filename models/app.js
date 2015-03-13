@@ -625,14 +625,6 @@ $(document).on('click', '.goToDateList', function () {
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
-            for (var j = 0; j < favDates.length; j++) {
-                if (dates[i].DateID == favDates[j].DateID) {
-                    favIcon = 'essential/images/General/favHover.png';
-                }
-                else {
-                    favIcon = 'essential/images/General/fav.png';
-                }
-            }
             if (dates[i].ShowVideo == 'Y') {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
@@ -650,7 +642,7 @@ $(document).on('click', '.goToDateList', function () {
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
@@ -670,6 +662,20 @@ $(document).on('click', '.goToDateList', function () {
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
+    } else {
+        for (var j = 0; j < favDates.length; j++) {
+            $('.addToFav').each(function () {
+                if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
+                    $(this).attr('src', 'essential/images/General/favHover.png');
+                }
+            });
+            //if (dates[i].DateID == favDates[j].DateID) {
+            //    favIcon = 'essential/images/General/favHover.png';
+            //}
+            //else {
+            //    favIcon = 'essential/images/General/fav.png';
+            //}
+        }
     }
 
     $('.dataList').html(dateLi);
