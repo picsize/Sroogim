@@ -20,6 +20,7 @@ var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0, applyGps = true;;
 var facebookResponse;
+var backPage;
 
 document.addEventListener("deviceready", initApp, false);
 
@@ -83,6 +84,10 @@ function initApp() {
     $(document).on('click', '[data-role="header"] h1', function () {
         $.mobile.changePage('index.html#mainScreen');
     });
+
+    document.addEventListener("backbutton", goBackPage, false);
+
+    $(document).on('click','[data-rel="back"]',goBackPage);
 
 }
 
@@ -2149,3 +2154,16 @@ function showProfileImg(imageURI) {
 }
 //#endregion
 
+//#region Navigation
+
+$(window).on("navigate", function (event, data) {
+    //console.log(data.state.hash);
+    backPage = '#' + $.mobile.activePage.attr('id');
+    //console.log($.mobile.activePage.attr('id'));
+});
+function goBackPage(e) {
+    e.preventDefault();
+    $.mobile.changePage('index.html' + backPage);
+}
+
+//#endregion
