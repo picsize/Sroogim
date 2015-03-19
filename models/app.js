@@ -42,7 +42,7 @@ function initApp() {
         userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
     }
     //alert('uuid: ' + userDeviceID);
-    var count = 16;
+    var count = 10;
     var loadComponents = function () {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
@@ -78,6 +78,10 @@ function initApp() {
         complete: function () {
             $.mobile.loading('hide');
         }
+    });
+
+    $(document).on('click', '[data-role="header"] h1', function () {
+        $.mobile.changePage('index.html#mainScreen');
     });
 
 }
@@ -635,7 +639,7 @@ $(document).on('click', '.goToDateList', function () {
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem">' +
+            dateLi += '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' + '<li class="dataItem">' +
                             '<div><img src="' + previewImg + '" /></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
@@ -657,7 +661,7 @@ $(document).on('click', '.goToDateList', function () {
                                 '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
-                            '</li>';
+                            '</li></a>';
         }
     }
     if (dateLi == '') {
@@ -1019,13 +1023,14 @@ $(document).on('click', '.goToPresentsList', function () {
             if (presents[i].PresentImages.length > 0) {
                 previewImg = presentImgSrc + presents[i].PresentID + '/' + presents[i].PresentImages[0].Url;
             }
+
             else {
                 previewImg = '#';
             }
         }
         var presentRatingHTML = createRating(presents[i].PresentRating)
         if (presents[i].PresentCategory == categoryID) {
-            presentLi = '<li class="dataItem">' +
+            presentLi = '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +  '<li class="dataItem">' +
                             '<div><img src="' + previewImg + '" /></div>' +
                             '<div>' +
                                 '<h3>' + presents[i].PresentHeader + '</h3>' +
@@ -1044,7 +1049,7 @@ $(document).on('click', '.goToPresentsList', function () {
                                 '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
-                            '</li>';
+                            '</li></a>';
         }
     }
     if (presentLi == '') {
