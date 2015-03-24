@@ -18,7 +18,7 @@ var favDates, favPresents;
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = true;;
+var userPermision = '', ratingValue = 0, applyGps = true;
 var facebookResponse;
 var backPage;
 
@@ -433,7 +433,9 @@ function fbApi(d) {
         FB.api('/me/?fields=id,email,cover,first_name,last_name', function (response) {
             //console.log('Good to see you, ' + response.name + '.');
             if (response && !response.error) {
-                loginToSroogim(response);
+                if (response.status === 'connected') {
+                    loginToSroogim(response);
+                }
             }
         });
     }
@@ -506,20 +508,6 @@ $(document).on('click', '.addComment', function () {
     //});
     openPopup();
 });
-
-//var test = function () {
-//    alert('test');
-//    userFullName = 'Lihi Avraham';
-//    userEmail = 'lihi2@picsize.co.il';
-//    userPassword = 11;
-//    facebookUser = 1;
-//    userDeviceID = '1020451694178330';
-//    userCoverPic = 'https://scontent.xx.fbcdn.net/hphotos-xfp1/t31.0-8/s720x720/10710395_10204015249355773_4298624842020855985_o.jpg';
-//    userProfilePic = 'http://graph.facebook.com/10204516964178330/picture?width=171&height=171';
-//    //a = createUserJsonFromFacebook();
-//    //registerUserFromFacebook(a);
-//    checkFacebookUser();
-//}
 
 //#endregion
 
@@ -693,6 +681,15 @@ $(document).on('click', '.goToDateList', function () {
         $('[href="index.html#datesPage"]').click();
         $.mobile.changePage('index.html#datesPage');
     }
+
+    if (applyGps) {
+        $('.selectLocation').removeClass('active');
+        $('.findGps').addClass('active');
+    }
+    else {
+        $('.findGps').removeClass('active');
+        $('.selectLocation').addClass('active');
+    }
 });
 
 //set distance to places
@@ -728,6 +725,7 @@ $(document).on('click', '.goToDate', function () {
 
 //apply location view
 $(document).on('click', '.findGps', function () {
+    applyGps = true;
     $('.selectLocation').removeClass('active');
     $('.findGps').addClass('active');
     $('[href="index.html#datesPage"]').click();
@@ -735,6 +733,7 @@ $(document).on('click', '.findGps', function () {
 });
 
 $(document).on('click', '.selectLocation', function () {
+    applyGps = false;
     $('.findGps').removeClass('active');
     $('.selectLocation').addClass('active');
     $.mobile.changePage('index.html#location');
