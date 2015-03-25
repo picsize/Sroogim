@@ -22,7 +22,6 @@ var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0, applyGps = '1';
 var facebookResponse;
-var backPage;
 
 document.addEventListener("deviceready", initApp, false);
 
@@ -87,9 +86,12 @@ function initApp() {
         $.mobile.changePage('index.html#mainScreen');
     });
 
-    document.addEventListener("backbutton", goBackPage, false);
+    document.addEventListener("backbutton", function (e) {
+        e.preventDefault();
+        $.mobile.activePage.find('.goBack').click();
+    }, false);
 
-    $(document).on('click','[data-rel="back"]',goBackPage);
+    $(document).on('click', '[data-rel="back"]', goBackPage);
 
 }
 
@@ -418,7 +420,7 @@ function loadFacebook() {
             oauth: true
         });
     } catch (e) {
-        
+
     }
 }
 
@@ -436,9 +438,7 @@ function fbApi(d) {
         FB.api('/me/?fields=id,email,cover,first_name,last_name', function (response) {
             //console.log('Good to see you, ' + response.name + '.');
             if (response && !response.error) {
-                if (response.status === 'connected') {
-                    loginToSroogim(response);
-                }
+                loginToSroogim(response);
             }
         });
     }
@@ -518,7 +518,7 @@ $(document).on('click', '.addComment', function () {
 
 //create date page
 function createDatePage(json) {
-    var dateRatingHTML = createRating(json.DateRating);
+    var dateRatingHTML = createRating(json.DateRating, 'white');
     $('#singleDate .rating').html(dateRatingHTML);
     try {
         if (json.ShowVideo == 'Y') {
@@ -547,7 +547,7 @@ function createDatePage(json) {
             gps = gpsAddress[i].lat + ',' + gpsAddress[i].lng;
         }
     }
-    var dateRatingHTML = createRating(json.DateRating);
+    //var dateRatingHTML = createRating(json.DateRating,'white');
     $('#singleDate_dateHeader').text(json.DateHeader);
     $('#singleDate_dateLocation').text(json.DateLocation + ' - ' + json.CityName);
     $('#singleDate_dateWebsite').attr('href', json.DateLink);
@@ -634,12 +634,12 @@ $(document).on('click', '.goToDateList', function () {
             else {
                 previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
             }
-            var dateRatingHTML = createRating(dates[i].DateRating)
+            var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -708,6 +708,7 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
 //show date page
 $(document).on('click', '.goToDate', function () {
     var dateID = parseInt($(this).attr('data-date-id'));
+    alert(dateId);
     currentDateId = parseInt($(this).attr('data-date-id'));
     for (var i = 0; i < dates.length; i++) {
         if (dateID == dates[i].DateID) {
@@ -749,7 +750,7 @@ $(document).on('click', '.city', function () {
             else {
                 previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
             }
-            var dateRatingHTML = createRating(dates[i].DateRating)
+            var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
@@ -799,7 +800,7 @@ $(document).on('click', '.allDates', function () {
         else {
             previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
         }
-        var dateRatingHTML = createRating(dates[i].DateRating)
+        var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
         var currentLocation = new google.maps.LatLng(lat, lng);
         //alert('cLocation: ' + JSON.stringify(currentLocation));
         calculateDistances(currentLocation, dates[i]);
@@ -951,10 +952,10 @@ function createPresentPage(json) {
             } catch (e) {
                 $('#presentImages').append('<img src="' + presentImgSrc + json.PresentID + '/#" />');
             }
-            
+
         }
     }
-    var presentRatingHTML = createRating(json.PresentRating);
+    var presentRatingHTML = createRating(json.PresentRating, 'white');
     $('#singlePresent_presentHeader').text(json.PresentHeader);
     $('#singlePresent_presentDesc').text(json.PresentDescription);
     if (json.PresentTip != '') {
@@ -1026,7 +1027,7 @@ $(document).on('click', '.goToPresentsList', function () {
                 previewImg = '#';
             }
         }
-        var presentRatingHTML = createRating(presents[i].PresentRating)
+        var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
         if (presents[i].PresentCategory == categoryID) {
             presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '">' +
                             '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
@@ -1035,7 +1036,7 @@ $(document).on('click', '.goToPresentsList', function () {
                                 '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="' + favIcon +'" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
+                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + presentRatingHTML +
                                             '</section>' +
@@ -1199,13 +1200,13 @@ function openPopup() {
     //setTimeout($('#popup').popup('open'), 100);
 
     //$('#popup').show();
-    $('#popup').fadeIn();
-    $('#popup #popupContent').slideDown();
+    $('#popup').show();
+    $('#popup #popupContent').show();
 }
 
 function closePopup() {
-    $('#popup #popupContent').slideUp();
-    $('#popup').fadeOut();
+    $('#popup #popupContent').hide();
+    $('#popup').hide();
 }
 
 //#endregion
@@ -1213,15 +1214,18 @@ function closePopup() {
 //#region Share
 
 $(document).on('click', '.share', function () {
-    var share = '';
-    if ($(this).attr('data-share') == 'date') {
-        share = getDateForShare(parseInt($(this).attr('data-id')));
+    if (userPermision == 1) {
+        var share = '';
+        if ($(this).attr('data-share') == 'date') {
+            share = getDateForShare(parseInt($(this).attr('data-id')));
+        }
+        else {
+            share = getPresentForShare(parseInt($(this).attr('data-id')));
+        }
+        //alert('share: ' + share);
+        window.plugins.socialsharing.share(share + 'נשלח מאפליקציית SROOGIM');
     }
-    else {
-        share = getPresentForShare(parseInt($(this).attr('data-id')));
-    }
-    //alert('share: ' + share);
-    window.plugins.socialsharing.share(share + 'נשלח מאפליקציית SROOGIM');
+
 });
 
 function getDateForShare(dateID) {
@@ -1320,7 +1324,7 @@ $(document).on('click', '#panelLinks a, .ideas [href="index.html#addDate"], .ide
 //register to sroogim
 $(document).on('click', '#register-button', function () {
     var json = createUserJson();
-    alert('register: \n' + JSON.stringify(json));
+    //alert('register: \n' + JSON.stringify(json));
     if (json != '') {
         $.ajax({
             type: "POST",
@@ -1627,7 +1631,7 @@ function addOrRemoveFavorite(elem) {
                         openPopup();
                     }
                 }
-            }   
+            }
         });
     }
     else {
@@ -1710,7 +1714,7 @@ function createFavDatePage(json) {
                 else {
                     previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
                 }
-                var dateRatingHTML = createRating(dates[i].DateRating)
+                var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
                 var currentLocation = new google.maps.LatLng(lat, lng);
                 //alert('cLocation: ' + JSON.stringify(currentLocation));
                 calculateDistances(currentLocation, dates[i]);
@@ -1921,38 +1925,38 @@ function updatePresentRating(value) {
     });
 }
 
-function createRating(value) {
+function createRating(value, color) {
     var html = '';
     switch (value) {
         case 0: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="1">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>';
         } break;
         case 1: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="1">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1960,13 +1964,13 @@ function createRating(value) {
         } break;
         case 2: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1977,10 +1981,10 @@ function createRating(value) {
         } break;
         case 3: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -1994,7 +1998,7 @@ function createRating(value) {
         } break;
         case 4: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/whiteStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
                         '<img src="essential/images/General/goldenStar.png" />' +
@@ -2028,19 +2032,19 @@ function createRating(value) {
         } break;
         default: {
             html = '<span data-value="5">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="4">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="3">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="2">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>' +
                     '<span data-value="1">' +
-                        '<img src="essential/images/General/blankStar.png" />' +
+                        '<img src="essential/images/General/' + color + 'Star.png" />' +
                     '</span>';
         } break;
 
@@ -2057,7 +2061,7 @@ function clearField(elem, defaultValue) {
     if (elem.val() == defaultValue) {
         elem.val('');
     }
-    
+
 }
 
 function checkField(elem, defaultValue) {
@@ -2159,14 +2163,17 @@ function showProfileImg(imageURI) {
 
 //#region Navigation
 
-$(window).on("navigate", function (event, data) {
-    //console.log(data.state.hash);
-    backPage = '#' + $.mobile.activePage.attr('id');
-    //console.log($.mobile.activePage.attr('id'));
-});
+//$(window).on("navigate", function (event, data) {
+//    //console.log(data.state.hash);
+//    backPage = '#' + $.mobile.activePage.attr('id');
+//    //console.log($.mobile.activePage.attr('id'));
+//});
 function goBackPage(e) {
+    //console.log($.mobile.activePage.find('.goBack').attr('data-prev-link'));
     e.preventDefault();
-    $.mobile.changePage('index.html' + backPage);
+    //console.log(e);
+    //console.log(data);
+    $.mobile.changePage('index.html#' + $.mobile.activePage.find('.goBack').attr('data-prev-link'));
 }
 
 //#endregion

@@ -1690,10 +1690,11 @@ background-color:#ad5860; text-indent: 1em;color: #fff;
         font-size: 77% !important;
         width: 59%;
         margin-right: 1.7% !important;
+        color:#fff !important;
     }
 
     .singleDate_buttons .ui-block-a a {
-        /*background-color: #ae263f !important;*/
+
         background-color: #ad253f !important;
     }
 
@@ -1868,6 +1869,10 @@ background-color:#ad5860; text-indent: 1em;color: #fff;
 
 /*samsung galaxy s1 + s2*/
 @media screen and (device-aspect-ratio: 3/5) {
+}
+
+@media screen and (width: 360px) and (height:640px) and (-webkit-device-pixel-ratio:4) {
+
 }
 
 /*#endregion*/
