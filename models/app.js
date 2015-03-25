@@ -639,7 +639,7 @@ $(document).on('click', '.goToDateList', function () {
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '"/></div>' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -708,12 +708,15 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
 //show date page
 $(document).on('click', '.goToDate', function () {
     var dateID = parseInt($(this).attr('data-date-id'));
-    alert(dateId);
     currentDateId = parseInt($(this).attr('data-date-id'));
     for (var i = 0; i < dates.length; i++) {
         if (dateID == dates[i].DateID) {
             createDatePage(dates[i]);
         }
+    }
+    //console.log($(this));
+    if ($(this).attr('data-from-img') == 'true') {
+        $.mobile.changePage('index.html#singleDate');
     }
 });
 
@@ -755,7 +758,7 @@ $(document).on('click', '.city', function () {
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -805,7 +808,7 @@ $(document).on('click', '.allDates', function () {
         //alert('cLocation: ' + JSON.stringify(currentLocation));
         calculateDistances(currentLocation, dates[i]);
         dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
+                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
                             '<h3>' + thisDate.DateHeader + '</h3>' +
                             '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
