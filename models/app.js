@@ -4,6 +4,7 @@ dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
 top5ImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/top5/'
 categoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/categories/';
+presentCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presentCategories/';
 subCategoriesSrc = 'http://www.sroogim.co.il/SroogimCMS/content/subCategories/';
 userImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/users/';
 //api = '../SroogimCMS/app/api/Default.aspx/';
@@ -11,14 +12,15 @@ userImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/users/';
 //presentImgSrc = '../SroogimCMS/content/presents/';
 //top5ImgSrc = '../SroogimCMS/content/top5/'
 //categoriesSrc = '../SroogimCMS/content/categories/';
+//presentCategoriesSrc = '../SroogimCMS/content/presentCategories/';
 //subCategoriesSrc = '../SroogimCMS/content/subCategories/';
 //userImgSrc = '../SroogimCMS/content/users/';
 var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresent, currentDateId, currentPresentId;
-var favDates, favPresents;
+var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = true;
+var userPermision = '', ratingValue = 0, applyGps = '1';
 var facebookResponse;
 var backPage;
 
@@ -324,6 +326,7 @@ function setDistance(response, status) {
         console.log('Error was: ' + status);
     } else {
         var origins = response.originAddresses;
+        //alert(JSON.stringify(origins));
         var destinations = response.destinationAddresses;
 
         for (var i = 0; i < origins.length; i++) {
@@ -601,11 +604,14 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
 
 $(document).on('pagebeforecreate', '#datesPage', function () {
     $('#datesPage .wrapper').html(dateCategoriesHTML);
-    if (applyGps) {
-        
+
+    if (applyGps == '1') {
+        $('.selectLocation').removeClass('active');
+        $('.findGps').addClass('active');
     }
     else {
-       
+        $('.findGps').removeClass('active');
+        $('.selectLocation').addClass('active');
     }
 });
 
@@ -632,8 +638,8 @@ $(document).on('click', '.goToDateList', function () {
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' + '<li class="dataItem">' +
-                            '<div><img src="' + previewImg + '" /></div>' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -654,24 +660,20 @@ $(document).on('click', '.goToDateList', function () {
                                 '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
-                            '</li></a>';
+                            '</li>';
         }
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
     } else {
-        for (var j = 0; j < favDates.length; j++) {
-            $('.addToFav').each(function () {
-                if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
-                    $(this).attr('src', 'essential/images/General/favHover.png');
-                }
-            });
-            //if (dates[i].DateID == favDates[j].DateID) {
-            //    favIcon = 'essential/images/General/favHover.png';
-            //}
-            //else {
-            //    favIcon = 'essential/images/General/fav.png';
-            //}
+        if (favDates.length > 0) {
+            for (var j = 0; j < favDates.length; j++) {
+                $('.addToFav').each(function () {
+                    if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
+                        $(this).attr('src', 'essential/images/General/favHover.png');
+                    }
+                });
+            }
         }
     }
 
@@ -680,15 +682,6 @@ $(document).on('click', '.goToDateList', function () {
     if ($(this).attr('data-from-present') == 'true') {
         $('[href="index.html#datesPage"]').click();
         $.mobile.changePage('index.html#datesPage');
-    }
-
-    if (applyGps) {
-        $('.selectLocation').removeClass('active');
-        $('.findGps').addClass('active');
-    }
-    else {
-        $('.findGps').removeClass('active');
-        $('.selectLocation').addClass('active');
     }
 });
 
@@ -725,7 +718,7 @@ $(document).on('click', '.goToDate', function () {
 
 //apply location view
 $(document).on('click', '.findGps', function () {
-    applyGps = true;
+    applyGps = '1';
     $('.selectLocation').removeClass('active');
     $('.findGps').addClass('active');
     $('[href="index.html#datesPage"]').click();
@@ -733,7 +726,7 @@ $(document).on('click', '.findGps', function () {
 });
 
 $(document).on('click', '.selectLocation', function () {
-    applyGps = false;
+    applyGps = '0';
     $('.findGps').removeClass('active');
     $('.selectLocation').addClass('active');
     $.mobile.changePage('index.html#location');
@@ -741,6 +734,7 @@ $(document).on('click', '.selectLocation', function () {
 
 //show dates in city
 $(document).on('click', '.city', function () {
+    applyGps = '0';
     $('.findGps').removeClass('active');
     $('.selectLocation').addClass('active');
     //getCurrentlatlong();
@@ -759,8 +753,8 @@ $(document).on('click', '.city', function () {
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem">' +
-                            '<div><img src="' + previewImg + '" /></div>' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -809,8 +803,8 @@ $(document).on('click', '.allDates', function () {
         var currentLocation = new google.maps.LatLng(lat, lng);
         //alert('cLocation: ' + JSON.stringify(currentLocation));
         calculateDistances(currentLocation, dates[i]);
-        dateLi += '<li class="dataItem">' +
-                        '<div><img src="' + previewImg + '" /></div>' +
+        dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
+                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '"/></div>' +
                         '<div>' +
                             '<h3>' + thisDate.DateHeader + '</h3>' +
                             '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -984,7 +978,7 @@ function createPresentsCategoriesPage(gender) {
         presentCategoriesHTML = '<ul class="dataList">';
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
-                presentCategoriesHTML += '<li class="dataItem presentCategory"><div><img src="essential/images/Presents/Category/neckles.jpg" /></div>' +
+                presentCategoriesHTML += '<li class="dataItem presentCategory"><div><img src="' + presentCategoriesSrc + categories[i].CategoryImage + '" /></div>' +
                   '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
                   '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
             }
@@ -1034,8 +1028,8 @@ $(document).on('click', '.goToPresentsList', function () {
         }
         var presentRatingHTML = createRating(presents[i].PresentRating)
         if (presents[i].PresentCategory == categoryID) {
-            presentLi = '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +  '<li class="dataItem">' +
-                            '<div><img src="' + previewImg + '" /></div>' +
+            presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '">' +
+                            '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
                             '<div>' +
                                 '<h3>' + presents[i].PresentHeader + '</h3>' +
                                 '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
@@ -1058,6 +1052,16 @@ $(document).on('click', '.goToPresentsList', function () {
     }
     if (presentLi == '') {
         presentLi = 'אין מתנות בקטגוריה זו';
+    } else {
+        if (favPresents.length > 0) {
+            for (var j = 0; j < favPresents.length; j++) {
+                $('.addToFav').each(function () {
+                    if (parseInt($(this).attr('data-present-id')) == favPresents[j].DateID) {
+                        $(this).attr('src', 'essential/images/General/favHover.png');
+                    }
+                });
+            }
+        }
     }
 
     $('#presentsList .dataList').html(presentLi);
