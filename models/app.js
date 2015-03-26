@@ -236,7 +236,7 @@ function getTop5App() {
                     $('.addComment').hide();
                 }
                 if (settings[3] == "Y") {
-                    $('#top5').html('<iframe width="100%" style="height:15em" src="' + settings[2] + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
+                    $('#top5').html('<iframe width="100%" style="height:13em" src="' + settings[2] + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
                 }
                 else {
                     var imagesString = settings[1].split(',');
