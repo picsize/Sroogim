@@ -35,6 +35,7 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
 //    initApp();
 //});
 
+
 function initApp() {
     $.mobile.defaultPageTransition = 'none';
 
