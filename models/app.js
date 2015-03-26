@@ -765,7 +765,7 @@ $(document).on('click', '.city', function () {
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
@@ -785,6 +785,16 @@ $(document).on('click', '.city', function () {
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בעיר זו';
+    } else {
+        if (favDates.length > 0) {
+            for (var j = 0; j < favDates.length; j++) {
+                $('.addToFav').each(function () {
+                    if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
+                        $(this).attr('src', 'essential/images/General/favHover.png');
+                    }
+                });
+            }
+        }
     }
 
     $('.dataList').html(dateLi);
@@ -849,10 +859,11 @@ $(document).on('click', '#dateSend', function () {
     dateDesc = 'תיאור הדייט: ' + $('#dateDesc').val();
     dateTip = 'טיפ: ' + $('#dateTip').val();
     dateSteps = 'שלבי הדייט או שעות פעילות: ' + $('#dateStep').val();
+    dateImg = $('#addDateImage').attr('src');
     email = {
         'userEmail': userEmail,
         'subject': 'הוספת דייט',
-        'body': '<div style="direction:rtl; text-align:right;">' + dateHeader + '<br>' + dateWebsite + '<br>' + dateLocation + '<br>' + dateTel + '<br>' + dateDesc + '<br>' + dateTip + '<br>' + dateSteps + '</div>'
+        'body': '<div style="direction:rtl; text-align:right;">' + dateHeader + '<br>' + dateWebsite + '<br>' + dateLocation + '<br>' + dateTel + '<br>' + dateDesc + '<br>' + dateTip + '<br>' + dateSteps + '<br><img src="' + dateImg + '"/></div>'
     };
     try {
         $.ajax({
@@ -1104,11 +1115,19 @@ $(document).on('click', '.goToPresent', function () {
 $(document).on('click', '#presentSend', function () {
     presentHeader = 'כותרת המתנה: ' + $('#presentHeader').val();
     presentDesc = 'תיאור המתנה: ' + $('#presentDesc').val();
-    presentTip = 'טיפ: ' + $('#presentTip').val();;
+    presentTip = 'טיפ: ' + $('#presentTip').val();
+    presentImg = $('#addPresentImage').attr('src');
+    presentSellerImg = '';
+    $('.uploadPresentSupplier').each(function () {
+        presentSellerImg += 'מקומות לרכישה: <br>';
+        if ($(this).attr('src') != 'essential/images/Add/upload.png') {
+            presentSellerImg += '<img src="' + $(this).attr('src') + '"/><br>';
+        }
+    });
     email = {
         'userEmail': userEmail,
         'subject': 'הוספת מתנה',
-        'body': '<div style="direction:rtl; text-align:right;">' + presentHeader + '<br>' + presentDesc + '<br>' + presentTip + '</div>'
+        'body': '<div style="direction:rtl; text-align:right;">' + presentHeader + '<br>' + presentDesc + '<br>' + presentTip + '<br><img src="'+presentImg+'"/><br>'+presentSellerImg+'</div>'
     };
     try {
         $.ajax({

@@ -11,7 +11,7 @@ function showImgPreview(type, elem) {
             sourceType: Camera.PictureSourceType.PHOTOLIBRARY
         });
     }
-    else if (type === 'supplier') {
+    else if (type === 'supplier' || type==='add') {
         navigator.camera.getPicture(showSupplier, onFail, {
             quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -41,7 +41,7 @@ function showProfile(imageURI) {
 
 function showSupplier(imageURI, elem) {
     //document.getElementById("result").innerHTML = localStorage.getItem("lastname");
-    $(elem).attr('src', imageURI);
+    elem.attr('src', imageURI);
 }
 
 function onFail(message) {
