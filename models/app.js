@@ -26,15 +26,12 @@ var facebookResponse;
 document.addEventListener("deviceready", initApp, false);
 
 $(document).on('pagebeforecreate', '#loadingScreen', function () {
-    //alert('init panel and popup');
     $('#menuSidebar').panel().enhanceWithin();
-    //$('#popup').enhanceWithin().popup();
 });
 
 //$(function () {
 //    initApp();
 //});
-
 
 function initApp() {
     $.mobile.defaultPageTransition = 'none';
@@ -620,6 +617,7 @@ $(document).on('pagebeforecreate', '#location', function () { $('.findGps').remo
 
 //create dates list
 $(document).on('click', '.goToDateList', function () {
+    $('#datesList .goBack').attr('data-prev-link', 'datesPage');
     var categoryID = parseInt($(this).attr('data-category-id'));
     //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
     $('#datesList .wrapper .title h2').text($(this).text());
@@ -642,8 +640,8 @@ $(document).on('click', '.goToDateList', function () {
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3>' + thisDate.DateHeader + '</h3>' +
-                                '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -707,7 +705,7 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
 });
 
 //show date page
-$(document).on('click', '.goToDate', function () {
+$(document).on('click', '.goToDate, .goToDate div:nth-child(2) h3, .goToDate div:nth-child(2) article', function () {
     var dateID = parseInt($(this).attr('data-date-id'));
     currentDateId = parseInt($(this).attr('data-date-id'));
     for (var i = 0; i < dates.length; i++) {
@@ -742,7 +740,7 @@ $(document).on('click', '.city', function () {
     applyGps = '0';
     $('.findGps').removeClass('active');
     $('.selectLocation').addClass('active');
-    //getCurrentlatlong();
+    $('#datesList .goBack').attr('data-prev-link', 'location');
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
@@ -756,7 +754,6 @@ $(document).on('click', '.city', function () {
             }
             var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
-            //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
@@ -821,8 +818,8 @@ $(document).on('click', '.allDates', function () {
         dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
-                            '<h3>' + thisDate.DateHeader + '</h3>' +
-                            '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
                             '<section class="social">' +
                                 '<ul>' +
                                     '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
@@ -916,29 +913,44 @@ $(document).on('click', '#singleDate .rating', function () {
 });
 
 //click on date link
-$(document).on('click', '#singleDate_dateWebsite', function () {
-    event.preventDefault();
-    var json = { 'dateID': currentDateId };
-    $.ajax({
-        type: "POST",
-        url: api + "updateDateLinkCount",
-        data: "{jsonDate: '" + JSON.stringify(json) + "'}",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-            $('.form-holder').html(JSON.stringify(errorThrown))
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                alert(result.d);
+$(document).on('click', '#singleDate_dateWebsite', function (e) {
+    e.preventDefault();
+    if ($(this).attr('href') != '') {
+        var json = { 'dateID': currentDateId };
+        $.ajax({
+            type: "POST",
+            url: api + "updateDateLinkCount",
+            data: "{jsonDate: '" + JSON.stringify(json) + "'}",
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus);
+                $('.form-holder').html(JSON.stringify(errorThrown))
+            },
+            success: function (result) {
+                if (result.d.indexOf('שגיאה') != -1) {
+                    alert(result.d);
+                }
+                else {
+                    //navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+                }
             }
-            else {
-                //navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
-            }
-        }
-    });
-    navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+        });
+        navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+    }
+    else {
+        $('#popupContent').html('<h2>אופס... שדה זה לא קיים כרגע</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+        openPopup();
+    }
+    
+});
+
+$(document).on('click', '#singleDate_dateTel', function (e) {
+    if ($(this).attr('href') == '' || $(this).attr('href') == 'tel:') {
+        e.preventDefault();
+        $('#popupContent').html('<h2>אופס... שדה זה לא קיים כרגע</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
+        openPopup();
+    }
 });
 
 //#endregion
@@ -1004,16 +1016,19 @@ function createPresentsCategoriesPage(gender) {
     else {
         presentCategoriesHTML = 'לא קיימות מתנות';
     }
+
+    $('#presentsCategories .wrapper').html(presentCategoriesHTML);
+    $.mobile.changePage('index.html#presentsCategories');
 }
 
 //create present list
-$(document).on('click', '[href="index.html#presentsCategories"]', function () {
+$(document).on('click', '.goToPresentCategories', function () {
     createPresentsCategoriesPage('Women');
 });
 
 $(document).on('pagebeforecreate', '#presentsCategories', function () {
-    $('[href="index.html#presentsCategories"]').click();
-    $('#presentsCategories .wrapper').html(presentCategoriesHTML);
+    //$('[href="index.html#presentsCategories"]').click();
+    
 });
 
 //go to presents list
@@ -1024,12 +1039,13 @@ $(document).on('click', '.goToPresentsList', function () {
     var previewImg;
     var favIcon;
     for (var i = 0; i < presents.length; i++) {
-        if (presents[i].PresentID == favPresents[j].PresentID) {
-            favIcon = 'essential/images/General/favHover.png';
+        favIcon = 'essential/images/General/fav.png';
+        if (favPresents.length > 0) {
+            if (presents[i].PresentID == favPresents[j].PresentID) {
+                favIcon = 'essential/images/General/favHover.png';
+            }
         }
-        else {
-            favIcon = 'essential/images/General/fav.png';
-        }
+        
         if (presents[i].ShowVideo == 'Y') {
             previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
         }
@@ -1047,8 +1063,8 @@ $(document).on('click', '.goToPresentsList', function () {
             presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '">' +
                             '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
                             '<div>' +
-                                '<h3>' + presents[i].PresentHeader + '</h3>' +
-                                '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                '<h3 data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentHeader + '</h3>' +
+                                '<article data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
@@ -1101,7 +1117,7 @@ $(document).on('click', '.women, .men', function () {
 });
 
 //show present page
-$(document).on('click', '.goToPresent', function () {
+$(document).on('click', '.goToPresent, .goToPresent div:nth-child(2) h3, .goToPresent div:nth-child(2) article', function () {
     var presentID = parseInt($(this).attr('data-present-id'));
     for (var i = 0; i < presents.length; i++) {
         if (presentID == presents[i].PresentID) {
@@ -2092,6 +2108,14 @@ function checkField(elem, defaultValue) {
         elem.val(defaultValue);
     }
 }
+
+$(document).on('click', '.uploadPresentSupplier', function () {
+    showImgPreview('supplier', $(this));
+});
+
+$(document).on('click', '#addDateImage, #addPresentImage', function () {
+    showImgPreview('add', $(this));
+});
 
 //#endregion
 

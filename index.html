@@ -27,7 +27,6 @@
     <script src="models/app.js"></script>
     <script src="models/loginAndRegister.js"></script>
     <script src="models/uploadImages.js"></script>
-    <script src="models/addDateOrPresent.js"></script>
     <script src="models/social.js"></script>
 
     <div id="fb-root"></div>
@@ -241,8 +240,9 @@
                 <!-- Presents -->
                 <div class="ideas" id="presents">
                     <div class="ideasBox">
-                        <a data-ajax="false" href="index.html#presentsCategories">
-                            <img src="essential/images/Home/presents.png" /></a>
+                        <a data-ajax="false" class="goToPresentCategories" href="">
+                            <img src="essential/images/Home/presents.png" />
+                        </a>
                         <section>
                             <h2>רעיונות למתנות</h2>
                             <p>
@@ -266,7 +266,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a data-ajax="false" href="index.html#presentsCategories">
+                                <a data-ajax="false" class="goToPresentCategories" href="">
                                     <img src="essential/images/General/next.png" alt="מעבר לדייטים" />
                                 </a>
                             </li>
@@ -740,7 +740,7 @@
                         </div>
                         <div class="ui-block-b dateWebsiteHolder">
                             <label><a id="singleDate_dateWebsite" href="">קישור לאתר המקום</a></label>
-                            <label><a data-ajax="false" href="tel:0501111111" id="singleDate_dateTel">חייג</a></label>
+                            <label><a data-ajax="false" href="" id="singleDate_dateTel">חייג</a></label>
                         </div>
                     </div>
 
@@ -801,7 +801,7 @@
                     <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
                 </div>
                 <div class="ui-block-c">
-                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift present dateIcons" href="index.html#presentsCategories">מתנה</a>
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift present dateIcons goToPresentCategories" href="">מתנה</a>
                 </div>
             </div>
             <div class="advertisement"></div>
