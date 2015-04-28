@@ -638,7 +638,7 @@ $(document).on('click', '.goToDateList', function () {
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
+                            '<div><img src="thumb_' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
                                 '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -756,7 +756,7 @@ $(document).on('click', '.city', function () {
             var currentLocation = new google.maps.LatLng(lat, lng);
             calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
+                            '<div><img src="thumb_' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3>' + thisDate.DateHeader + '</h3>' +
                                 '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -816,7 +816,7 @@ $(document).on('click', '.allDates', function () {
         //alert('cLocation: ' + JSON.stringify(currentLocation));
         calculateDistances(currentLocation, dates[i]);
         dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
+                        '<div><img src="thumb_' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
                             '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
                             '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
@@ -1061,7 +1061,7 @@ $(document).on('click', '.goToPresentsList', function () {
         var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
         if (presents[i].PresentCategory == categoryID) {
             presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
+                            '<div><img src="thumb_' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
                             '<div>' +
                                 '<h3 data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentHeader + '</h3>' +
                                 '<article data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
