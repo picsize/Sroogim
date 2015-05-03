@@ -1,0 +1,1328 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sroogim</title>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Google Map -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD70_KyL1CstEx0O7909fQ3J2GOxUGSg4I"></script>
+</head>
+<body>
+    <!-- Css -->
+    <link href="essential/jQuery/sroogim.min.css" rel="stylesheet" />
+    <link href="essential/jQuery/jquery.mobile.icons.min.css" rel="stylesheet" />
+    <link href="essential/jQuery/jquery.mobile.structure-1.4.3.min.css" rel="stylesheet" />
+    <link href="essential/css/font.css" rel="stylesheet" />
+    <link href="essential/css/sroogim.css" rel="stylesheet" />
+    <link href="essential/css/animation.css" rel="stylesheet" />
+    <!-- Phonegap -->
+    <!--<script src="phonegap.js"></script>
+    <script src="cdv-plugin-fb-connect.js"></script>
+    <script src="facebook-js-sdk.js"></script>-->
+    <!-- Javascript -->
+    <script src="essential/jQuery/jquery-1.11.1.min.js"></script>
+    <script src="essential/jQuery/jquery.mobile-1.4.3.min.js"></script>
+    <script src="models/app.js"></script>
+    <script src="models/loginAndRegister.js"></script>
+    <script src="models/uploadImages.js"></script>
+    <script src="models/social.js"></script>
+
+    <div id="fb-root"></div>
+    <div id="loadImages"></div>
+
+    <!-- Menu Sidebar -->
+    <div data-role="panel" id="menuSidebar" data-position="left" data-position-fixed="true" data-display="overlay" class="ui-responsive-panel">
+        <div id="panelHolder">
+            <!-- Profile & Cover -->
+            <section>
+                <!-- Cover Image -->
+                <div>
+                    <img id="sidebarCoverImg" src="essential/images/Register/cover.png" />
+                </div>
+                <!-- Profile Image -->
+                <div>
+                    <div id="sidebarProfileImg" class="circular"></div>
+                </div>
+            </section>
+
+            <!-- Personal Info -->
+            <section>
+                <h4 id="userName">שם משתמש</h4>
+            </section>
+
+            <!-- Links -->
+            <section>
+                <div id="panelLinks">
+                    <a data-ajax="false" href="index.html#profilePage" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-edit-details ui-nodisc-icon">פרטים אישיים</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-get-fav="dates">דייטים מועדפים</a>
+                    <a data-ajax="false" href="index.html#favorites" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-user-fav ui-nodisc-icon" data-get-fav="presents">מתנות מועדפות</a>
+                    <a data-ajax="false" href="index.html#addDate" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-date ui-nodisc-icon">הוספת רעיון לדייט</a>
+                    <a data-ajax="false" href="index.html#addPresent" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-add-present ui-nodisc-icon">הוספת רעיון למתנה</a>
+                    <a data-ajax="false" href="index.html#experts" class="ui-btn ui-shadow ui-btn-icon-right ui-icon-expert ui-nodisc-icon">המומחים שלנו</a>
+                </div>
+            </section>
+
+            <!-- Version -->
+            <section>
+                <small>גרסת ביטא</small>
+            </section>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup">
+        <div id="popupContent"></div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" data-role="page" data-theme="a">
+        <div role="main" class="ui-content">
+            <!-- <img src="./essential/images/Main_Screen/ajax-loader.gif" alt="" id="loadingGif"/>-->
+        </div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div id="welcomeScreen" data-role="page" data-theme="a">
+
+        <!-- main -->
+        <div role="main" class="ui-content">
+            <div id="logo">
+                <img src="essential/images/Main_Screen/Logo.png" alt="לוגו סרוגים" />
+            </div>
+            <div id="loginForm">
+                <form>
+                    <input id="loginEmail" type="email" placeholder="דואר אלקטרוני" required />
+                    <input id="loginPassword" type="password" placeholder="סיסמא" required />
+                    <input type="button" data-mini="true" value="כניסה" />
+                </form>
+                <div id="registerBtns">
+                    <input type="button" id="facebookLogin" data-role="button" data-mini="true" value="התחבר/י באמצעות פייסבוק" />
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="registerFromApp">עדיין לא נרשמת? <a data-ajax="false" href="index.html#registerForm">הרשם</a></label>
+                        </div>
+                    </div>
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <a data-ajax="false" href="index.html#mainScreen">
+                                <label id="skip">דלג/י</label></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="promoteImage">
+                    <img src="essential/images/Main_Screen/Flower.png" alt="סרוגים" />
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" data-role="page" data-theme="b">
+        <!-- header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="welcomeScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" /></a>
+            <h1>Sroogim</h1>
+        </div>
+
+        <!-- main -->
+        <div role="main" class="ui-content">
+            <div class="wrapper">
+                <form>
+                    <div>
+                        <!-- Cover Image -->
+                        <img id="uploadCoverImg" src="essential/images/Register/cover.png" />
+                        <input id="coverImgFile" type="file" data-role="none" />
+                    </div>
+                    <div>
+                        <!-- Profile Image -->
+                        <div id="uploadProfileImg" class="circular">
+                        </div>
+                        <input id="profileImgFile" type="file" data-role="none" />
+                    </div>
+                    <div id="userDetails">
+                        <!-- Full Name -->
+                        <div class="inputContainer">
+                            <label for="userFullName">שם מלא</label>
+                            <input id="userFullName" name="userFullName" type="text" data-role="none" />
+                        </div>
+                        <!-- Email -->
+                        <div class="inputContainer">
+                            <label for="userEmail">דואר אלקטרוני</label>
+                            <input id="userEmail" name="userEmail" type="email" data-role="none" />
+                        </div>
+                        <!-- Password -->
+                        <div class="inputContainer">
+                            <label for="userPassword">סיסמה</label>
+                            <input id="userPassword" name="userPassword" type="password" data-role="none" />
+                        </div>
+                        <span>** לחצו על התמונות על מנת להגדיר תמונת נושא ופרופיל</span>
+                    </div>
+                    <input type="button" value="הרשמה" data-show="register" id="register-button" />
+                </form>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Main Page -->
+    <div id="mainScreen" data-role="page" data-theme="b">
+
+        <!-- header -->
+        <div data-role="header" class="bigHeader">
+            <!--<a class="ui-btn-right goBack" data-rel="back" data-direction="reverse">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>-->
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div id="news">
+                <div id="newsContainer" class="marquee">
+                    <p>
+                        <!-- data-scrollamount="1" data-behavior="scroll" data-loop="infinite" data-direction="right"  data-width="100%" data-height="100%" -->
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- main -->
+        <div role="main" class="ui-content hasBigHeader">
+            <div class="wrapper">
+                <!-- top 5 -->
+                <div id="top5" class="pgwSlideshow">
+                </div>
+                <!-- Dates -->
+                <div class="ideas" id="dates">
+                    <div class="ideasBox">
+                        <a data-ajax="false" href="index.html#datesPage">
+                            <img src="essential/images/Home/dates.png" /></a>
+                        <section>
+                            <h2>רעיונות לדייטים</h2>
+                            <p>
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            </p>
+                        </section>
+                    </div>
+                    <div class="buttons">
+                        <ul>
+                            <li>
+                                <a data-ajax="false" href="index.html#addDate">
+                                    <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" />
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ajax="false" href="index.html#favorites">
+                                    <img src="essential/images/General/fav.png" alt="דייטים מועדפים" data-get-fav="dates" />
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ajax="false" href="index.html#datesPage">
+                                    <img src="essential/images/General/next.png" alt="מעבר לדייטים" />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Presents -->
+                <div class="ideas" id="presents">
+                    <div class="ideasBox">
+                        <a data-ajax="false" class="goToPresentCategories" href="">
+                            <img src="essential/images/Home/presents.png" />
+                        </a>
+                        <section>
+                            <h2>רעיונות למתנות</h2>
+                            <p>
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט
+                            </p>
+                        </section>
+                    </div>
+                    <div class="buttons">
+                        <ul>
+                            <li>
+                                <a data-ajax="false" href="index.html#addPresent">
+                                    <img src="essential/images/General/add.png" alt="הוסף רעיון לדייט" />
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ajax="false" href="index.html#favorites">
+                                    <img src="essential/images/General/fav.png" alt="מתנות מועדפות" data-get-fav="presents" />
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ajax="false" class="goToPresentCategories" href="">
+                                    <img src="essential/images/General/next.png" alt="מעבר לדייטים" />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!--Profile Page-->
+    <div id="profilePage" data-role="page" data-theme="b">
+
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div role="main" class="ui-content">
+            <div class="wrapper">
+                <div>
+                    <!-- Cover Image -->
+                    <img id="profile_coverImg" src="essential/images/Register/cover.png" />
+                    <!-- Profile Image -->
+                    <div id="profile_profileImg" class="circular"></div>
+                    <div class="ui-grid-a" id="profile-btn-holder">
+                        <div class="ui-block-a">
+                            <button id="update-profile-pic">תמונת פרופיל</button>
+                        </div>
+                        <div class="ui-block-b">
+                            <button id="update-cover-pic" >תמונת נושא</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="profileFields">
+                    <!-- Full Name -->
+                    <div class="inputContainer">
+                        <label for="userFullName">שם מלא</label>
+                        <input id="profileFullName" name="userFullName" type="text" data-role="none" />
+                    </div>
+                    <!-- Email -->
+                    <div class="inputContainer">
+                        <label for="userEmail">דואר אלקטרוני</label>
+                        <input id="profileEmail" name="userEmail" type="email" data-role="none" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- My Favorites -->
+    <div id="favorites" data-role="page" data-theme="c">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2>העדפות שלי</h2>
+                </div>
+                <ul class="dataList" id="favList">
+                    <li><p>אנא המתן...</p></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Add Date -->
+    <div id="addDate" data-role="page" data-theme="c">
+
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <form id="addDateForm">
+                    <img id="addDateImage" src="essential/images/Add/addImages.png" />
+                    <div class="inputContainer">
+                        <table class="ui-table ui-responsive">
+                            <tr>
+                                <td>
+                                    <input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" onfocus="clearField($(this), 'כותרת הדייט');" onblur="checkField($(this), 'כותרת הדייט');"/></td>
+                                <td>
+                                    <input type="url" id="dateSite" name="dateSite" data-role="none" data-mini="true" value="כתובת אתר המקום" onfocus="clearField($(this), 'כתובת אתר המקום');" onblur="checkField($(this), 'כתובת אתר המקום');"/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="dateAddress" name="dateAddress" data-role="none" data-mini="true" value="מיקום הדייט" onfocus="clearField($(this), 'מיקום הדייט');" onblur="checkField($(this), 'מיקום הדייט');"/></td>
+                                <td>
+                                    <input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" onfocus="clearField($(this), 'טלפון המקום');" onblur="checkField($(this), 'טלפון המקום');"/></td>
+                            </tr>
+                        </table>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <textarea id="dateDesc" name="dateDesc" data-role="none" placeholder="הזן את תיאור הדייט..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <input type="text" id="dateTip" name="dateTip" data-role="none" value="הזן טיפ לדייט..." onfocus="clearField($(this), 'הזן טיפ לדייט...');"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label>שלבי הדייט / שעות פעילות</label>
+                            </div>
+                        </div>
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <textarea id="dateStep" name="dateStep" data-role="none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="submitHolder">
+                <input type="button" value="שלח" id="dateSend" data-role="none" />
+            </div>
+            <div class="advertisement"></div>
+        </div>
+
+    </div>
+
+    <!-- Add Present -->
+    <div id="addPresent" data-role="page" data-theme="c">
+
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <form>
+                    <img id="addPresentImage" src="essential/images/Add/addImages.png" />
+                    <div class="inputContainer">
+                        <div class="ui-grid-a">
+                            <div class="ui-block-a">
+                                <input type="text" id="presentHeader" name="presentHeader" data-role="none" data-mini="true" value="שם המתנה" onfocus="clearField($(this), 'שם המתנה');" onblur="checkField($(this), 'שם המתנה');"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <textarea id="presentDesc" name="presentDesc" data-role="none" placeholder="הזן את תיאור המתנה..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <input type="text" id="presentTip" name="presentTip" data-role="none" value="הזן טיפ למתנה..." onfocus="clearField($(this), 'הזן טיפ למתנה...');" onblur="checkField($(this), 'הזן טיפ למתנה...');"/>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label>מקומות מומלצים לרכישה</label>
+                            </div>
+                        </div>
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a">
+                                <img class="uploadPresentSupplier" src="essential/images/Add/upload.png" />
+                            </div>
+                            <div class="ui-block-b">
+                                <img class="uploadPresentSupplier" src="essential/images/Add/upload.png" />
+                            </div>
+                            <div class="ui-block-c">
+                                <img class="uploadPresentSupplier" src="essential/images/Add/upload.png" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="submitHolder">
+                <input type="button" value="שלח" id="presentSend" data-role="none" />
+            </div>
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Our experts -->
+    <div id="experts" data-role="page" data-theme="c">
+
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2>המומחים שלנו</h2>
+                </div>
+                <form>
+                    <div class="inputContainer">
+                        <p>
+                            טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
+                             טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
+                             טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
+                        </p>
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label for="expertsFullName" data-required="true">שם מלא</label>
+                                <input data-role="none" required type="text" name="expertsFullName" id="expertsFullName" />
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label for="expertsMail" data-required="true">דואר אלקטרוני</label>
+                                <input data-role="none" required type="email" name="expertsMail" id="expertsMail" />
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label for="expertsSubject" data-required="false">נושא</label>
+                                <input data-role="none" type="text" name="expertsSubject" id="expertsSubject" />
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <label for="expertsMessage" data-required="true">ההודעה</label>
+                                <textarea data-role="none" required name="expertsMessage" id="expertsMessage"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="expertHolder" class="submitHolder">
+                            <input type="submit" value="שלח" id="expertsSend" data-role="none" />
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+
+    </div>
+
+    <!-- Dates -->
+    <div data-role="page" id="datesPage" data-theme="b">
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <!--דייטים באוויר הצח-->
+                <div data-role="collapsible">
+                    <h4>דייטים באוויר הצח
+                        <img src="essential/images/Dates/Category/outside.jpg" />
+                    </h4>
+                    <ul data-role="listview">
+                        <li><a data-ajax="false" href="index.html#datesList" data-datecategory="1" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-tree">טיילות</a></li>
+                        <li><a data-ajax="false" href="index.html#datesList" data-datecategory="2" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-ship">מעיינות</a></li>
+                        <li><a data-ajax="false" href="index.html#datesList" data-datecategory="3" class="goToDateList ui-btn ui-shadow ui-btn-icon-right ui-icon-old">מקומות עתיקים</a></li>
+                    </ul>
+                </div>
+                <!--דייטים במקומות מפנקים-->
+                <div data-role="collapsible">
+                    <h4>דייטים במקומות מפנקים
+                        <img src="essential/images/Dates/Category/spa.jpg" />
+                    </h4>
+                </div>
+                <!--אוכל ואווירה קסומה-->
+                <div data-role="collapsible">
+                    <h4>אוכל ואווירה קסומה
+                        <img src="essential/images/Dates/Category/food.jpg" />
+                    </h4>
+                </div>
+                <!--ימי כיף-->
+                <div data-role="collapsible">
+                    <h4>ימי כיף
+                        <img src="essential/images/Dates/Category/fun.jpg" />
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Dates List -->
+    <div data-role="page" id="datesList" data-theme="c">
+
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="datesPage">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2>טיילות</h2>
+                </div>
+                <ul class="dataList">
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Single Date -->
+    <div data-role="page" id="singleDate" data-theme="c">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="datesList">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <!--<img src="essential/images/Dates/placeImg.png" />-->
+                <div id="dateImages">
+                </div>
+                <section class="socialHolder">
+                    <section class="social">
+                        <ul>
+                            <li>
+                                <img src="essential/images/General/share.png" class="share dateIcons" alt="שיתוף" />
+
+                            </li>
+                            <li>
+                                <img src="essential/images/General/comments.png" class="addComment dateIcons" alt="הוסף תגובה" />
+                            </li>
+                            <li>
+                                <section class="rating">
+                                    <!-- <span data-value="5">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="4">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="3">
+                                        <img src="essential/images/General/blankStar.png" />
+                                    </span>
+                                    <span data-value="2">
+                                        <img src="essential/images/General/goldenStar.png" />
+                                    </span>
+                                    <span data-value="1">
+                                        <img src="essential/images/General/goldenStar.png" />
+                                    </span>-->
+                                </section>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <div class="inputContainer">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateHeader">חוף הצוק</label>
+                            <label id="singleDate_dateLocation">חוף הצוק - תל אביב יפו</label>
+                        </div>
+                        <div class="ui-block-b dateWebsiteHolder">
+                            <label><a id="singleDate_dateWebsite" href="">קישור לאתר המקום</a></label>
+                            <label><a data-ajax="false" href="" id="singleDate_dateTel">חייג</a></label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <article id="singleDate_dateDesc">
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateTip">טיפ לדייט</label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singleDate_dateStepsHeader">שלבי הדייט / שעות פעילות</label>
+                        </div>
+                    </div>
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <article id="singleDate_dateSteps">
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                            </article>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<div class="ui-grid-b ">
+                    <div class="ui-block-a">
+                        <button id="favDate" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
+                    </div>
+                    <div class="ui-block-b">
+                        
+                    </div>
+                    <div class="ui-block-c">
+                        <button id="goToPresent" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift">מתנה</button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="ui-grid-b singleDate_buttons">
+                <div class="ui-block-a">
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav favorite dateIcons addToFav">דייט מועדף</a>
+                </div>
+                <div class="ui-block-b">
+                    <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
+                </div>
+                <div class="ui-block-c">
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift present dateIcons goToPresentCategories" href="">מתנה</a>
+                </div>
+            </div>
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Presents Categories -->
+    <div data-role="page" id="presentsCategories" data-theme="c">
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="women active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="men ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <ul class="dataList">
+                    <li class="dataItem presentCategory">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/neckles.jpg" />
+                        </div>
+                        <!--Description-->
+                        <div>
+                            <h3>תכשיטים מיוחדים</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem presentCategory">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/stone.jpg" />
+                        </div>
+                        <!--Description-->
+                        <div>
+                            <h3>ספא</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem presentCategory">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/pic.jpg" />
+                        </div>
+                        <!--Description-->
+                        <div>
+                            <h3>שי עם תמונה אישית</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem presentCategory">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/strawberry.jpg" />
+                        </div>
+                        <!--Description-->
+                        <div>
+                            <h3>מתוקים</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Presents List -->
+    <div id="presentsList" data-role="page" data-theme="c">
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="presentsCategories">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="women active ui-btn ui-shadow ui-btn-icon-right ui-icon-woman">מתנות לאישה</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="men ui-btn ui-shadow ui-btn-icon-right ui-icon-man">מתנות לגבר</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2>תכשיטים</h2>
+                </div>
+                <ul class="dataList">
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/neckles.jpg" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>עגילי פנינה</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/neckles.jpg" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>עגילי פנינה</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/neckles.jpg" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>עגילי פנינה</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                    <li class="dataItem">
+                        <!--Image-->
+                        <div>
+                            <img src="essential/images/Presents/Category/neckles.jpg" />
+                        </div>
+                        <!--Description + Social-->
+                        <div>
+                            <h3>עגילי פנינה</h3>
+                            <article>יונתן הקטן רץ בוקר אל הגן הוא טיפס על העץ אפרוחים חיפש אוי ואבוי לו לשובב </article>
+                            <section class="social">
+                                <ul>
+                                    <li>
+                                        <img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" />
+                                    </li>
+                                    <li>
+                                        <img src="essential/images/General/sharegray.png" class="share" alt="שיתוף" />
+                                    </li>
+                                    <li>
+                                        <section class="rating">
+                                            <span data-value="5" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="4" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="3" data-empty="true">
+                                                <img src="essential/images/General/blankStar.png" />
+                                            </span>
+                                            <span data-value="2" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                            <span data-value="1" data-empty="false">
+                                                <img src="essential/images/General/goldenStar.png" />
+                                            </span>
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <!--Arrow-->
+                        <div>
+                            <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
+                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+
+    </div>
+
+    <!-- Single Present -->
+    <div id="singlePresent" data-role="page" data-theme="c">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="presentsList">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <!--<img src="essential/images/Presents/presentImage.png" />-->
+                <div id="presentImages">
+                </div>
+                <section class="socialHolder">
+                    <section class="social">
+                        <ul>
+                            <li>
+                                <img src="essential/images/General/share.png" class="share" alt="שיתוף" />
+
+                            </li>
+                            <li>
+                                <img src="essential/images/General/comments.png" class="addComment" alt="הוסף תגובה" />
+                            </li>
+                            <li style="float: left; margin-left:8%; margin-top:2%;">
+                                <section class="rating">
+                                    
+                                </section>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <div class="inputContainer">
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singlePresent_presentHeader">עגילי פנינה</label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <article id="singlePresent_presentDesc">
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singlePeresent_presentTip">טיפ</label>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <label id="singlePresent_whereToBuy">מקומות מומלצים לרכישה</label>
+                        </div>
+                    </div>
+
+                    <div class="span-full" id="presentsSeller">
+                        <div class="ui-block-a">
+                            <img src="essential/images/Presents/mognolia.png" />
+                        </div>
+                        <div class="ui-block-b">
+                            <img src="essential/images/Presents/royalty.png" />
+                        </div>
+                        <div class="ui-block-c">
+                            <img src="essential/images/Presents/padani.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="ui-grid-a singleDate_buttons">
+                <div class="ui-block-a">
+                    <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">מתנה מועדפת</button>
+                </div>
+                <div class="ui-block-b">
+                    <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-date goToDateList" data-from-present="true">דייטים</button>
+                </div>
+            </div>
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- Choose Location -->
+    <div id="location" data-role="page" data-theme="c">
+        <!-- Header -->
+        <div data-role="header" class="bigHeader">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+            <div class="location">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <button class="findGps ui-btn ui-shadow ui-btn-icon-right ui-icon-gps">מצא לפי GPS</button>
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="selectLocation ui-btn ui-shadow ui-btn-icon-right ui-icon-location">בחר מיקום</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content hasBigHeader" role="main">
+            <div class="wrapper">
+                <div class="title">
+                    <h2 class="allDates">כל הארץ</h2>
+                </div>
+                <ul class="locationsList">
+                    <li class="area">
+                        <label>השרון</label>
+                        <ul>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                        </ul>
+                    </li>
+                    <li class="area">
+                        <label>השרון</label>
+                        <ul>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                            <li class="city">נתניה</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+    <!-- News -->
+    <div data-role="page" id="newsPage" data-theme="b">
+        <!-- Header -->
+        <div data-role="header">
+            <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="mainScreen">
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
+            <h1>Sroogim</h1>
+            <a class="ui-btn-left showPanel" href="#menuSidebar">
+                <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
+            </a>
+        </div>
+
+        <!-- Main -->
+        <div class="ui-content" role="main">
+            <div class="wrapper">
+                <div class="newsContent" id="">
+                    <div class="newsDate">
+                        <p>15</p>
+                        <p>09/2014</p>
+                    </div>
+                    <div class="newsInfo">
+                        <article>
+                            <header>
+                                <h3>כותרת החדשה</h3>
+                            </header>
+                            <p>fdgfhn sgh sgh srth sdgb sdg sdg sdgb sgdb sgb </p>
+                        </article>
+                    </div>
+                </div>
+                <div class="newsContent" id="Div1">
+                </div>
+                <div class="newsContent" id="Div2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div data-role="footer">
+            <div class="advertisement"></div>
+        </div>
+    </div>
+
+</body>
+</html>
