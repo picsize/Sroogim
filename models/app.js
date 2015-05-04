@@ -1,4 +1,4 @@
-﻿
+
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
@@ -615,8 +615,10 @@ $(document).on('pagebeforecreate', '#datesPage', function () {
 
 $(document).on('pagebeforecreate', '#location', function () { $('.findGps').removeClass('active'); $('.selectLocation').addClass('active'); });
 
+
 //create dates list
 $(document).on('click', '.goToDateList', function () {
+    $('#datesPage [data-role="collapsible"]').collapsible('collapse');
     $('#datesList .goBack').attr('data-prev-link', 'datesPage');
     var categoryID = parseInt($(this).attr('data-category-id'));
     //alert(categoryID); alert('GPSADDRESS: ' + JSON.stringify(gpsAddress));
