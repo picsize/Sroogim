@@ -1,7 +1,7 @@
-﻿/*
+/*
     Sroogim Css File
     V 1.0
-    (C) 2014 Picsize - Be Exclusive
+    (C) 2015 Picsize - Be Exclusive
 */
 
 /*#region Init*/
@@ -379,7 +379,9 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     }
 
 .ui-panel-inner {
-    padding: 0;
+  padding: 0;
+  height: 97%;
+  overflow-y: auto;
 }
 
 [data-role="page"] {
@@ -402,6 +404,15 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .ui-loader.ui-body-b {
     top: 63% !important;
+}
+
+.ui-panel {
+min-height: 100%;
+max-height: none;
+border-width: 0;
+position: fixed;
+top: 0;
+display: block;
 }
 
 
@@ -546,10 +557,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 #menuSidebar {
     background-color: #3b393f;
-    /*height: 86.7% !important;
-    min-height: 86.7% !important;
-    margin-top: 6%;
-    top:0.5%;*/
+    height: 100%;
+    overflow-y: hidden;
 }
 
     #menuSidebar #sidebarCoverImg {
@@ -568,6 +577,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 #panelHolder {
     /*height: 36em;
     overflow-y: auto;*/
+    right: 0;
 }
 
 #menuSidebar section:nth-child(2) {
@@ -1121,8 +1131,8 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
         }
 
             .buttons ul li:nth-child(2) {
-                position:relative;
-                top:3px;
+                position: relative;
+                top: 3px;
             }
 
             .buttons ul li img {
@@ -1136,7 +1146,7 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
 
 .ideasBox img {
     width: 118px;
-    height:118px;
+    height: 118px;
     padding: 2.3% 2.3% 0 4%;
     float: right;
 }
@@ -1172,19 +1182,24 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
     margin: 0 auto;
     position: relative;
     bottom: 4em;
-    z-index:9;
+    z-index: 9;
 }
 
 #profile-btn-holder {
-position:relative;bottom:7.5em;
+    position: relative;
+    bottom: 7.5em;
 }
 
 #update-profile-pic {
-background-color:#7F0E32; text-indent: -3em;color: #fff;
+    background-color: #7F0E32;
+    text-indent: -3em;
+    color: #fff;
 }
 
 #update-cover-pic {
-background-color:#ad5860; text-indent: 1em;color: #fff;
+    background-color: #ad5860;
+    text-indent: 1em;
+    color: #fff;
 }
 
 /*#endregion*/
@@ -1690,11 +1705,10 @@ background-color:#ad5860; text-indent: 1em;color: #fff;
         font-size: 77% !important;
         width: 59%;
         margin-right: 1.7% !important;
-        color:#fff !important;
+        color: #fff !important;
     }
 
     .singleDate_buttons .ui-block-a a {
-
         background-color: #ad253f !important;
     }
 
@@ -1748,7 +1762,7 @@ background-color:#ad5860; text-indent: 1em;color: #fff;
 }
 
 #singlePresent_presentDesc {
-    color: #c0bec3;
+    color: #525252;
     font-size: 85%;
     font-weight: normal;
     margin-top: 3%;
@@ -1872,7 +1886,6 @@ background-color:#ad5860; text-indent: 1em;color: #fff;
 }
 
 @media screen and (width: 360px) and (height:640px) and (-webkit-device-pixel-ratio:4) {
-
 }
 
 /*#endregion*/
