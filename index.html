@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Sroogim</title>
@@ -33,7 +33,7 @@
     <div id="loadImages"></div>
 
     <!-- Menu Sidebar -->
-    <div data-role="panel" id="menuSidebar" data-position="left" data-position-fixed="true" data-display="overlay" class="ui-responsive-panel">
+    <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel"><!--data-position-fixed="true"-->
         <div id="panelHolder">
             <!-- Profile & Cover -->
             <section>
@@ -107,7 +107,8 @@
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
                             <a data-ajax="false" href="index.html#mainScreen">
-                                <label id="skip">דלג/י</label></a>
+                                <label id="skip">דלג/י</label>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -127,7 +128,8 @@
         <!-- header -->
         <div data-role="header">
             <a class="ui-btn-right goBack" data-rel="back" data-direction="reverse" data-prev-link="welcomeScreen">
-                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" /></a>
+                <img src="essential/images/General/Back.png" alt="חזרה לדף הראשי" />
+            </a>
             <h1>Sroogim</h1>
         </div>
 
@@ -188,12 +190,15 @@
                 <img src="essential/images/General/menu.png" alt="הצג תפריט ראשי" />
             </a>
             <div id="news">
-                <div id="newsContainer" class="marquee">
-                    <p>
-                        <!-- data-scrollamount="1" data-behavior="scroll" data-loop="infinite" data-direction="right"  data-width="100%" data-height="100%" -->
-                    </p>
-                </div>
+                <a data-ajax="false" href="index.html#newsPage" class="ui-link" style="text-decoration:none;">
+                    <div id="newsContainer" class="marquee">
+                        <p>
+                            <!-- data-scrollamount="1" data-behavior="scroll" data-loop="infinite" data-direction="right"  data-width="100%" data-height="100%" -->
+                        </p>
+                    </div>
+                </a>
             </div>
+
         </div>
 
         <!-- main -->
@@ -205,17 +210,19 @@
                 <!-- Dates -->
                 <div class="ideas" id="dates">
                     <div class="ideasBox">
-                        <a data-ajax="false" href="index.html#datesPage">
-                            <img src="essential/images/Home/dates.png" /></a>
-                        <section>
-                            <h2>רעיונות לדייטים</h2>
-                            <p>
-                                טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            </p>
-                        </section>
+                        <a data-ajax="false" href="index.html#datesPage" style="text-decoration:none;font-weight: normal;">
+                            <img src="essential/images/Home/dates.png" />
+                            <section>
+                                <h2>רעיונות לדייטים</h2>
+                                <p>
+                                    טקסט טקסט טקסט טקסט טקסט טקסט
+                                    טקסט טקסט טקסט טקסט טקסט טקסט
+                                    טקסט טקסט טקסט טקסט טקסט טקסט
+                                    טקסט טקסט טקסט טקסט טקסט טקסט
+                                </p>
+                            </section>
+                        </a>
+                        
                     </div>
                     <div class="buttons">
                         <ul>
@@ -238,7 +245,7 @@
                     </div>
                 </div>
                 <!-- Presents -->
-                <div class="ideas" id="presents">
+                <div class="ideas goToPresentCategories" id="presents">
                     <div class="ideasBox">
                         <a data-ajax="false" class="goToPresentCategories" href="">
                             <img src="essential/images/Home/presents.png" />
@@ -247,9 +254,9 @@
                             <h2>רעיונות למתנות</h2>
                             <p>
                                 טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
-                            טקסט טקסט טקסט טקסט טקסט טקסט
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                                טקסט טקסט טקסט טקסט טקסט טקסט
+                                טקסט טקסט טקסט טקסט טקסט טקסט
                             </p>
                         </section>
                     </div>
@@ -309,7 +316,7 @@
                             <button id="update-profile-pic">תמונת פרופיל</button>
                         </div>
                         <div class="ui-block-b">
-                            <button id="update-cover-pic" >תמונת נושא</button>
+                            <button id="update-cover-pic">תמונת נושא</button>
                         </div>
                     </div>
                 </div>
@@ -388,15 +395,19 @@
                         <table class="ui-table ui-responsive">
                             <tr>
                                 <td>
-                                    <input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" onfocus="clearField($(this), 'כותרת הדייט');" onblur="checkField($(this), 'כותרת הדייט');"/></td>
+                                    <input type="text" id="dateHeader" name="dateHeader" data-role="none" data-mini="true" value="כותרת הדייט" onfocus="clearField($(this), 'כותרת הדייט');" onblur="checkField($(this), 'כותרת הדייט');" />
+                                </td>
                                 <td>
-                                    <input type="url" id="dateSite" name="dateSite" data-role="none" data-mini="true" value="כתובת אתר המקום" onfocus="clearField($(this), 'כתובת אתר המקום');" onblur="checkField($(this), 'כתובת אתר המקום');"/></td>
+                                    <input type="url" id="dateSite" name="dateSite" data-role="none" data-mini="true" value="כתובת אתר המקום" onfocus="clearField($(this), 'כתובת אתר המקום');" onblur="checkField($(this), 'כתובת אתר המקום');" />
+                                </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="text" id="dateAddress" name="dateAddress" data-role="none" data-mini="true" value="מיקום הדייט" onfocus="clearField($(this), 'מיקום הדייט');" onblur="checkField($(this), 'מיקום הדייט');"/></td>
+                                    <input type="text" id="dateAddress" name="dateAddress" data-role="none" data-mini="true" value="מיקום הדייט" onfocus="clearField($(this), 'מיקום הדייט');" onblur="checkField($(this), 'מיקום הדייט');" />
+                                </td>
                                 <td>
-                                    <input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" onfocus="clearField($(this), 'טלפון המקום');" onblur="checkField($(this), 'טלפון המקום');"/></td>
+                                    <input type="tel" id="dateTel" name="dateTel" data-role="none" data-mini="true" value="טלפון המקום" onfocus="clearField($(this), 'טלפון המקום');" onblur="checkField($(this), 'טלפון המקום');" />
+                                </td>
                             </tr>
                         </table>
 
@@ -408,7 +419,7 @@
 
                         <div class="ui-grid-solo">
                             <div class="ui-block-a">
-                                <input type="text" id="dateTip" name="dateTip" data-role="none" value="הזן טיפ לדייט..." onfocus="clearField($(this), 'הזן טיפ לדייט...');"/>
+                                <input type="text" id="dateTip" name="dateTip" data-role="none" value="הזן טיפ לדייט..." onfocus="clearField($(this), 'הזן טיפ לדייט...');" />
                             </div>
                         </div>
 
@@ -459,7 +470,7 @@
                     <div class="inputContainer">
                         <div class="ui-grid-a">
                             <div class="ui-block-a">
-                                <input type="text" id="presentHeader" name="presentHeader" data-role="none" data-mini="true" value="שם המתנה" onfocus="clearField($(this), 'שם המתנה');" onblur="checkField($(this), 'שם המתנה');"/>
+                                <input type="text" id="presentHeader" name="presentHeader" data-role="none" data-mini="true" value="שם המתנה" onfocus="clearField($(this), 'שם המתנה');" onblur="checkField($(this), 'שם המתנה');" />
                             </div>
                         </div>
 
@@ -471,7 +482,7 @@
 
                         <div class="ui-grid-solo">
                             <div class="ui-block-a">
-                                <input type="text" id="presentTip" name="presentTip" data-role="none" value="הזן טיפ למתנה..." onfocus="clearField($(this), 'הזן טיפ למתנה...');" onblur="checkField($(this), 'הזן טיפ למתנה...');"/>
+                                <input type="text" id="presentTip" name="presentTip" data-role="none" value="הזן טיפ למתנה..." onfocus="clearField($(this), 'הזן טיפ למתנה...');" onblur="checkField($(this), 'הזן טיפ למתנה...');" />
                             </div>
                         </div>
 
@@ -529,8 +540,8 @@
                     <div class="inputContainer">
                         <p>
                             טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
-                             טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
-                             טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
+                            טקסט טקסט טקסט טקסט טקסט טקסט טקסט טקסט
                         </p>
                         <div class="ui-grid-solo">
                             <div class="ui-block-a">
@@ -604,7 +615,8 @@
             <div class="wrapper">
                 <!--דייטים באוויר הצח-->
                 <div data-role="collapsible">
-                    <h4>דייטים באוויר הצח
+                    <h4>
+                        דייטים באוויר הצח
                         <img src="essential/images/Dates/Category/outside.jpg" />
                     </h4>
                     <ul data-role="listview">
@@ -615,19 +627,22 @@
                 </div>
                 <!--דייטים במקומות מפנקים-->
                 <div data-role="collapsible">
-                    <h4>דייטים במקומות מפנקים
+                    <h4>
+                        דייטים במקומות מפנקים
                         <img src="essential/images/Dates/Category/spa.jpg" />
                     </h4>
                 </div>
                 <!--אוכל ואווירה קסומה-->
                 <div data-role="collapsible">
-                    <h4>אוכל ואווירה קסומה
+                    <h4>
+                        אוכל ואווירה קסומה
                         <img src="essential/images/Dates/Category/food.jpg" />
                     </h4>
                 </div>
                 <!--ימי כיף-->
                 <div data-role="collapsible">
-                    <h4>ימי כיף
+                    <h4>
+                        ימי כיף
                         <img src="essential/images/Dates/Category/fun.jpg" />
                     </h4>
                 </div>
@@ -670,8 +685,7 @@
                 <div class="title">
                     <h2>טיילות</h2>
                 </div>
-                <ul class="dataList">
-                </ul>
+                <ul class="dataList"></ul>
             </div>
         </div>
 
@@ -747,9 +761,9 @@
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
                             <article id="singleDate_dateDesc">
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
                             </article>
                         </div>
                     </div>
@@ -768,8 +782,8 @@
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
                             <article id="singleDate_dateSteps">
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
                                 תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
                             </article>
                         </div>
@@ -782,7 +796,7 @@
                         <button id="favDate" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">דייט מועדף</button>
                     </div>
                     <div class="ui-block-b">
-                        
+
                     </div>
                     <div class="ui-block-c">
                         <button id="goToPresent" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-gift">מתנה</button>
@@ -848,7 +862,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem presentCategory">
@@ -864,7 +879,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem presentCategory">
@@ -880,7 +896,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem presentCategory">
@@ -896,7 +913,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#presentsList" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -981,7 +999,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem">
@@ -1026,7 +1045,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem">
@@ -1071,7 +1091,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                     <li class="dataItem">
@@ -1116,7 +1137,8 @@
                         <!--Arrow-->
                         <div>
                             <a data-ajax="false" href="index.html#singlePresent" class="goToDate" data-dateid="1">
-                                <img src="essential/images/Favroites/arrow_gray.png" /></a>
+                                <img src="essential/images/Favroites/arrow_gray.png" />
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -1160,9 +1182,7 @@
                                 <img src="essential/images/General/comments.png" class="addComment" alt="הוסף תגובה" />
                             </li>
                             <li style="float: left; margin-left:8%; margin-top:2%;">
-                                <section class="rating">
-                                    
-                                </section>
+                                <section class="rating"></section>
                             </li>
                         </ul>
                     </section>
@@ -1177,9 +1197,9 @@
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
                             <article id="singlePresent_presentDesc">
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
-                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, 
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
+                                תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט, תיאור הדייט,
                             </article>
                         </div>
                     </div>
