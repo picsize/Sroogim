@@ -288,6 +288,10 @@ input[type="text"], input[type="email"]:not(#loginEmail), input[type="url"], inp
             content: url(../images/General/whiteStar.png);
         }
 
+.addToFav {
+color:#fff !important;
+}
+
 /*#endregion*/
 
 /*#region Gps & Location*/
@@ -1161,6 +1165,7 @@ display: block;
 .ideasBox section p {
     font-size: 70%;
     color: #3a3a3a;
+    padding-bottom:21%;
 }
 
 /*#endregion*/
@@ -1762,7 +1767,7 @@ display: block;
 }
 
 #singlePresent_presentDesc {
-    color: #525252;
+    color: #3a3a3a;
     font-size: 85%;
     font-weight: normal;
     margin-top: 3%;
