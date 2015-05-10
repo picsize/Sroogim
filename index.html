@@ -33,7 +33,8 @@
     <div id="loadImages"></div>
 
     <!-- Menu Sidebar -->
-    <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel"><!--data-position-fixed="true"-->
+    <div data-role="panel" id="menuSidebar" data-position="left" data-display="overlay" class="ui-responsive-panel">
+        <!--data-position-fixed="true"-->
         <div id="panelHolder">
             <!-- Profile & Cover -->
             <section>
@@ -222,7 +223,7 @@
                                 </p>
                             </section>
                         </a>
-                        
+
                     </div>
                     <div class="buttons">
                         <ul>
@@ -809,7 +810,7 @@
         <div data-role="footer">
             <div class="ui-grid-b singleDate_buttons">
                 <div class="ui-block-a">
-                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav favorite dateIcons addToFav">דייט מועדף</a>
+                    <a class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav favorite dateIcons addToFav" data-fav="date" id="singleDateAddToFav">דייט מועדף</a>
                 </div>
                 <div class="ui-block-b">
                     <a id="gpsButton" class="ui-btn ui-shadow ui-btn-icon-left ui-icon-waze">סע לשם</a>
@@ -1235,10 +1236,10 @@
         <div data-role="footer">
             <div class="ui-grid-a singleDate_buttons">
                 <div class="ui-block-a">
-                    <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav">מתנה מועדפת</button>
+                    <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-fav addToFav" data-fav="present" id="singlePresentAddToFav">מתנה מועדפת</button>
                 </div>
                 <div class="ui-block-b">
-                    <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-date goToDateList" data-from-present="true">דייטים</button>
+                        <button class="ui-btn ui-shadow ui-btn-icon-left ui-icon-date goToDatePage" data-from-present="true">דייטים</button>
                 </div>
             </div>
             <div class="advertisement"></div>
