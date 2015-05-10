@@ -20,7 +20,7 @@ var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = '1';
+var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '';
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -550,7 +550,7 @@ function createDatePage(json) {
         $('#singleDate_dateHeader').hide();
     }
     else {
-        $('#singleDate_dateHeader').text(json.DateHeader);
+        $('#singleDate_dateHeader').text(json.DateHeader.replace('&apos','\''));
     }
     
     if (json.DateLocation == '' || json.DateLocation == null) {
@@ -578,11 +578,11 @@ function createDatePage(json) {
         $('#singleDate_dateDesc').hide();
     }
     else {
-        $('#singleDate_dateDesc').text(json.DateDescription);
+        $('#singleDate_dateDesc').text(json.DateDescription.replace('&apos', '\''));
     }
 
     if (json.ShowDateTip == 'Y') {
-        $('#singleDate_dateTip').text(json.DateTip);
+        $('#singleDate_dateTip').text(json.DateTip.replace('&apos', '\''));
     }
     else {
         $('#singleDate_dateTip').parent().parent().hide();
@@ -593,7 +593,7 @@ function createDatePage(json) {
     }
     else {
         $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
-        $('#singleDate_dateSteps').html(json.MoreInfoText);
+        $('#singleDate_dateSteps').html(json.MoreInfoText.replace('&apos', '\''));
     }
     $('#singleDate .share').attr('data-share', 'date');
     $('#singleDate .share').attr('data-id', json.DateID);
@@ -645,10 +645,6 @@ $(document).on('pagebeforecreate', '#datesPage', function () {
 
 $(document).on('pagebeforecreate', '#location', function () { $('.findGps').removeClass('active'); $('.selectLocation').addClass('active'); });
 
-$(document).on('click', '#dates', function () {
-    $('.goToDateList').click();
-});
-
 //create dates list
 $(document).on('click', '.goToDateList', function () {
     $('#datesPage [data-role="collapsible"]').collapsible('collapse');
@@ -675,8 +671,8 @@ $(document).on('click', '.goToDateList', function () {
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
-                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -793,8 +789,8 @@ $(document).on('click', '.city', function () {
             dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3>' + thisDate.DateHeader + '</h3>' +
-                                '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                                '<h3>' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                                '<article>' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -853,8 +849,8 @@ $(document).on('click', '.allDates', function () {
         dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
-                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader + '</h3>' +
-                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70) + '</article>' +
+                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                             '<section class="social">' +
                                 '<ul>' +
                                     '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
@@ -950,7 +946,8 @@ $(document).on('click', '#singleDate .rating', function () {
 //click on date link
 $(document).on('click', '#singleDate_dateWebsite', function (e) {
     e.preventDefault();
-    if ($(this).attr('href') != '') {
+      if ($(this).attr('href') != '') {
+        dateLink = $(this).attr('href');
         var json = { 'dateID': currentDateId };
         $.ajax({
             type: "POST",
@@ -967,16 +964,16 @@ $(document).on('click', '#singleDate_dateWebsite', function (e) {
                     alert(result.d);
                 }
                 else {
-                    //navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
+                    if (dateLink.indexOf('http://') == -1) {
+                        navigator.app.loadUrl('http://' + dateLink, { openExternal: true });
+                    }
+                    else {
+                        navigator.app.loadUrl(dateLink, { openExternal: true });
+                    }
                 }
             }
         });
-        if ($(this).attr('href').indexOf('http://') == -1) {
-            navigator.app.loadUrl('http://' + $(this).attr('href'), { openExternal: true });
-        }
-        else {
-            navigator.app.loadUrl($(this).attr('href'), { openExternal: true });
-        }
+        
        
     }
     else {
@@ -1001,6 +998,9 @@ $(document).on('click', '#singleDate_dateTel', function (e) {
 //create present page
 function createPresentPage(json) {
     currentPresentId = json.PresentID;
+    var presentRatingHTML = createRating(json.PresentRating, 'white');
+    $('#singlePresent .rating').html(presentRatingHTML);
+
     if (json.ShowVideo == 'Y') {
         $('#presentImages').html('<iframe width="100%" height="205" src="' + json.PresentVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
     }
@@ -1023,7 +1023,7 @@ function createPresentPage(json) {
 
         }
     }
-    //var presentRatingHTML = createRating(json.PresentRating, 'white');
+    
 
     if (json.PresentHeader == '' || json.PresentHeader == null) {
         $('#singlePresent_presentHeader').hide();
@@ -1052,7 +1052,7 @@ function createPresentPage(json) {
         sellerLi += '<div><img data-seller="' + json.PresentSeller[i].Url.split(',')[1] + '" src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url.split(',')[0] + '" /></div>';
     }
     $('#presentsSeller').html(sellerLi);
-    $('#singlePresent .rating').html(presentRatingHTML);
+    
 }
 
 function createPresentsCategoriesPage(gender) {
@@ -1076,7 +1076,7 @@ function createPresentsCategoriesPage(gender) {
 }
 
 //create present list
-$(document).on('click', '.goToPresentCategories, #presents', function () {
+$(document).on('click', '.goToPresentCategories', function () {
     createPresentsCategoriesPage('Women');
 });
 
@@ -1256,6 +1256,8 @@ $(document).on('click', '[data-seller]', function () {
         'sellerLink': $(this).attr('data-seller')
     };
 
+    presentLink = $(this).attr('data-seller');
+
     $.ajax({
         type: "POST",
         url: api + "updateSellerLinkCount",
@@ -1271,11 +1273,11 @@ $(document).on('click', '[data-seller]', function () {
                 alert(result.d);
             }
             else {
-                if ($(this).attr('data-seller').indexOf('http://') == -1) {
-                    navigator.app.loadUrl('http://' + $(this).attr('data-seller'), { openExternal: true });
+                if (presentLink.indexOf('http://') == -1) {
+                    navigator.app.loadUrl('http://' + presentLink, { openExternal: true });
                 }
                 else {
-                    navigator.app.loadUrl($(this).attr('data-seller'), { openExternal: true });
+                    navigator.app.loadUrl(presentLink, { openExternal: true });
                 }
                
             }
