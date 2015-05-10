@@ -19,8 +19,8 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
-var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '';
+var userEmail = '', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
+var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', dateRating, presentRating;
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -31,6 +31,7 @@ $(document).on('pagebeforecreate', '#loadingScreen', function () {
 
 //$(function () {
 //    initApp();
+
 //});
 
 function initApp() {
@@ -336,7 +337,11 @@ function setDistance(response, status) {
                     d = 'לא ניתן לחשב מרחק';
                 }
                 else {
-                    d = results[j].distance.text.replace('km', 'ק"מ') + ' ממקומך';
+                    try {
+                        d = results[j].distance.text.replace('km', 'ק"מ') + ' ממקומך';
+                    } catch (e) {
+                        d = 'לא ניתן לחשב מרחק';
+                    }
                 }
 
                 distance.push(d);
@@ -516,8 +521,9 @@ $(document).on('click', '.addComment', function () {
 
 //create date page
 function createDatePage(json) {
-    var dateRatingHTML = createRating(json.DateRating, 'white');
-    $('#singleDate .rating').html(dateRatingHTML);
+    currentDateId = json.DateID;
+    var dateRatingHTML = createRating(parseInt(dateRating), 'white');
+
     try {
         if (json.ShowVideo == 'Y') {
             $('#dateImages').html('<iframe width="100%" height="205" src="' + json.DateVideo.Url + '?rel=0&autoplay=0&controls=0" frameborder="0" allowfullscreen></iframe>');
@@ -550,9 +556,14 @@ function createDatePage(json) {
         $('#singleDate_dateHeader').hide();
     }
     else {
-        $('#singleDate_dateHeader').text(json.DateHeader.replace('&apos','\''));
+        if (json.DateHeader.indexOf('&apos') != -1) {
+            $('#singleDate_dateHeader').text(json.DateHeader.replace('&apos', '\''));
+        }
+        else {
+            $('#singleDate_dateHeader').text(json.DateHeader);
+        }
     }
-    
+
     if (json.DateLocation == '' || json.DateLocation == null) {
         $('#singleDate_dateLocation').hide();
     }
@@ -567,22 +578,20 @@ function createDatePage(json) {
         $('#singleDate_dateWebsite').attr('href', json.DateLink);
     }
 
-    if (gps == '' || gps.indexOf(undefined) != -1) {
-        $('#gpsButton').hide();
-    }
-    else {
-        $('#gpsButton').attr('href', 'geo:' + gps);
-    }
-
     if (json.DateDescription == '' || json.DateDescription == null) {
         $('#singleDate_dateDesc').hide();
     }
     else {
-        $('#singleDate_dateDesc').text(json.DateDescription.replace('&apos', '\''));
+        if (json.DateDescription.indexOf('&apos') != -1) {
+            $('#singleDate_dateDesc').text(json.DateDescription.replace('&apos', '\''));
+        }
+        else {
+            $('#singleDate_dateDesc').text(json.DateDescription);
+        }
     }
 
     if (json.ShowDateTip == 'Y') {
-        $('#singleDate_dateTip').text(json.DateTip.replace('&apos', '\''));
+        $('#singleDate_dateTip').text(json.DateTip);
     }
     else {
         $('#singleDate_dateTip').parent().parent().hide();
@@ -593,10 +602,28 @@ function createDatePage(json) {
     }
     else {
         $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
-        $('#singleDate_dateSteps').html(json.MoreInfoText.replace('&apos', '\''));
     }
+
+    if (json.MoreInfoText == '' || json.MoreInfoText == undefined) {
+        $('#singleDate_dateSteps').hide();
+    }
+    else {
+        if (json.MoreInfoText.indexOf('&apos') != -1) {
+            $('#singleDate_dateSteps').html(json.MoreInfoText.replace('&apos', '\''));
+        }
+        else {
+            $('#singleDate_dateSteps').html(json.MoreInfoText);
+        }
+    }
+    
+
+    $('#gpsButton').attr('href', 'geo:' + gps);
     $('#singleDate .share').attr('data-share', 'date');
     $('#singleDate .share').attr('data-id', json.DateID);
+
+    $('#singleDateAddToFav').attr('data-date-id', json.DateID);
+
+    $('#singleDate .rating').html(dateRatingHTML);
 
 }
 
@@ -615,7 +642,7 @@ function createLocationPage() {
 }
 
 //create date categories
-$(document).on('click', '[href="index.html#datesPage"]', function () {
+$(document).on('click', '[href="index.html#datesPage"], .goToDatePage', function () {
     dateCategoriesHTML = '';
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].CategoryType == "Date" && categories[i].SubList[0].Value != 0) {
@@ -624,6 +651,10 @@ $(document).on('click', '[href="index.html#datesPage"]', function () {
                 dateCategoriesHTML += '<li><a data-ajax="false" href="index.html#datesList" data-category-id="' + categories[i].SubList[j].Value + '" class="goToDateList"><img style="float:right !important;" class="subCategory" src="' + subCategoriesSrc + categories[i].SubList[j].CategoryImage + '" /> ' + categories[i].SubList[j].Text + '</a></li>';
             }
             dateCategoriesHTML += '</ul></div>';
+        }
+
+        if ($(this).attr('data-from-present') == 'true') {
+            $.mobile.changePage('index.html#datesPage');
         }
 
     };
@@ -668,7 +699,7 @@ $(document).on('click', '.goToDateList', function () {
             var currentLocation = new google.maps.LatLng(lat, lng);
             //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '">' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
@@ -737,17 +768,36 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
 
 //show date page
 $(document).on('click', '.goToDate, .goToDate div:nth-child(2) h3, .goToDate div:nth-child(2) article', function () {
+    elem = $(this);
     var dateID = parseInt($(this).attr('data-date-id'));
     currentDateId = parseInt($(this).attr('data-date-id'));
-    for (var i = 0; i < dates.length; i++) {
-        if (dateID == dates[i].DateID) {
-            createDatePage(dates[i]);
+    var json = {
+        email: userEmail,
+        id: currentDateId
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: api + 'getLastRating',
+        data: "{json: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            dateRating = result.d;
+            for (var i = 0; i < dates.length; i++) {
+                if (dateID == dates[i].DateID) {
+                    createDatePage(dates[i]);
+                }
+            }
+            //console.log($(this));
+            if (elem.attr('data-from-img') == 'true') {
+                $.mobile.changePage('index.html#singleDate');
+            }
         }
-    }
-    //console.log($(this));
-    if ($(this).attr('data-from-img') == 'true') {
-        $.mobile.changePage('index.html#singleDate');
-    }
+    });
 });
 
 //apply location view
@@ -786,11 +836,11 @@ $(document).on('click', '.city', function () {
             var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3>' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                                '<article>' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -946,7 +996,7 @@ $(document).on('click', '#singleDate .rating', function () {
 //click on date link
 $(document).on('click', '#singleDate_dateWebsite', function (e) {
     e.preventDefault();
-      if ($(this).attr('href') != '') {
+    if ($(this).attr('href') != '') {
         dateLink = $(this).attr('href');
         var json = { 'dateID': currentDateId };
         $.ajax({
@@ -973,14 +1023,14 @@ $(document).on('click', '#singleDate_dateWebsite', function (e) {
                 }
             }
         });
-        
-       
+
+
     }
     else {
         $('#popupContent').html('<h2>אופס... שדה זה לא קיים כרגע</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
         openPopup();
     }
-    
+
 });
 
 $(document).on('click', '#singleDate_dateTel', function (e) {
@@ -998,7 +1048,8 @@ $(document).on('click', '#singleDate_dateTel', function (e) {
 //create present page
 function createPresentPage(json) {
     currentPresentId = json.PresentID;
-    var presentRatingHTML = createRating(json.PresentRating, 'white');
+    var presentRatingHTML = createRating(parseInt(presentRating), 'white');
+
     $('#singlePresent .rating').html(presentRatingHTML);
 
     if (json.ShowVideo == 'Y') {
@@ -1023,7 +1074,7 @@ function createPresentPage(json) {
 
         }
     }
-    
+
 
     if (json.PresentHeader == '' || json.PresentHeader == null) {
         $('#singlePresent_presentHeader').hide();
@@ -1052,7 +1103,9 @@ function createPresentPage(json) {
         sellerLi += '<div><img data-seller="' + json.PresentSeller[i].Url.split(',')[1] + '" src="' + presentImgSrc + json.PresentID + '/seller/' + json.PresentSeller[i].Url.split(',')[0] + '" /></div>';
     }
     $('#presentsSeller').html(sellerLi);
-    
+
+    $('#singlePresentAddToFav').attr('data-present-id', json.PresentID);
+
 }
 
 function createPresentsCategoriesPage(gender) {
@@ -1060,8 +1113,8 @@ function createPresentsCategoriesPage(gender) {
         presentCategoriesHTML = '<ul class="dataList">';
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].CategoryType == "Present" && categories[i].CategoryGender == gender) {
-                presentCategoriesHTML += '<li class="dataItem presentCategory"><div><img src="' + presentCategoriesSrc + categories[i].CategoryImage + '" /></div>' +
-                  '<div><h3>' + categories[i].Text + '</h3><article>' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
+                presentCategoriesHTML += '<li class="dataItem presentCategory" data-from-img="true"><div><img src="' + presentCategoriesSrc + categories[i].CategoryImage + '" data-from-img="true" data-category-id="' + categories[i].Value + '"/></div>' +
+                  '<div><h3 data-from-img="true" data-category-id="' + categories[i].Value + '">' + categories[i].Text + '</h3><article data-category-id="' + categories[i].Value + '" data-from-img="true">' + categories[i].CategoryDescription.substring(0, 70) + '</article></div>' +
                   '<div><a data-ajax="false" href="index.html#presentsList" class="goToPresentsList" data-category-id="' + categories[i].Value + '"><img src="essential/images/Favroites/arrow_gray.png" /></a></div>';
             }
         }
@@ -1082,11 +1135,11 @@ $(document).on('click', '.goToPresentCategories', function () {
 
 $(document).on('pagebeforecreate', '#presentsCategories', function () {
     //$('[href="index.html#presentsCategories"]').click();
-    
+
 });
 
 //go to presents list
-$(document).on('click', '.goToPresentsList', function () {
+$(document).on('click', '.goToPresentsList, .presentCategory div:nth-child(1) img, .presentCategory div:nth-child(2) h3, .presentCategory div:nth-child(2) article', function () {
     var categoryID = parseInt($(this).attr('data-category-id'));
     $('#presentsList .wrapper .title h2').text($(this).text());
     var presentLi = '';
@@ -1099,7 +1152,7 @@ $(document).on('click', '.goToPresentsList', function () {
                 favIcon = 'essential/images/General/favHover.png';
             }
         }
-        
+
         if (presents[i].ShowVideo == 'Y') {
             previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
         }
@@ -1114,11 +1167,11 @@ $(document).on('click', '.goToPresentsList', function () {
         }
         var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
         if (presents[i].PresentCategory == categoryID) {
-            presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '">' +
-                            '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '"/></div>' +
+            presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '" data-from-img="true">' +
+                            '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3 data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentHeader + '</h3>' +
-                                '<article data-present-id="' + presents[i].PresentID + '">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                '<h3 data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentHeader + '</h3>' +
+                                '<article data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
@@ -1151,6 +1204,9 @@ $(document).on('click', '.goToPresentsList', function () {
     }
 
     $('#presentsList .dataList').html(presentLi);
+    if ($(this).attr('data-from-img') == 'true') {
+        $.mobile.changePage('index.html#presentsList');
+    }
 });
 
 //filter categories by gender
@@ -1173,12 +1229,39 @@ $(document).on('click', '.women, .men', function () {
 //show present page
 $(document).on('click', '.goToPresent, .goToPresent div:nth-child(2) h3, .goToPresent div:nth-child(2) article', function () {
     var presentID = parseInt($(this).attr('data-present-id'));
-    for (var i = 0; i < presents.length; i++) {
-        if (presentID == presents[i].PresentID) {
-            thisPresent = presents[i];
-            createPresentPage(thisPresent);
-        }
+    currentPresentId = presentID;
+    elem = $(this);
+    var json = {
+        email: userEmail,
+        id: currentPresentId
     }
+
+    $.ajax({
+        type: 'POST',
+        url: api + 'getLastRating',
+        data: "{json: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            presentRating = result.d;
+            for (var i = 0; i < presents.length; i++) {
+                if (presentID == presents[i].PresentID) {
+                    thisPresent = presents[i];
+                    createPresentPage(thisPresent);
+
+                    if (elem.attr('data-from-img') == 'true') {
+                        $.mobile.changePage('index.html#singlePresent');
+                    }
+                }
+            }
+        }
+    });
+
+
+
 });
 
 //send present offer
@@ -1197,7 +1280,7 @@ $(document).on('click', '#presentSend', function () {
     email = {
         'userEmail': userEmail,
         'subject': 'הוספת מתנה',
-        'body': '<div style="direction:rtl; text-align:right;">' + presentHeader + '<br>' + presentDesc + '<br>' + presentTip + '<br><img src="'+presentImg+'"/><br>'+presentSellerImg+'</div>'
+        'body': '<div style="direction:rtl; text-align:right;">' + presentHeader + '<br>' + presentDesc + '<br>' + presentTip + '<br><img src="' + presentImg + '"/><br>' + presentSellerImg + '</div>'
     };
     try {
         $.ajax({
@@ -1279,7 +1362,7 @@ $(document).on('click', '[data-seller]', function () {
                 else {
                     navigator.app.loadUrl(presentLink, { openExternal: true });
                 }
-               
+
             }
         }
     });
@@ -1705,6 +1788,7 @@ $(document).on('click', '.addToFav', function () {
 });
 
 function addOrRemoveFavorite(elem) {
+    debugger;
     if (elem.attr('data-fav') == 'date') {
         var json = { 'userEmail': userEmail, 'dateID': parseInt(elem.attr('data-date-id')) };
         $.ajax({
@@ -2283,6 +2367,19 @@ function goBackPage(e) {
     //console.log(e);
     //console.log(data);
     $.mobile.changePage('index.html#' + $.mobile.activePage.find('.goBack').attr('data-prev-link'));
+}
+
+document.addEventListener("backbutton", closeApp, false);
+
+function closeApp() {
+    var thisPageId = $.mobile.pageContainer.pagecontainer('getActivePage').attr('id');
+    if (thisPageId == 'mainScreen') {
+        if (navigator.app) {
+            navigator.app.exitApp();
+        } else if (navigator.device) {
+            navigator.device.exitApp();
+        }
+    }
 }
 
 //#endregion
