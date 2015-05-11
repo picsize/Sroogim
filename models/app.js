@@ -19,7 +19,7 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
-var userEmail = 'harel6666@gmail.com', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
+var userEmail = '', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', dateRating, presentRating;
 var facebookResponse;
 
