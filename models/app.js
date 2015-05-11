@@ -19,7 +19,7 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
-var userEmail = '', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
+var userEmail = 'harel6666@gmail.com', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
 var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', dateRating, presentRating;
 var facebookResponse;
 
@@ -250,6 +250,54 @@ function getTop5App() {
                     }
                     $('#top5').html(top5HTML);
                 }
+            }
+        }
+    });
+}
+
+//fav dates
+function getUserFavoritsDates() {
+    var json = { 'userEmail': userEmail };
+    $.ajax({
+        type: "POST",
+        url: api + "getUserFavoritsDates",
+        data: "{userJson: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                //alert(result.d);
+            }
+            else {
+                favDates = JSON.parse(result.d);
+                //createFavDatePage(favDates);
+            }
+        }
+    });
+}
+
+//fav presents
+function getUserFavoritsPresents() {
+    var json = { 'userEmail': userEmail };
+    $.ajax({
+        type: "POST",
+        url: api + "getUserFavoritsPresents",
+        data: "{userJson: '" + JSON.stringify(json) + "'}",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
+        },
+        success: function (result) {
+            if (result.d.indexOf('שגיאה') != -1) {
+                //alert(result.d);
+            }
+            else {
+                favPresents = JSON.parse(result.d);
+                //createFavPresentPage(favPresents);
             }
         }
     });
@@ -615,7 +663,7 @@ function createDatePage(json) {
             $('#singleDate_dateSteps').html(json.MoreInfoText);
         }
     }
-    
+
 
     $('#gpsButton').attr('href', 'geo:' + gps);
     $('#singleDate .share').attr('data-share', 'date');
@@ -1186,7 +1234,7 @@ $(document).on('click', '.goToPresentsList, .presentCategory div:nth-child(1) im
                                 '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
                                     '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                             '</div>' +
-                            '</li></a>';
+                            '</li>';
         }
     }
     if (presentLi == '') {
@@ -1855,36 +1903,15 @@ function addOrRemoveFavorite(elem) {
 $(document).on('click', '[data-get-fav]', function () {
     if (userPermision == 1) {
         if ($(this).attr('data-get-fav') == 'dates') {
-            getUserFavoritsDates();
+            createFavDatePage(favDates);
         }
         else {
-            getUserFavoritsPresents();
+            createFavPresentPage(favPresents);
         }
     }
 });
 
-function getUserFavoritsDates() {
-    var json = { 'userEmail': userEmail };
-    $.ajax({
-        type: "POST",
-        url: api + "getUserFavoritsDates",
-        data: "{userJson: '" + JSON.stringify(json) + "'}",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                //alert(result.d);
-            }
-            else {
-                favDates = JSON.parse(result.d);
-                createFavDatePage(favDates);
-            }
-        }
-    });
-}
+
 
 function createFavDatePage(json) {
     var previewImg;
@@ -1903,29 +1930,29 @@ function createFavDatePage(json) {
                 var currentLocation = new google.maps.LatLng(lat, lng);
                 //alert('cLocation: ' + JSON.stringify(currentLocation));
                 calculateDistances(currentLocation, dates[i]);
-                dateLi += '<li class="dataItem">' +
-                                '<div><img src="' + previewImg + '" /></div>' +
-                                '<div>' +
-                                    '<h3>' + thisDate.DateHeader + '</h3>' +
-                                    '<article>' + thisDate.DateDescription.substring(0, 70) + '</article>' +
-                                    '<section class="social">' +
-                                        '<ul>' +
-                                            '<li><img src="essential/images/General/favHover.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
-                                            '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
-                                            '<li><section class="rating">' + dateRatingHTML +
-                                                '</section>' +
-                                            '</li>' +
-                                            '<li>' +
-                                                '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
-                                            '</li>' +
-                                        '</ul>' +
-                                    '</section>' +
-                                '</div>' +
-                                '<div>' +
-                                    '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
-                                        '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                                '</div>' +
-                                '</li>';
+                dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
+                            '<div>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                                '<section class="social">' +
+                                    '<ul>' +
+                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                        '<li><section class="rating">' + dateRatingHTML +
+                                            '</section>' +
+                                        '</li>' +
+                                        '<li>' +
+                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                '</section>' +
+                            '</div>' +
+                            '<div>' +
+                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                            '</div>' +
+                            '</li>';
             }
         }
     } catch (e) {
@@ -1939,59 +1966,44 @@ function createFavDatePage(json) {
     $('#favList').html(dateLi);
 }
 
-function getUserFavoritsPresents() {
-    var json = { 'userEmail': userEmail };
-    $.ajax({
-        type: "POST",
-        url: api + "getUserFavoritsPresents",
-        data: "{userJson: '" + JSON.stringify(json) + "'}",
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
-        },
-        success: function (result) {
-            if (result.d.indexOf('שגיאה') != -1) {
-                //alert(result.d);
-            }
-            else {
-                favPresents = JSON.parse(result.d);
-                createFavPresentPage(favPresents);
-            }
-        }
-    });
-}
-
 function createFavPresentPage(json) {
     var presentLi = '';
-    try {
-        for (var i = 0; i < presents.length; i++) {
-            if (presents[i].PresentID == json[i].PresentID) {
-                presentLi = '<li class="dataItem">' +
-                                '<div><img src="essential/images/Favroites/imgFav.png" /></div>' +
+    var previewImg;
+    var favIcon;
+    for (var i = 0; i < presents.length; i++) {
+        favIcon = 'essential/images/General/fav.png';
+        if (favPresents.length > 0) {
+            if (presents[i].PresentID == favPresents[i].PresentID) {
+                favIcon = 'essential/images/General/favHover.png';
+            }
+        }
+
+        if (presents[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
+        }
+        else {
+            if (presents[i].PresentImages.length > 0) {
+                previewImg = presentImgSrc + presents[i].PresentID + '/thumb/' + presents[i].PresentImages[0].Url;
+            }
+
+            else {
+                previewImg = '#';
+            }
+        }
+        var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
+        try {
+            for (var i = 0; i < presents.length; i++) {
+                if (presents[i].PresentID == json[i].PresentID) {
+                    presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '" data-from-img="true">' +
+                                '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '" data-from-img="true"/></div>' +
                                 '<div>' +
-                                    '<h3>' + presents[i].PresentHeader + '</h3>' +
-                                    '<article>' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                    '<h3 data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentHeader + '</h3>' +
+                                    '<article data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
                                     '<section class="social">' +
                                         '<ul>' +
-                                            '<li><img src="essential/images/General/favHover.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
+                                            '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
                                             '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
-                                            '<li><section class="rating">' +
-                                                    '<span data-value="5" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="4" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="3" data-empty="true">' +
-                                                        '<img src="essential/images/General/blankStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="2" data-empty="false">' +
-                                                        '<img src="essential/images/General/goldenStar.png" />' +
-                                                    '</span>' +
-                                                    '<span data-value="1" data-empty="false">' +
-                                                        '<img src="essential/images/General/goldenStar.png" />' +
-                                                    '</span>' +
+                                            '<li><section class="rating">' + presentRatingHTML +
                                                 '</section>' +
                                             '</li>' +
                                         '</ul>' +
@@ -2002,17 +2014,18 @@ function createFavPresentPage(json) {
                                         '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                                 '</div>' +
                                 '</li>';
+                }
             }
+        } catch (e) {
+
         }
-    } catch (e) {
 
+        if (presentLi == '') {
+            presentLi = 'אין מתנות מועדפות';
+        }
+
+        $('#favList').html(presentLi);
     }
-
-    if (presentLi == '') {
-        presentLi = 'אין מתנות מועדפות';
-    }
-
-    $('#favList').html(presentLi);
 }
 
 //#endregion
