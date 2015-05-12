@@ -1,4 +1,4 @@
-
+﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
