@@ -690,6 +690,13 @@ function createDatePage(json) {
 
     $('#singleDate .rating').html(dateRatingHTML);
 
+    for (var i = 0; i < favDates.length; i++) {
+        if (favDates[i].DateID == json.DateID) {
+            $('#singleDateAddToFav').removeClass('ui-icon-fav');
+            $('#singleDateAddToFav').addClass('ui-icon-white-fav');
+        }
+    }
+
 }
 
 //create locations page
@@ -820,7 +827,7 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
                     if ($('#datesList .distance')[i].attributes[1].value == gpsAddress[j].dateID) {
                         $('#datesList .distance')[i].innerHTML = gpsAddress[j].distance;
                     }
-                } 
+                }
             }
 
             for (var i = 0; i < $('#favorites .distance').length; i++) {
@@ -828,7 +835,7 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
                     if ($('#favorites .distance')[i].attributes[1].value == gpsAddress[j].dateID) {
                         $('#favorites .distance')[i].innerHTML = gpsAddress[j].distance;
                     }
-                } 
+                }
             }
         }
         else {
@@ -902,7 +909,7 @@ $(document).on('click', '.city', function () {
     var favIcon;
     distance = [];
     for (var i = 0; i < dates.length; i++) {
-        if (dates[i].DateCategory == categoryID) {
+        if (dates[i].CityName == cityName) {
             favIcon = 'essential/images/General/fav.png';
             if (favDates.length > 0) {
                 for (var j = 0; j < favDates.length; j++) {
@@ -947,7 +954,7 @@ $(document).on('click', '.city', function () {
         }
     }
     if (dateLi == '') {
-        dateLi = 'אין מקומות בילוי בקטגוריה זו';
+        dateLi = 'אין מקומות בילוי בעיר זו';
     }
 
     $('.dataList').html(dateLi);
@@ -955,7 +962,7 @@ $(document).on('click', '.city', function () {
     if ($(this).attr('data-from-present') == 'true') {
         $('[href="index.html#datesPage"]').click();
     } else {
-        $.mobile.changePage('index.html#datesPage');
+        $.mobile.changePage('index.html#datesList');
     }
 });
 
@@ -969,49 +976,47 @@ $(document).on('click', '.allDates', function () {
     var favIcon;
     distance = [];
     for (var i = 0; i < dates.length; i++) {
-        if (dates[i].DateCategory == categoryID) {
-            favIcon = 'essential/images/General/fav.png';
-            if (favDates.length > 0) {
-                for (var j = 0; j < favDates.length; j++) {
-                    if (dates[i].DateID == favDates[j].DateID) {
-                        favIcon = 'essential/images/General/favHover.png';
-                    }
+        favIcon = 'essential/images/General/fav.png';
+        if (favDates.length > 0) {
+            for (var j = 0; j < favDates.length; j++) {
+                if (dates[i].DateID == favDates[j].DateID) {
+                    favIcon = 'essential/images/General/favHover.png';
                 }
             }
-            if (dates[i].ShowVideo == 'Y') {
-                previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
-            }
-            else {
-                previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
-            }
-            var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-            var currentLocation = new google.maps.LatLng(lat, lng);
-            //alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
-                            '<div>' +
-                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
-                                '<section class="social">' +
-                                    '<ul>' +
-                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
-                                        '<li><section class="rating">' + dateRatingHTML +
-                                            '</section>' +
-                                        '</li>' +
-                                        '<li>' +
-                                            '<p class="distance" data-date-id="' + dates[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
-                                        '</li>' +
-                                    '</ul>' +
-                                '</section>' +
-                            '</div>' +
-                            '<div>' +
-                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
-                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                            '</div>' +
-                            '</li>';
         }
+        if (dates[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+        }
+        else {
+            previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
+        }
+        var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
+        var currentLocation = new google.maps.LatLng(lat, lng);
+        //alert('cLocation: ' + JSON.stringify(currentLocation));
+        calculateDistances(currentLocation, dates[i]);
+        dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
+                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
+                        '<div>' +
+                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                            '<section class="social">' +
+                                '<ul>' +
+                                    '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                    '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                    '<li><section class="rating">' + dateRatingHTML +
+                                        '</section>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<p class="distance" data-date-id="' + dates[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</section>' +
+                        '</div>' +
+                        '<div>' +
+                            '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                        '</div>' +
+                        '</li>';
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
@@ -1022,7 +1027,7 @@ $(document).on('click', '.allDates', function () {
     if ($(this).attr('data-from-present') == 'true') {
         $('[href="index.html#datesPage"]').click();
     } else {
-        $.mobile.changePage('index.html#datesPage');
+        $.mobile.changePage('index.html#datesList');
     }
 });
 
@@ -1207,6 +1212,13 @@ function createPresentPage(json) {
     $('#presentsSeller').html(sellerLi);
 
     $('#singlePresentAddToFav').attr('data-present-id', json.PresentID);
+
+    for (var i = 0; i < favPresents.length; i++) {
+        if (favPresents[i].presentID == json.presentID) {
+            $('#singlePresentAddToFav').removeClass('ui-icon-fav');
+            $('#singlePresentAddToFav').addClass('ui-icon-white-fav');
+        }
+    }
 
 }
 
@@ -1900,7 +1912,6 @@ $(document).on('click', '.addToFav', function () {
 });
 
 function addOrRemoveFavorite(elem) {
-    debugger;
     if (elem.attr('data-fav') == 'date') {
         var json = { 'userEmail': userEmail, 'dateID': parseInt(elem.attr('data-date-id')) };
         $.ajax({
@@ -1919,11 +1930,15 @@ function addOrRemoveFavorite(elem) {
                 else {
                     if (result.d == '1') {
                         elem.attr('src', 'essential/images/General/favHover.png');
+                        $('#singleDateAddToFav').removeClass('ui-icon-fav');
+                        $('#singleDateAddToFav').addClass('ui-icon-white-fav');
                         $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                         openPopup();
                     }
                     else {
                         elem.attr('src', 'essential/images/General/fav.png');
+                        $('#singleDateAddToFav').addClass('ui-icon-fav');
+                        $('#singleDateAddToFav').removeClass('ui-icon-white-fav');
                         $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                         openPopup();
                     }
@@ -1949,11 +1964,15 @@ function addOrRemoveFavorite(elem) {
                 else {
                     if (result.d == '1') {
                         elem.attr('src', 'essential/images/General/favHover.png');
+                        $('#singlePresentAddToFav').removeClass('ui-icon-fav');
+                        $('#singlePresentAddToFav').addClass('ui-icon-white-fav');
                         $('#popupContent').html('<h2>נוסף למועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                         openPopup();
                     }
                     else {
                         elem.attr('src', 'essential/images/General/fav.png');
+                        $('#singlePresentAddToFav').addClass('ui-icon-fav');
+                        $('#singlePresentAddToFav').removeClass('ui-icon-white-fav');
                         $('#popupContent').html('<h2>הוסר מהמועדפים בהצלחה</h2>' + '<button class="ui-btn ui-shadow popup-button" data-theme="a" onclick="closePopup()">אישור</button>');
                         openPopup();
                     }
@@ -1965,6 +1984,7 @@ function addOrRemoveFavorite(elem) {
 
 //clisk on fav icon
 $(document).on('click', '[data-get-fav]', function () {
+    $('#favList').html('אנא המתן...');
     var n = 2;
     var f;
     if (userPermision == 1) {
@@ -1999,7 +2019,6 @@ $(document).on('click', '[data-get-fav]', function () {
         showPermission();
     }
 });
-
 
 function createFavDatePage(json) {
     var previewImg;
