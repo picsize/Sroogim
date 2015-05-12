@@ -20,7 +20,7 @@ var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
 var userEmail = '', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', dateRating, presentRating;
+var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', presentRating, dateRating;
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -340,13 +340,21 @@ function codeAddress(address, dateID) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
                 'dateID': dateID,
-                'lat': results[0].geometry.location.k,
-                'lng': results[0].geometry.location.D
+                'lat': results[0].geometry.location.A,
+                'lng': results[0].geometry.location.F,
+                'address': results[0].formatted_address
             };
             //alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
         } else {
-            return address
+            var dGps = {
+                'dateID': dateID,
+                'lat': undefined,
+                'lng': undefined,
+                'address': undefined,
+                'distance': 'לא ניתן לחשב מרחק'
+            };
+            gpsAddress.push(dGps);
         }
     });
 }
@@ -354,6 +362,7 @@ function codeAddress(address, dateID) {
 //calculate the distance between my curret location to date location
 function calculateDistances(myLocation, dateJson) {
     thisDate = dateJson;
+    distance.push(thisDate);
     //alert('fdfdf: ' + JSON.stringify(thisDate));
     var service = new google.maps.DistanceMatrixService();
     service.getDistanceMatrix(
@@ -380,7 +389,7 @@ function setDistance(response, status) {
         for (var i = 0; i < origins.length; i++) {
             var results = response.rows[i].elements;
             for (var j = 0; j < results.length; j++) {
-                if (results[j].status == "ZERO_RESULTS") {
+                if (results[j].status == "ZERO_RESULTS" || results[j].status == "NOT_FOUND") {
                     d = 'לא ניתן לחשב מרחק';
                 }
                 else {
@@ -390,8 +399,12 @@ function setDistance(response, status) {
                         d = 'לא ניתן לחשב מרחק';
                     }
                 }
-
-                distance.push(d);
+                for (var k = 0; k < gpsAddress.length; k++) {
+                    if (gpsAddress[k].address == destinations[0]) {
+                        gpsAddress[k].distance = d;
+                    }
+                }
+                //distance.push(res);
                 //alert(JSON.stringify(distance));
             }
 
@@ -569,7 +582,12 @@ $(document).on('click', '.addComment', function () {
 //create date page
 function createDatePage(json) {
     currentDateId = json.DateID;
-    var dateRatingHTML = createRating(parseInt(dateRating), 'white');
+    if (json.lastDateRating != undefined) {
+        var dateRatingHTML = createRating(json.lastDateRating, 'white');
+    }
+    else {
+        var dateRatingHTML = createRating(parseInt(dateRating), 'white');
+    }
 
     try {
         if (json.ShowVideo == 'Y') {
@@ -736,6 +754,14 @@ $(document).on('click', '.goToDateList', function () {
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
+            favIcon = 'essential/images/General/fav.png';
+            if (favDates.length > 0) {
+                for (var j = 0; j < favDates.length; j++) {
+                    if (dates[i].DateID == favDates[j].DateID) {
+                        favIcon = 'essential/images/General/favHover.png';
+                    }
+                }
+            }
             if (dates[i].ShowVideo == 'Y') {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
@@ -753,13 +779,13 @@ $(document).on('click', '.goToDateList', function () {
                                 '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
                                         '</li>' +
                                         '<li>' +
-                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                            '<p class="distance" data-date-id="' + dates[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
                                         '</li>' +
                                     '</ul>' +
                                 '</section>' +
@@ -773,22 +799,13 @@ $(document).on('click', '.goToDateList', function () {
     }
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי בקטגוריה זו';
-    } else {
-        if (favDates.length > 0) {
-            for (var j = 0; j < favDates.length; j++) {
-                $('.addToFav').each(function () {
-                    if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
-                        $(this).attr('src', 'essential/images/General/favHover.png');
-                    }
-                });
-            }
-        }
     }
 
     $('.dataList').html(dateLi);
 
     if ($(this).attr('data-from-present') == 'true') {
         $('[href="index.html#datesPage"]').click();
+    } else {
         $.mobile.changePage('index.html#datesPage');
     }
 });
@@ -799,10 +816,19 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
     var calcGPS = function () {
         if (num <= 0) {
             for (var i = 0; i < $('#datesList .distance').length; i++) {
-                $('#datesList .distance')[i].innerHTML = distance[i]
+                for (var j = 0; j < gpsAddress.length; j++) {
+                    if ($('#datesList .distance')[i].attributes[1].value == gpsAddress[j].dateID) {
+                        $('#datesList .distance')[i].innerHTML = gpsAddress[j].distance;
+                    }
+                } 
             }
+
             for (var i = 0; i < $('#favorites .distance').length; i++) {
-                $('#favorites .distance')[i].innerHTML = distance[i]
+                for (var j = 0; j < gpsAddress.length; j++) {
+                    if ($('#favorites .distance')[i].attributes[1].value == gpsAddress[j].dateID) {
+                        $('#favorites .distance')[i].innerHTML = gpsAddress[j].distance;
+                    }
+                } 
             }
         }
         else {
@@ -872,8 +898,19 @@ $(document).on('click', '.city', function () {
     var cityName = $(this).text();
     $('#datesList .wrapper .title h2').text($(this).text());
     var dateLi = '';
+    var previewImg;
+    var favIcon;
+    distance = [];
     for (var i = 0; i < dates.length; i++) {
-        if (dates[i].CityName == cityName) {
+        if (dates[i].DateCategory == categoryID) {
+            favIcon = 'essential/images/General/fav.png';
+            if (favDates.length > 0) {
+                for (var j = 0; j < favDates.length; j++) {
+                    if (dates[i].DateID == favDates[j].DateID) {
+                        favIcon = 'essential/images/General/favHover.png';
+                    }
+                }
+            }
             if (dates[i].ShowVideo == 'Y') {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
@@ -882,21 +919,22 @@ $(document).on('click', '.city', function () {
             }
             var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
+            //alert('cLocation: ' + JSON.stringify(currentLocation));
             calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
                                 '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
                                         '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
                                         '<li><section class="rating">' + dateRatingHTML +
                                             '</section>' +
                                         '</li>' +
                                         '<li>' +
-                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                            '<p class="distance" data-date-id="' + dates[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
                                         '</li>' +
                                     '</ul>' +
                                 '</section>' +
@@ -909,21 +947,16 @@ $(document).on('click', '.city', function () {
         }
     }
     if (dateLi == '') {
-        dateLi = 'אין מקומות בילוי בעיר זו';
-    } else {
-        if (favDates.length > 0) {
-            for (var j = 0; j < favDates.length; j++) {
-                $('.addToFav').each(function () {
-                    if (parseInt($(this).attr('data-date-id')) == favDates[j].DateID) {
-                        $(this).attr('src', 'essential/images/General/favHover.png');
-                    }
-                });
-            }
-        }
+        dateLi = 'אין מקומות בילוי בקטגוריה זו';
     }
 
     $('.dataList').html(dateLi);
-    $.mobile.changePage('index.html#datesList');
+
+    if ($(this).attr('data-from-present') == 'true') {
+        $('[href="index.html#datesPage"]').click();
+    } else {
+        $.mobile.changePage('index.html#datesPage');
+    }
 });
 
 //show all dates all dates 
@@ -932,47 +965,65 @@ $(document).on('click', '.allDates', function () {
     $('.findGps').removeClass('active');
     $('#datesList .wrapper .title h2').text('כל הארץ');
     var dateLi = '';
+    var previewImg;
+    var favIcon;
+    distance = [];
     for (var i = 0; i < dates.length; i++) {
-        if (dates[i].ShowVideo == 'Y') {
-            previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+        if (dates[i].DateCategory == categoryID) {
+            favIcon = 'essential/images/General/fav.png';
+            if (favDates.length > 0) {
+                for (var j = 0; j < favDates.length; j++) {
+                    if (dates[i].DateID == favDates[j].DateID) {
+                        favIcon = 'essential/images/General/favHover.png';
+                    }
+                }
+            }
+            if (dates[i].ShowVideo == 'Y') {
+                previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
+            }
+            else {
+                previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
+            }
+            var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
+            var currentLocation = new google.maps.LatLng(lat, lng);
+            //alert('cLocation: ' + JSON.stringify(currentLocation));
+            calculateDistances(currentLocation, dates[i]);
+            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
+                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
+                            '<div>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                                '<section class="social">' +
+                                    '<ul>' +
+                                        '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
+                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
+                                        '<li><section class="rating">' + dateRatingHTML +
+                                            '</section>' +
+                                        '</li>' +
+                                        '<li>' +
+                                            '<p class="distance" data-date-id="' + dates[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                        '</li>' +
+                                    '</ul>' +
+                                '</section>' +
+                            '</div>' +
+                            '<div>' +
+                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
+                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                            '</div>' +
+                            '</li>';
         }
-        else {
-            previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
-        }
-        var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-        var currentLocation = new google.maps.LatLng(lat, lng);
-        //alert('cLocation: ' + JSON.stringify(currentLocation));
-        calculateDistances(currentLocation, dates[i]);
-        dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '">' +
-                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
-                        '<div>' +
-                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
-                            '<section class="social">' +
-                                '<ul>' +
-                                    '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" /></li>' +
-                                    '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
-                                    '<li><section class="rating">' + dateRatingHTML +
-                                        '</section>' +
-                                    '</li>' +
-                                    '<li>' +
-                                        '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
-                                    '</li>' +
-                                '</ul>' +
-                            '</section>' +
-                        '</div>' +
-                        '<div>' +
-                            '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
-                                '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                        '</div>' +
-                        '</li>';
     }
     if (dateLi == '') {
-        dateLi = 'אין מקומות בילוי בעיר זו';
+        dateLi = 'אין מקומות בילוי בקטגוריה זו';
     }
 
     $('.dataList').html(dateLi);
-    $.mobile.changePage('index.html#datesList');
+
+    if ($(this).attr('data-from-present') == 'true') {
+        $('[href="index.html#datesPage"]').click();
+    } else {
+        $.mobile.changePage('index.html#datesPage');
+    }
 });
 
 //send date offer
@@ -1095,7 +1146,11 @@ $(document).on('click', '#singleDate_dateTel', function (e) {
 //create present page
 function createPresentPage(json) {
     currentPresentId = json.PresentID;
-    var presentRatingHTML = createRating(parseInt(presentRating), 'white');
+    if (json.lastPresentRating != undefined) {
+        var presentRatingHTML = createRating(json.lastPresentRating, 'white');
+    } else {
+        var presentRatingHTML = createRating(parseInt(presentRating), 'white');
+    }
 
     $('#singlePresent .rating').html(presentRatingHTML);
 
@@ -1193,27 +1248,29 @@ $(document).on('click', '.goToPresentsList, .presentCategory div:nth-child(1) im
     var previewImg;
     var favIcon;
     for (var i = 0; i < presents.length; i++) {
-        favIcon = 'essential/images/General/fav.png';
-        if (favPresents.length > 0) {
-            if (presents[i].PresentID == favPresents[j].PresentID) {
-                favIcon = 'essential/images/General/favHover.png';
-            }
-        }
-
-        if (presents[i].ShowVideo == 'Y') {
-            previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
-        }
-        else {
-            if (presents[i].PresentImages.length > 0) {
-                previewImg = presentImgSrc + presents[i].PresentID + '/thumb/' + presents[i].PresentImages[0].Url;
-            }
-
-            else {
-                previewImg = '#';
-            }
-        }
-        var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
         if (presents[i].PresentCategory == categoryID) {
+            favIcon = 'essential/images/General/fav.png';
+            if (favPresents.length > 0) {
+                for (var j = 0; j < favPresents.length; j++) {
+                    if (presents[i].PresentID == favPresents[j].PresentID) {
+                        favIcon = 'essential/images/General/favHover.png';
+                    }
+                }
+            }
+
+            if (presents[i].ShowVideo == 'Y') {
+                previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
+            }
+            else {
+                if (presents[i].PresentImages.length > 0) {
+                    previewImg = presentImgSrc + presents[i].PresentID + '/thumb/' + presents[i].PresentImages[0].Url;
+                }
+
+                else {
+                    previewImg = '#';
+                }
+            }
+            var presentRatingHTML = createRating(presents[i].PresentRating, 'blank');
             presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '" data-from-img="true"/></div>' +
                             '<div>' +
@@ -1908,64 +1965,84 @@ function addOrRemoveFavorite(elem) {
 
 //clisk on fav icon
 $(document).on('click', '[data-get-fav]', function () {
+    var n = 2;
+    var f;
     if (userPermision == 1) {
         if ($(this).attr('data-get-fav') == 'dates') {
-            createFavDatePage(favDates);
+            getUserFavoritsDates();
+            f = function () {
+                if (n <= 0) {
+                    createFavDatePage(favDates);
+                }
+                else {
+                    n--;
+                    setTimeout(f, 1000);
+                }
+            }
+            f();
+
         }
         else {
-            createFavPresentPage(favPresents);
+            getUserFavoritsPresents();
+            f = function () {
+                if (n <= 0) {
+                    createFavPresentPage(favPresents);
+                }
+                else {
+                    n--;
+                    setTimeout(f, 1000);
+                }
+            }
+            f();
         }
+    } else {
+        showPermission();
     }
 });
 
 
-
 function createFavDatePage(json) {
     var previewImg;
-    distance = [];
     var dateLi = '';
-    try {
-        for (var i = 0; i < dates.length; i++) {
-            if (dates[i].DateID == json[i].DateID) {
-                if (dates[i].ShowVideo == 'Y') {
-                    previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
-                }
-                else {
-                    previewImg = dateImgSrc + dates[i].DateID + '/' + dates[i].DateImages[0].Url;
-                }
-                var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-                var currentLocation = new google.maps.LatLng(lat, lng);
-                //alert('cLocation: ' + JSON.stringify(currentLocation));
-                calculateDistances(currentLocation, dates[i]);
-                dateLi += '<li class="dataItem goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true">' +
-                            '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + thisDate.DateID + '" data-from-img="true"/></div>' +
-                            '<div>' +
-                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
-                                '<section class="social">' +
-                                    '<ul>' +
-                                        '<li><img src="essential/images/General/fav.png" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
-                                        '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + thisDate.DateID + '" alt="שיתוף" /></li>' +
-                                        '<li><section class="rating">' + dateRatingHTML +
-                                            '</section>' +
-                                        '</li>' +
-                                        '<li>' +
-                                            '<p class="distance">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
-                                        '</li>' +
-                                    '</ul>' +
-                                '</section>' +
-                            '</div>' +
-                            '<div>' +
-                                '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + thisDate.DateID + '">' +
-                                    '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
-                            '</div>' +
-                            '</li>';
-            }
+    var previewImg;
+    var favIcon = 'essential/images/General/favHover.png';
+    distance = [];
+    for (var i = 0; i < json.length; i++) {
+
+        if (json[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + json[i].DateVideo.Url + '/maxresdefault.jpg';
         }
-    } catch (e) {
+        else {
+            previewImg = dateImgSrc + json[i].DateID + '/thumb/' + json[i].DateImages[0].Url;
+        }
+        var dateRatingHTML = createRating(json[i].DateRating, 'blank')
+        var currentLocation = new google.maps.LatLng(lat, lng);
+        calculateDistances(currentLocation, json[i]);
 
+        dateLi += '<li class="dataItem goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true">' +
+                        '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true"/></div>' +
+                        '<div>' +
+                            '<h3 data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateHeader.replace('&apos', '\'') + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                            '<section class="social">' +
+                                '<ul>' +
+                                    '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + json[i].DateID + '"/></li>' +
+                                    '<li><img src="essential/images/General/sharegray.png" class="share" data-share="date" data-id="' + json[i].DateID + '" alt="שיתוף" /></li>' +
+                                    '<li><section class="rating">' + dateRatingHTML +
+                                        '</section>' +
+                                    '</li>' +
+                                    '<li>' +
+                                        '<p class="distance" data-date-id="' + json[i].DateID + '">מחשב מרחק<span class="one">.</span><span class="two">.</span><span class="three">.</span></p>' +
+                                    '</li>' +
+                                '</ul>' +
+                            '</section>' +
+                        '</div>' +
+                        '<div>' +
+                            '<a data-ajax="false" href="index.html#singleDate" class="goToDate" data-date-id="' + json.DateID + '">' +
+                                '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
+                        '</div>' +
+                        '</li>';
     }
-
     if (dateLi == '') {
         dateLi = 'אין מקומות בילוי מועדפים';
     }
@@ -1976,40 +2053,30 @@ function createFavDatePage(json) {
 function createFavPresentPage(json) {
     var presentLi = '';
     var previewImg;
-    var favIcon;
-    for (var i = 0; i < presents.length; i++) {
-        favIcon = 'essential/images/General/fav.png';
-        if (favPresents.length > 0) {
-            if (presents[i].PresentID == favPresents[i].PresentID) {
-                favIcon = 'essential/images/General/favHover.png';
-            }
-        }
-
-        if (presents[i].ShowVideo == 'Y') {
-            previewImg = 'http://img.youtube.com/vi/' + presents[i].PresentVideo.Url + '/maxresdefault.jpg';
+    var favIcon = 'essential/images/General/favHover.png';
+    for (var i = 0; i < json.length; i++) {
+        if (json[i].ShowVideo == 'Y') {
+            previewImg = 'http://img.youtube.com/vi/' + json[i].PresentVideo.Url + '/maxresdefault.jpg';
         }
         else {
-            if (presents[i].PresentImages.length > 0) {
-                previewImg = presentImgSrc + presents[i].PresentID + '/thumb/' + presents[i].PresentImages[0].Url;
+            if (json[i].PresentImages.length > 0) {
+                previewImg = presentImgSrc + json[i].PresentID + '/thumb/' + json[i].PresentImages[0].Url;
             }
-
             else {
                 previewImg = '#';
             }
         }
-        var presentRatingHTML = createRating(presents[i].PresentRating, 'blank')
-        try {
-            for (var i = 0; i < presents.length; i++) {
-                if (presents[i].PresentID == json[i].PresentID) {
-                    presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '" data-from-img="true">' +
-                                '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '" data-from-img="true"/></div>' +
+        var presentRatingHTML = createRating(json[i].PresentRating, 'blank');
+
+        presentLi += '<li class="goToPresent dataItem" data-present-id="' + json[i].PresentID + '" data-from-img="true">' +
+                                '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + json[i].PresentID + '" data-from-img="true"/></div>' +
                                 '<div>' +
-                                    '<h3 data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentHeader + '</h3>' +
-                                    '<article data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                    '<h3 data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentHeader + '</h3>' +
+                                    '<article data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentDescription.substring(0, 70) + '</article>' +
                                     '<section class="social">' +
                                         '<ul>' +
-                                            '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
-                                            '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + presents[i].PresentID + '" alt="שיתוף" /></li>' +
+                                            '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + json[i].PresentID + '"/></li>' +
+                                            '<li><img src="essential/images/General/sharegray.png" class="share" data-share="present" data-id="' + json[i].PresentID + '" alt="שיתוף" /></li>' +
                                             '<li><section class="rating">' + presentRatingHTML +
                                                 '</section>' +
                                             '</li>' +
@@ -2017,22 +2084,18 @@ function createFavPresentPage(json) {
                                     '</section>' +
                                 '</div>' +
                                 '<div>' +
-                                    '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + presents[i].PresentID + '">' +
+                                    '<a data-ajax="false" href="index.html#singlePresent" class="goToPresent" data-present-id="' + json[i].PresentID + '">' +
                                         '<img src="essential/images/Favroites/arrow_gray.png" /></a>' +
                                 '</div>' +
                                 '</li>';
-                }
-            }
-        } catch (e) {
 
-        }
 
-        if (presentLi == '') {
-            presentLi = 'אין מתנות מועדפות';
-        }
-
-        $('#favList').html(presentLi);
     }
+    if (presentLi == '') {
+        presentLi = 'אין מתנות מועדפות';
+    }
+
+    $('#favList').html(presentLi);
 }
 
 //#endregion
@@ -2076,9 +2139,19 @@ $(document).on('click', '[data-action="rating"]', function () {
 function updateDateRating(value) {
     var json = {
         'userEmail': userEmail,
-        'dateId': thisDate.DateID,
-        'rating': ratingValue
+        'dateId': currentDateId,
+        'rating': value
     };
+
+    var setRating = function (rValue) {
+        for (var i = 0; i < dates.length; i++) {
+            if (dates[i].DateID == currentDateId) {
+                dates[i].lastDateRating = rValue;
+            }
+        }
+        var dateRatingHTML = createRating(parseInt(rValue), 'white');
+        $('#singleDate .rating').html(dateRatingHTML);
+    }
 
     $.ajax({
         type: "POST",
@@ -2091,9 +2164,11 @@ function updateDateRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
+                setRating(value);
                 closePopup();
             }
             else {
+                setRating(value);
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
                 closePopup();
             }
@@ -2105,9 +2180,19 @@ function updateDateRating(value) {
 function updatePresentRating(value) {
     var json = {
         'userEmail': userEmail,
-        'presentId': thisPresent.PresentID,
-        'rating': ratingValue
+        'presentId': currentPresentId,
+        'rating': value
     };
+
+    var setRating = function (rValue) {
+        for (var i = 0; i < presents.length; i++) {
+            if (presents[i].PresentID == currentPresentId) {
+                presents[i].lastPresentRating = rValue;
+            }
+        }
+        var presentRatingHTML = createRating(parseInt(rValue), 'white');
+        $('#singlePresent .rating').html(presentRatingHTML);
+    }
 
     $.ajax({
         type: "POST",
@@ -2120,9 +2205,11 @@ function updatePresentRating(value) {
         },
         success: function (result) {
             if (result.d.indexOf('שגיאה') != -1) {
+                setRating(value);
                 closePopup();
             }
             else {
+                setRating(value);
                 $('#popupContent').html('<h2>תודה על הצבעתך</h2>');
                 closePopup();
             }
