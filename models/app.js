@@ -1,4 +1,4 @@
-﻿
+
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
@@ -19,8 +19,8 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
-var userEmail = '', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', presentRating, dateRating;
+var userEmail = 'shayfacebook9@gmail.com', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
+var userPermision = 1, ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', presentRating, dateRating;
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -583,7 +583,7 @@ $(document).on('click', '.addComment', function () {
 function createDatePage(json) {
     currentDateId = json.DateID;
     if (json.lastDateRating != undefined) {
-        var dateRatingHTML = createRating(json.lastDateRating, 'white');
+        var dateRatingHTML = createRating(parseInt(json.lastDateRating), 'white');
     }
     else {
         var dateRatingHTML = createRating(parseInt(dateRating), 'white');
@@ -622,7 +622,7 @@ function createDatePage(json) {
     }
     else {
         if (json.DateHeader.indexOf('&apos') != -1) {
-            $('#singleDate_dateHeader').text(json.DateHeader.replace('&apos', '\''));
+            $('#singleDate_dateHeader').text(json.DateHeader.replace(/&apos/g, '\''));
         }
         else {
             $('#singleDate_dateHeader').text(json.DateHeader);
@@ -648,7 +648,7 @@ function createDatePage(json) {
     }
     else {
         if (json.DateDescription.indexOf('&apos') != -1) {
-            $('#singleDate_dateDesc').text(json.DateDescription.replace('&apos', '\''));
+            $('#singleDate_dateDesc').text(json.DateDescription.replace(/&apos/g, '\''));
         }
         else {
             $('#singleDate_dateDesc').text(json.DateDescription);
@@ -656,17 +656,36 @@ function createDatePage(json) {
     }
 
     if (json.ShowDateTip == 'Y') {
-        $('#singleDate_dateTip').text(json.DateTip);
+        if (json.DateTip.indexOf('&apos') != -1) {
+            $('#singleDate_dateTip').text(json.DateTip.replace(/&apos/g, '\''));
+        }
+        else {
+            $('#singleDate_dateTip').text(json.DateTip);
+        }
+        
     }
     else {
         $('#singleDate_dateTip').parent().parent().hide();
     }
-    $('#singleDate_dateTel').attr('href', 'tel:' + json.DatePhone);
+    if (json.DatePhone == '') {
+        $('#singleDate_dateTel').hide();
+    }
+    else {
+        $('#singleDate_dateTel').attr('href', 'tel:' + json.DatePhone);
+    }
+    
+
     if (json.MoreInfoHeader == '') {
         $('#singleDate_dateStepsHeader').parent().parent().hide();
     }
     else {
-        $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
+        if (json.MoreInfoHeader.indexOf('&apos') != -1) {
+            $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader.replace(/&apos/g, '\''));
+        }
+        else {
+            $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
+        }
+        
     }
 
     if (json.MoreInfoText == '' || json.MoreInfoText == undefined) {
@@ -674,7 +693,7 @@ function createDatePage(json) {
     }
     else {
         if (json.MoreInfoText.indexOf('&apos') != -1) {
-            $('#singleDate_dateSteps').html(json.MoreInfoText.replace('&apos', '\''));
+            $('#singleDate_dateSteps').html(json.MoreInfoText.replace(/&apos/g, '\''));
         }
         else {
             $('#singleDate_dateSteps').html(json.MoreInfoText);
@@ -773,7 +792,12 @@ $(document).on('click', '.goToDateList', function () {
                 previewImg = 'http://img.youtube.com/vi/' + dates[i].DateVideo.Url + '/maxresdefault.jpg';
             }
             else {
-                previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
+                try {
+                    previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
+                } catch (e) {
+                    previewImg = '';
+                }
+                
             }
             var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
             var currentLocation = new google.maps.LatLng(lat, lng);
@@ -782,8 +806,8 @@ $(document).on('click', '.goToDateList', function () {
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace(/&apos/g, '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -931,8 +955,8 @@ $(document).on('click', '.city', function () {
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                                '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace(/&apos/g, '\'') + '</h3>' +
+                                '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -997,8 +1021,8 @@ $(document).on('click', '.allDates', function () {
         dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
-                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace('&apos', '\'') + '</h3>' +
-                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                            '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace(/&apos/g, '\'') + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                             '<section class="social">' +
                                 '<ul>' +
                                     '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + thisDate.DateID + '"/></li>' +
@@ -1152,7 +1176,7 @@ $(document).on('click', '#singleDate_dateTel', function (e) {
 function createPresentPage(json) {
     currentPresentId = json.PresentID;
     if (json.lastPresentRating != undefined) {
-        var presentRatingHTML = createRating(json.lastPresentRating, 'white');
+        var presentRatingHTML = createRating(parseInt(json.lastPresentRating), 'white');
     } else {
         var presentRatingHTML = createRating(parseInt(presentRating), 'white');
     }
@@ -1187,18 +1211,18 @@ function createPresentPage(json) {
         $('#singlePresent_presentHeader').hide();
     }
     else {
-        $('#singlePresent_presentHeader').text(json.PresentHeader);
+        $('#singlePresent_presentHeader').text(json.PresentHeader.replace(/&apos/g, '\''));
     }
 
     if (json.PresentDescription == '' || json.PresentDescription == null) {
         $('#singlePresent_presentDesc').hide();
     }
     else {
-        $('#singlePresent_presentDesc').text(json.PresentDescription);
+        $('#singlePresent_presentDesc').text(json.PresentDescription.replace(/&apos/g, '\''));
     }
 
     if (json.PresentTip != '') {
-        $('#singlePeresent_presentTip').text(json.PresentTip);
+        $('#singlePeresent_presentTip').text(json.PresentTip.replace(/&apos/g, '\''));
     }
     else {
         $('#singlePeresent_presentTip').parent().parent().hide();
@@ -1286,8 +1310,8 @@ $(document).on('click', '.goToPresentsList, .presentCategory div:nth-child(1) im
             presentLi += '<li class="goToPresent dataItem" data-present-id="' + presents[i].PresentID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + presents[i].PresentID + '" data-from-img="true"/></div>' +
                             '<div>' +
-                                '<h3 data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentHeader + '</h3>' +
-                                '<article data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentDescription.substring(0, 70) + '</article>' +
+                                '<h3 data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentHeader.replace(/&apos/g, '\'') + '</h3>' +
+                                '<article data-present-id="' + presents[i].PresentID + '" data-from-img="true">' + presents[i].PresentDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                                 '<section class="social">' +
                                     '<ul>' +
                                         '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + presents[i].PresentID + '"/></li>' +
@@ -2041,8 +2065,8 @@ function createFavDatePage(json) {
         dateLi += '<li class="dataItem goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
-                            '<h3 data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateHeader.replace('&apos', '\'') + '</h3>' +
-                            '<article data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateDescription.substring(0, 70).replace('&apos', '\'') + '</article>' +
+                            '<h3 data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateHeader.replace(/&apos/g, '\'') + '</h3>' +
+                            '<article data-from-img="true" data-date-id="' + json[i].DateID + '">' + json[i].DateDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                             '<section class="social">' +
                                 '<ul>' +
                                     '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="date" data-date-id="' + json[i].DateID + '"/></li>' +
@@ -2090,8 +2114,8 @@ function createFavPresentPage(json) {
         presentLi += '<li class="goToPresent dataItem" data-present-id="' + json[i].PresentID + '" data-from-img="true">' +
                                 '<div><img src="' + previewImg + '" class="goToPresent" data-present-id="' + json[i].PresentID + '" data-from-img="true"/></div>' +
                                 '<div>' +
-                                    '<h3 data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentHeader + '</h3>' +
-                                    '<article data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentDescription.substring(0, 70) + '</article>' +
+                                    '<h3 data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentHeader.replace(/&apos/g, '\'') + '</h3>' +
+                                    '<article data-present-id="' + json[i].PresentID + '" data-from-img="true">' + json[i].PresentDescription.substring(0, 70).replace(/&apos/g, '\'') + '</article>' +
                                     '<section class="social">' +
                                         '<ul>' +
                                             '<li><img src="' + favIcon + '" class="addToFav" alt="הוספה למועדפים" data-fav="present" data-present-id="' + json[i].PresentID + '"/></li>' +
