@@ -1,4 +1,4 @@
-
+﻿
 api = 'http://www.sroogim.co.il/SroogimCMS/app/api/Default.aspx/';
 dateImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/dates/';
 presentImgSrc = 'http://www.sroogim.co.il/SroogimCMS/content/presents/';
@@ -19,8 +19,8 @@ var dates, presents, categories, locations, news, lat, lng, thisDate, thisPresen
 var favDates = [], favPresents = [];
 var subCategories = [], gpsAddress = [], distance = [];
 var dateCategoriesHTML = '', presentCategoriesHTML = '';
-var userEmail = 'shayfacebook9@gmail.com', userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
-var userPermision = 1, ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', presentRating, dateRating;
+var userEmail, userFullName, userPassword = 0, userProfilePic, userCoverPic = 'private', userBirthDay, userGender, userDeviceID;
+var userPermision = '', ratingValue = 0, applyGps = '1', dateLink = '', presentLink = '', presentRating, dateRating;
 var facebookResponse;
 
 document.addEventListener("deviceready", initApp, false);
@@ -42,7 +42,7 @@ function initApp() {
         userDeviceID = 'private_' + Math.floor((Math.random() * 10000) + 1);;
     }
     //alert('uuid: ' + userDeviceID);
-    var count = 10;
+    var count = 15;
     var loadComponents = function () {
         if (count <= 0) {
             $.mobile.changePage('index.html#welcomeScreen');
@@ -128,7 +128,7 @@ function getAllDates() {
             //alert('DATES: ' + JSON.stringify(dates));
             for (var i = 0; i < dates.length; i++) {
                 // alert('i=' + i);
-                codeAddress(dates[i].DateGps, dates[i].DateID);
+                //codeAddress(dates[i].DateGps, dates[i].DateID);
             }
             //alert('done: ' + JSON.stringify(gpsAddress));
         }
@@ -339,22 +339,23 @@ function codeAddress(address, dateID) {
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var dGps = {
-                'dateID': dateID,
-                'lat': results[0].geometry.location.A,
-                'lng': results[0].geometry.location.F,
-                'address': results[0].formatted_address
+                dateID: dateID,
+                lat: results[0].geometry.location.A,
+                lng: results[0].geometry.location.F,
+                address: results[0].formatted_address
+                //'address': address
             };
             //alert('dGps: ' + JSON.stringify(dGps));
             gpsAddress.push(dGps);
-        } else {
-            var dGps = {
-                'dateID': dateID,
-                'lat': undefined,
-                'lng': undefined,
-                'address': undefined,
-                'distance': 'לא ניתן לחשב מרחק'
-            };
-            gpsAddress.push(dGps);
+            } else {
+                var dGps = {
+                    dateID: dateID,
+                    lat: lat,
+                    lng: lng,
+                    address: address,
+                    distance:'לא ניתן לחשב מרחק'
+                };
+                gpsAddress.push(dGps);
         }
     });
 }
@@ -662,7 +663,7 @@ function createDatePage(json) {
         else {
             $('#singleDate_dateTip').text(json.DateTip);
         }
-        
+
     }
     else {
         $('#singleDate_dateTip').parent().parent().hide();
@@ -673,7 +674,7 @@ function createDatePage(json) {
     else {
         $('#singleDate_dateTel').attr('href', 'tel:' + json.DatePhone);
     }
-    
+
 
     if (json.MoreInfoHeader == '') {
         $('#singleDate_dateStepsHeader').parent().parent().hide();
@@ -685,7 +686,7 @@ function createDatePage(json) {
         else {
             $('#singleDate_dateStepsHeader').text(json.MoreInfoHeader);
         }
-        
+
     }
 
     if (json.MoreInfoText == '' || json.MoreInfoText == undefined) {
@@ -780,6 +781,9 @@ $(document).on('click', '.goToDateList', function () {
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].DateCategory == categoryID) {
+            codeAddress(dates[i].DateGps, dates[i].DateID);
+            var currentLocation = new google.maps.LatLng(lat, lng);
+            calculateDistances(currentLocation, dates[i]);
             favIcon = 'essential/images/General/fav.png';
             if (favDates.length > 0) {
                 for (var j = 0; j < favDates.length; j++) {
@@ -797,13 +801,10 @@ $(document).on('click', '.goToDateList', function () {
                 } catch (e) {
                     previewImg = '';
                 }
-                
+
             }
-            var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-            var currentLocation = new google.maps.LatLng(lat, lng);
-            //alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, dates[i]);
-            dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
+            var dateRatingHTML = createRating(dates[i].DateRating, 'blank');
+            dateLi += '<li class="dataItem goToDateLi" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
                                 '<h3 data-from-img="true" data-date-id="' + dates[i].DateID + '">' + thisDate.DateHeader.replace(/&apos/g, '\'') + '</h3>' +
@@ -871,7 +872,7 @@ $(document).on('pageshow', '#datesList, #favorites', function () {
 });
 
 //show date page
-$(document).on('click', '.goToDate, .goToDate div:nth-child(2) h3, .goToDate div:nth-child(2) article', function () {
+$(document).on('click', '.goToDate, .goToDateLi div:nth-child(2) h3, .goToDateLi div:nth-child(2) article', function () {
     elem = $(this);
     var dateID = parseInt($(this).attr('data-date-id'));
     currentDateId = parseInt($(this).attr('data-date-id'));
@@ -934,6 +935,9 @@ $(document).on('click', '.city', function () {
     distance = [];
     for (var i = 0; i < dates.length; i++) {
         if (dates[i].CityName == cityName) {
+            codeAddress(dates[i].DateGps, dates[i].DateID);
+            var currentLocation = new google.maps.LatLng(lat, lng);
+            calculateDistances(currentLocation, dates[i]);
             favIcon = 'essential/images/General/fav.png';
             if (favDates.length > 0) {
                 for (var j = 0; j < favDates.length; j++) {
@@ -949,9 +953,6 @@ $(document).on('click', '.city', function () {
                 previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
             }
             var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-            var currentLocation = new google.maps.LatLng(lat, lng);
-            //alert('cLocation: ' + JSON.stringify(currentLocation));
-            calculateDistances(currentLocation, dates[i]);
             dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                             '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                             '<div>' +
@@ -1000,6 +1001,9 @@ $(document).on('click', '.allDates', function () {
     var favIcon;
     distance = [];
     for (var i = 0; i < dates.length; i++) {
+        codeAddress(dates[i].DateGps, dates[i].DateID);
+        var currentLocation = new google.maps.LatLng(lat, lng);
+        calculateDistances(currentLocation, dates[i]);
         favIcon = 'essential/images/General/fav.png';
         if (favDates.length > 0) {
             for (var j = 0; j < favDates.length; j++) {
@@ -1015,9 +1019,6 @@ $(document).on('click', '.allDates', function () {
             previewImg = dateImgSrc + dates[i].DateID + '/thumb/' + dates[i].DateImages[0].Url;
         }
         var dateRatingHTML = createRating(dates[i].DateRating, 'blank')
-        var currentLocation = new google.maps.LatLng(lat, lng);
-        //alert('cLocation: ' + JSON.stringify(currentLocation));
-        calculateDistances(currentLocation, dates[i]);
         dateLi += '<li class="dataItem goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + dates[i].DateID + '" data-from-img="true"/></div>' +
                         '<div>' +
@@ -2051,7 +2052,9 @@ function createFavDatePage(json) {
     var favIcon = 'essential/images/General/favHover.png';
     distance = [];
     for (var i = 0; i < json.length; i++) {
-
+        codeAddress(dates[i].DateGps, dates[i].DateID);
+        var currentLocation = new google.maps.LatLng(lat, lng);
+        calculateDistances(currentLocation, dates[i]);
         if (json[i].ShowVideo == 'Y') {
             previewImg = 'http://img.youtube.com/vi/' + json[i].DateVideo.Url + '/maxresdefault.jpg';
         }
@@ -2059,8 +2062,6 @@ function createFavDatePage(json) {
             previewImg = dateImgSrc + json[i].DateID + '/thumb/' + json[i].DateImages[0].Url;
         }
         var dateRatingHTML = createRating(json[i].DateRating, 'blank')
-        var currentLocation = new google.maps.LatLng(lat, lng);
-        calculateDistances(currentLocation, json[i]);
 
         dateLi += '<li class="dataItem goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true">' +
                         '<div><img src="' + previewImg + '" class="goToDate" data-date-id="' + json[i].DateID + '" data-from-img="true"/></div>' +
